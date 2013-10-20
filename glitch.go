@@ -1,6 +1,5 @@
 package glitch
 
-// #cgo darwin  LDFLAGS: -framework OpenGL -lGLEW
 // #cgo linux   LDFLAGS: -lGLEW -lGL
 // #cgo windows LDFLAGS: -lglew32 -lopengl32
 // #include <stdlib.h>

@@ -2,11 +2,20 @@ package main
 
 import (
 	"fmt"
-	"github.com/doxxan/glitch"
+	"github.com/doxxan/glitch/glfw"
 )
 
 func main() {
-	glitch.Init()
+	if err := glfw.Init(); err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer glfw.Terminate()
 
-	fmt.Println("Testing")
+	fmt.Println(glfw.GetVersion())
+	fmt.Println(glfw.GetVersionString())
+
+	glfw.SetErrorCallback(func(code glfw.ErrorCode, description string) {
+		fmt.Println(code, description)
+	})
 }
