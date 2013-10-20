@@ -31,3 +31,11 @@ func GetVersion() (int, int, int) {
 func GetVersionString() string {
 	return C.GoString(C.glfwGetVersionString())
 }
+
+func PollEvents() {
+	C.glfwPollEvents()
+}
+
+func WaitEvents() {
+	C.glfwWaitEvents()
+}
