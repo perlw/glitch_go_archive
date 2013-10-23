@@ -2,6 +2,13 @@ package glfw
 
 //#include <stdlib.h>
 //#include <GLFW/glfw3.h>
+//void goSetWindowPosCB(GLFWwindow *win);
+//void goSetWindowSizeCB(GLFWwindow *win);
+//void goSetFramebufferSizeCB(GLFWwindow *win);
+//void goSetWindowCloseCB(GLFWwindow *win);
+//void goSetWindowRefreshCB(GLFWwindow *win);
+//void goSetWindowFocusCB(GLFWwindow *win);
+//void goSetWindowIconifyCB(GLFWwindow *win);
 import "C"
 
 import (
@@ -51,6 +58,14 @@ const (
 
 type Window struct {
 	internalPtr *C.GLFWwindow
+
+	positionCB        func(x, y int)
+	sizeCB            func(width, height int)
+	framebufferSizeCB func(width, height int)
+	closeCB           func()
+	refreshCB         func()
+	focusCB           func(focused bool)
+	iconifyCB         func(iconified bool)
 }
 
 var windows = map[*C.GLFWwindow]*Window{}
@@ -82,8 +97,8 @@ func CreateWindow(width, height int, title string, monitor *Monitor, share *Wind
 
 func GetCurrentContext() (*Window, error) {
 	cWinPtr := C.glfwGetCurrentContext()
-	if item, ok := windows[cWinPtr]; ok {
-		return item, nil
+	if win, ok := windows[cWinPtr]; ok {
+		return win, nil
 	}
 
 	return nil, errors.New("glfw: No current context.")
@@ -193,4 +208,124 @@ func (win *Window) MakeContextCurrent() {
 
 func (win *Window) SwapBuffers() {
 	C.glfwSwapBuffers(win.internalPtr)
+}
+
+func (win *Window) SetPositionCallback(callback func(x, y int)) {
+	if callback == nil {
+		C.glfwSetWindowPosCallback(win.internalPtr, nil)
+	} else {
+		win.positionCB = callback
+		C.goSetWindowPosCB(win.internalPtr)
+	}
+}
+
+func (win *Window) SetSizeCallback(callback func(width, height int)) {
+	if callback == nil {
+		C.glfwSetWindowSizeCallback(win.internalPtr, nil)
+	} else {
+		win.sizeCB = callback
+		C.goSetWindowSizeCB(win.internalPtr)
+	}
+}
+
+func (win *Window) SetFramebufferSizeCallback(callback func(width, height int)) {
+	if callback == nil {
+		C.glfwSetFramebufferSizeCallback(win.internalPtr, nil)
+	} else {
+		win.framebufferSizeCB = callback
+		C.goSetFramebufferSizeCB(win.internalPtr)
+	}
+}
+
+func (win *Window) SetCloseCallback(callback func()) {
+	if callback == nil {
+		C.glfwSetWindowCloseCallback(win.internalPtr, nil)
+	} else {
+		win.closeCB = callback
+		C.goSetWindowCloseCB(win.internalPtr)
+	}
+}
+
+func (win *Window) SetRefreshCallback(callback func()) {
+	if callback == nil {
+		C.glfwSetWindowRefreshCallback(win.internalPtr, nil)
+	} else {
+		win.refreshCB = callback
+		C.goSetWindowRefreshCB(win.internalPtr)
+	}
+}
+
+func (win *Window) SetFocusCallback(callback func(focused bool)) {
+	if callback == nil {
+		C.glfwSetWindowFocusCallback(win.internalPtr, nil)
+	} else {
+		win.focusCB = callback
+		C.goSetWindowFocusCB(win.internalPtr)
+	}
+}
+
+func (win *Window) SetIconifyCallback(callback func(iconified bool)) {
+	if callback == nil {
+		C.glfwSetWindowIconifyCallback(win.internalPtr, nil)
+	} else {
+		win.iconifyCB = callback
+		C.goSetWindowIconifyCB(win.internalPtr)
+	}
+}
+
+//export goCallSetWindowPosCB
+func goCallSetWindowPosCB(window unsafe.Pointer, x, y C.int) {
+	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+		win.positionCB(int(x), int(y))
+	}
+}
+
+//export goCallSetWindowSizeCB
+func goCallSetWindowSizeCB(window unsafe.Pointer, width, height C.int) {
+	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+		win.sizeCB(int(width), int(height))
+	}
+}
+
+//export goCallSetFramebufferSizeCB
+func goCallSetFramebufferSizeCB(window unsafe.Pointer, width, height C.int) {
+	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+		win.framebufferSizeCB(int(width), int(height))
+	}
+}
+
+//export goCallSetWindowCloseCB
+func goCallSetWindowCloseCB(window unsafe.Pointer) {
+	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+		win.closeCB()
+	}
+}
+
+//export goCallSetWindowRefreshCB
+func goCallSetWindowRefreshCB(window unsafe.Pointer) {
+	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+		win.refreshCB()
+	}
+}
+
+//export goCallSetWindowFocusCB
+func goCallSetWindowFocusCB(window unsafe.Pointer, focused C.int) {
+	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+		val := false
+		if focused == C.GL_TRUE {
+			val = true
+		}
+		win.focusCB(val)
+	}
+}
+
+//export goCallSetWindowIconifyCB
+func goCallSetWindowIconifyCB(window unsafe.Pointer, iconified C.int) {
+	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+		val := false
+		if iconified == C.GL_TRUE {
+			val = true
+		}
+		win.iconifyCB(val)
+	}
 }

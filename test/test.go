@@ -27,6 +27,10 @@ func main() {
 	}
 	defer window.Destroy()
 
+	window.SetIconifyCallback(func(iconified bool) {
+		fmt.Println(iconified)
+	})
+
 	window.MakeContextCurrent()
 	for !window.ShouldClose() {
 		window.SwapBuffers()
