@@ -59,7 +59,17 @@ func CreateWindow(width, height int, title string, monitor *Monitor, share *Wind
 	cTitle := C.CString(title)
 	defer C.free(unsafe.Pointer(cTitle))
 
-	cWinPtr := C.glfwCreateWindow(C.int(width), C.int(height), cTitle, nil, nil)
+	cMonPtr := (*C.GLFWmonitor)(nil)
+	if monitor != nil {
+		cMonPtr = monitor.internalPtr
+	}
+
+	cSharePtr := (*C.GLFWwindow)(nil)
+	if share != nil {
+		cSharePtr = share.internalPtr
+	}
+
+	cWinPtr := C.glfwCreateWindow(C.int(width), C.int(height), cTitle, cMonPtr, cSharePtr)
 	if cWinPtr == nil {
 		return nil, errors.New("glfw: Couldn't create window.")
 	}
@@ -98,6 +108,83 @@ func (win *Window) ShouldClose() bool {
 	} else {
 		return false
 	}
+}
+
+func (win *Window) SetShouldClose(shouldClose bool) {
+	val := C.GL_FALSE
+	if shouldClose {
+		val = C.GL_TRUE
+	}
+
+	C.glfwSetWindowShouldClose(win.internalPtr, C.int(val))
+}
+
+func (win *Window) SetTitle(title string) {
+	cTitle := C.CString(title)
+	defer C.free(unsafe.Pointer(cTitle))
+
+	C.glfwSetWindowTitle(win.internalPtr, cTitle)
+}
+
+func (win *Window) GetPosition() (int, int) {
+	var x, y C.int
+	C.glfwGetWindowPos(win.internalPtr, &x, &y)
+	return int(x), int(y)
+}
+
+func (win *Window) SetPosition(x, y int) {
+	C.glfwSetWindowPos(win.internalPtr, C.int(x), C.int(y))
+}
+
+func (win *Window) GetSize() (int, int) {
+	var width, height C.int
+	C.glfwGetWindowSize(win.internalPtr, &width, &height)
+	return int(width), int(height)
+}
+
+func (win *Window) SetSize(width, height int) {
+	C.glfwSetWindowSize(win.internalPtr, C.int(width), C.int(height))
+}
+
+func (win *Window) GetFramebufferSize() (int, int) {
+	var width, height C.int
+	C.glfwGetFramebufferSize(win.internalPtr, &width, &height)
+	return int(width), int(height)
+}
+
+func (win *Window) Iconify() {
+	C.glfwIconifyWindow(win.internalPtr)
+}
+
+func (win *Window) Restore() {
+	C.glfwRestoreWindow(win.internalPtr)
+}
+
+func (win *Window) Show() {
+	C.glfwShowWindow(win.internalPtr)
+}
+
+func (win *Window) Hide() {
+	C.glfwHideWindow(win.internalPtr)
+}
+
+func (win *Window) GetMonitor() (*Monitor, error) {
+	if mon := C.glfwGetWindowMonitor(win.internalPtr); mon != nil {
+		return &Monitor{internalPtr: mon}, nil
+	}
+	return nil, errors.New("glfw: Can't get monitor.")
+}
+
+func (win *Window) GetAttrib(hint Hint) int {
+	return int(C.glfwGetWindowAttrib(win.internalPtr, C.int(hint)))
+}
+
+func (win *Window) SetUserPointer(ptr unsafe.Pointer) {
+	C.glfwSetWindowUserPointer(win.internalPtr, ptr)
+}
+
+func (win *Window) GetUserPointer() unsafe.Pointer {
+	return unsafe.Pointer(C.glfwGetWindowUserPointer(win.internalPtr))
 }
 
 func (win *Window) MakeContextCurrent() {
