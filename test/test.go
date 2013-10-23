@@ -19,6 +19,7 @@ func main() {
 		fmt.Println(code, description)
 	})
 
+	glfw.WindowHint(glfw.Resizable, glfw.False)
 	window, err := glfw.CreateWindow(640, 480, "Testing", nil, nil)
 	if err != nil {
 		fmt.Println(err)

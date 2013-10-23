@@ -12,7 +12,7 @@ import "errors"
 
 func Init() error {
 	if ret := C.glfwInit(); ret != C.GL_TRUE {
-		return errors.New("Could not initialize glfw.")
+		return errors.New("glitch: Could not initialize glfw.")
 	}
 
 	return nil
@@ -38,4 +38,8 @@ func PollEvents() {
 
 func WaitEvents() {
 	C.glfwWaitEvents()
+}
+
+func SwapInterval(interval int) {
+	C.glfwSwapInterval(C.int(interval))
 }
