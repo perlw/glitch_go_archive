@@ -31,6 +31,20 @@ func main() {
 		fmt.Println(iconified)
 	})
 
+	window.SetPositionCallback(func(x, y int) {
+		fmt.Println(x, y)
+	})
+
+	fmt.Println(glfw.GetMonitors())
+
+	if monitor, err := glfw.GetPrimaryMonitor(); err == nil {
+		fmt.Println(monitor.GetVideoMode())
+		fmt.Println(monitor.GetVideoModes())
+		fmt.Println(monitor.GetPosition())
+		fmt.Println(monitor.GetPhysicalSize())
+		fmt.Println(monitor.GetName())
+	}
+
 	window.MakeContextCurrent()
 	for !window.ShouldClose() {
 		window.SwapBuffers()

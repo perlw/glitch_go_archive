@@ -2,13 +2,13 @@ package glfw
 
 //#include <stdlib.h>
 //#include <GLFW/glfw3.h>
-//void goSetWindowPosCB(GLFWwindow *win);
-//void goSetWindowSizeCB(GLFWwindow *win);
-//void goSetFramebufferSizeCB(GLFWwindow *win);
-//void goSetWindowCloseCB(GLFWwindow *win);
-//void goSetWindowRefreshCB(GLFWwindow *win);
-//void goSetWindowFocusCB(GLFWwindow *win);
-//void goSetWindowIconifyCB(GLFWwindow *win);
+//void goSetWindowPosCB(GLFWwindow* win);
+//void goSetWindowSizeCB(GLFWwindow* win);
+//void goSetFramebufferSizeCB(GLFWwindow* win);
+//void goSetWindowCloseCB(GLFWwindow* win);
+//void goSetWindowRefreshCB(GLFWwindow* win);
+//void goSetWindowFocusCB(GLFWwindow* win);
+//void goSetWindowIconifyCB(GLFWwindow* win);
 import "C"
 
 import (
