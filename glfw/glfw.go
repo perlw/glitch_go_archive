@@ -43,3 +43,11 @@ func WaitEvents() {
 func SwapInterval(interval int) {
 	C.glfwSwapInterval(C.int(interval))
 }
+
+func GetTime() float64 {
+	return float64(C.glfwGetTime())
+}
+
+func SetTime(float64 time) {
+	C.glfwSetTime(C.double(time))
+}
