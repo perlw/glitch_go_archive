@@ -9,11 +9,11 @@ GLFWvidmode vidModeAtIndex(GLFWvidmode* vidModes, int index) {
 }
 
 void setGammaAtIndex(unsigned short* color, int index, unsigned short value) {
-	color[i] = value;
+	color[index] = value;
 }
 
 unsigned int getGammaAtIndex(unsigned short* color, int index) {
-	return color[i];
+	return color[index];
 }
 
 void monitorCallback(GLFWmonitor* monitor, int event) {
