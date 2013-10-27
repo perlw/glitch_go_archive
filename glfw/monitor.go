@@ -3,6 +3,8 @@ package glfw
 //#include <GLFW/glfw3.h>
 //GLFWmonitor* monitorAtIndex(GLFWmonitor** monitors, int index);
 //GLFWvidmode vidModeAtIndex(GLFWvidmode* vidModes, int index);
+//void setGammaAtIndex(unsigned short* color, int index, unsigned short value);
+//unsigned int getGammaAtIndex(unsigned short* color, int index);
 //void goSetMonitorCB();
 import "C"
 
@@ -121,13 +123,40 @@ func (mon *Monitor) GetVideoModes() ([]*VideoMode, error) {
 }
 
 func (mon *Monitor) SetGamma(gamma float32) {
-
+	C.glfwSetGamma(mon.internalPtr, C.float(gamma))
 }
 
 func (mon *Monitor) GetGammaRamp() (*GammaRamp, error) {
-	return nil, nil
+	var ramp GammaRamp
+
+	if cGammaRamp := C.glfwGetRammaRamp(mon.internalPtr); cGammaRamp != nil {
+		length := int(cGammaRamp.size)
+		ramp.Red = make([]uint16, length)
+		ramp.Green = make([]uint16, length)
+		ramp.Blue = make([]uint16, length)
+
+		for t := 0; t < length; t++ {
+			ramp.Red[t] = uint16(C.getGammaAtIndex(cGammaRamp.red, C.int(i)))
+			ramp.Green[t] = uint16(C.getGammaAtIndex(cGammaRamp.green, C.int(i)))
+			ramp.Blue[t] = uint16(C.getGammaAtIndex(cGammaRamp.blue, C.int(i)))
+		}
+
+		return &ramp, nil
+	}
+
+	return nil, errors.New("glfw: Can't get gamma ramp.")
 }
 
-func (mon *Monitor) SetGammaRamp(ramp GammaRamp) {
+func (mon *Monitor) SetGammaRamp(ramp *GammaRamp) {
+	var cGammaRamp C.GLFWgammaramp
 
+	cGammaRamp.size = C.uint(len(ramp.Red))
+
+	for t := 0; t < len(ramp.Red); t++ {
+		C.setGammaAtIndex(cGammaRamp.red, C.int(t), C.ushort(ramp.Red[i]))
+		C.setGammaAtIndex(cGammaRamp.green, C.int(t), C.ushort(ramp.Green[i]))
+		C.setGammaAtIndex(cGammaRamp.blue, C.int(t), C.ushort(ramp.Blue[i]))
+	}
+
+	C.glfwSetGammaRamp(mon.internalPtr, &cGammaRamp)
 }
