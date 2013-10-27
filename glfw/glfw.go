@@ -8,6 +8,7 @@ package glfw
 //#endif
 //#include <GLFW/glfw3.h>
 //float getAxesAtIndex(float* axes, int index);
+//unsigned char getButtonAtIndex(unsigned char* buttons, int index);
 import "C"
 
 import "errors"
@@ -32,6 +33,14 @@ const (
 	Joystick15            = C.GLFW_JOYSTICK_15
 	Joystick16            = C.GLFW_JOYSTICK_16
 	JoystickLast          = C.GLFW_JOYSTICK_LAST
+)
+
+type Action int
+
+const (
+	Press   Action = C.GLFW_PRESS
+	Release        = C.GLFW_RELEASE
+	Repeat         = C.GLFW_REPEAT
 )
 
 /*
@@ -214,4 +223,28 @@ func GetJoystickAxes(joy Joystick) ([]float32, error) {
 	}
 
 	return axes, nil
+}
+
+/*
+This function returns the state of all buttons of the specified joystick.
+
+Parameters
+	joy	The joystick to query.
+Returns
+	An array of button states.
+*/
+func GetJoystickButtons(joy Joystick) ([]Action, error) {
+	var count C.int
+
+	cButtons := C.glfwGetJoystickButtons(C.int(joy), &count)
+	if cButtons == nil {
+		return nil, errors.New("glfw: No such joystick.")
+	}
+
+	buttons := make([]Action, int(count))
+	for t := 0; t < int(count); t++ {
+		buttons[t] = Action(C.getButtonAtIndex(cButtons, C.int(t)))
+	}
+
+	return buttons, nil
 }

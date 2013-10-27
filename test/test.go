@@ -47,6 +47,15 @@ func main() {
 
 	window.MakeContextCurrent()
 	for !window.ShouldClose() {
+		if buttons, err := glfw.GetJoystickButtons(glfw.Joystick1); err == nil {
+			if buttons[1] == glfw.Press {
+				fmt.Println("Hit!")
+			}
+			if buttons[2] == glfw.Press {
+				fmt.Println(glfw.GetJoystickAxes(glfw.Joystick1))
+			}
+		}
+
 		window.SwapBuffers()
 		glfw.PollEvents()
 	}
