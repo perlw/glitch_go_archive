@@ -417,12 +417,56 @@ func (win *Window) GetUserPointer() unsafe.Pointer {
 	return unsafe.Pointer(C.glfwGetWindowUserPointer(win.internalPtr))
 }
 
+/*
+This function makes the context of the specified window current on the calling thread. A context can only be made current on a single thread at a time and each thread can have only a single current context at a time.
+
+Remarks
+	This function may be called from secondary threads.
+See Also
+	GetCurrentContext
+*/
 func (win *Window) MakeContextCurrent() {
 	C.glfwMakeContextCurrent(win.internalPtr)
 }
 
+/*
+This function swaps the front and back buffers of the specified window. If the swap interval is greater than zero, the GPU driver waits the specified number of screen updates before swapping the buffers.
+
+Remarks
+	This function may be called from secondary threads.
+See Also
+	SwapInterval
+*/
 func (win *Window) SwapBuffers() {
 	C.glfwSwapBuffers(win.internalPtr)
+}
+
+/*
+This function returns the contents of the system clipboard, if it contains or is convertible to a UTF-8 encoded string.
+
+Returns
+	The contents of the clipboard as a UTF-8 encoded string.
+Note
+	This function may only be called from the main thread.
+*/
+func (win *Window) GetClipboardString() string {
+	return C.GoString(C.glfwGetClipboardString(win.internalPtr))
+}
+
+/*
+This function sets the system clipboard to the specified, UTF-8 encoded string. The string is copied before returning, so you don't have to retain it afterwards.
+
+Parameters
+	str	A UTF-8 encoded string.
+Note
+	This function may only be called from the main thread.
+See Also
+	GetClipboardString
+*/
+func (win *Window) SetClipboardString(str string) {
+	cStr := C.CString(str)
+	defer C.free(unsafe.Pointer(cStr))
+	C.glfwSetClipboardString(win.internalPtr, cStr)
 }
 
 /*
