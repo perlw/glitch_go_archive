@@ -7,9 +7,32 @@ package glfw
 //  #define GLFW_DLL
 //#endif
 //#include <GLFW/glfw3.h>
+//float getAxesAtIndex(float* axes, int index);
 import "C"
 
 import "errors"
+
+type Joystick int
+
+const (
+	Joystick1    Joystick = C.GLFW_JOYSTICK_1
+	Joystick2             = C.GLFW_JOYSTICK_2
+	Joystick3             = C.GLFW_JOYSTICK_3
+	Joystick4             = C.GLFW_JOYSTICK_4
+	Joystick5             = C.GLFW_JOYSTICK_5
+	Joystick6             = C.GLFW_JOYSTICK_6
+	Joystick7             = C.GLFW_JOYSTICK_7
+	Joystick8             = C.GLFW_JOYSTICK_8
+	Joystick9             = C.GLFW_JOYSTICK_9
+	Joystick10            = C.GLFW_JOYSTICK_10
+	Joystick11            = C.GLFW_JOYSTICK_11
+	Joystick12            = C.GLFW_JOYSTICK_12
+	Joystick13            = C.GLFW_JOYSTICK_13
+	Joystick14            = C.GLFW_JOYSTICK_14
+	Joystick15            = C.GLFW_JOYSTICK_15
+	Joystick16            = C.GLFW_JOYSTICK_16
+	JoystickLast          = C.GLFW_JOYSTICK_LAST
+)
 
 /*
 This function initializes the GLFW library. Before most GLFW functions can be used, GLFW must be initialized, and before a program terminates GLFW should be terminated in order to free any resources allocated during or after initialization.
@@ -167,4 +190,28 @@ Parameters
 */
 func SetTime(time float64) {
 	C.glfwSetTime(C.double(time))
+}
+
+/*
+This function returns the values of all axes of the specified joystick.
+
+Parameters
+	joy	The joystick to query.
+Returns
+	An array of axis values.
+*/
+func GetJoystickAxes(joy Joystick) ([]float32, error) {
+	var count C.int
+
+	cAxes := C.glfwGetJoystickAxes(C.int(joy), &count)
+	if cAxes == nil {
+		return nil, errors.New("glfw: No such joystick.")
+	}
+
+	axes := make([]float32, int(count))
+	for t := 0; t < int(count); t++ {
+		axes[t] = float32(C.getAxesAtIndex(cAxes, C.int(t)))
+	}
+
+	return axes, nil
 }
