@@ -45,6 +45,18 @@ func main() {
 		fmt.Println(monitor.GetName())
 	}
 
+	window.SetCharCallback(func(char rune) {
+		fmt.Println(char)
+	})
+
+	window.SetCursorEnterCallback(func(flag bool) {
+		fmt.Println(flag)
+	})
+
+	window.SetScrollCallback(func(xoff, yoff float64) {
+		fmt.Println(xoff, yoff)
+	})
+
 	window.MakeContextCurrent()
 	for !window.ShouldClose() {
 		if buttons, err := glfw.GetJoystickButtons(glfw.Joystick1); err == nil {

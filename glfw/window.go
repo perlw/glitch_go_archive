@@ -67,6 +67,12 @@ type Window struct {
 	refreshCB         func()
 	focusCB           func(focused bool)
 	iconifyCB         func(iconified bool)
+	charCB            func(char rune)
+	cursorEnterCB     func(flag bool)
+	cursorPosCB       func(xpos, ypos float64)
+	keyCB             func(key Key, scancode int, action InputAction, mods Modifier)
+	mouseButtonCB     func(button MouseButton, action InputAction, mods Modifier)
+	scrollCB          func(xoff, yoff float64)
 }
 
 var windows = map[*C.GLFWwindow]*Window{}

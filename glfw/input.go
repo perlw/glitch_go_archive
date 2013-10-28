@@ -3,9 +3,18 @@ package glfw
 //#include <GLFW/glfw3.h>
 //float getAxesAtIndex(float* axes, int index);
 //unsigned char getButtonAtIndex(unsigned char* buttons, int index);
+//void goSetCharCB(GLFWwindow* win);
+//void goSetCursorEnterCB(GLFWwindow* win);
+//void goSetCursorPosCB(GLFWwindow* win);
+//void goSetKeyCB(GLFWwindow* win);
+//void goSetMouseButtonCB(GLFWwindow* win);
+//void goSetScrollCB(GLFWwindow* win);
 import "C"
 
-import "errors"
+import (
+	"errors"
+	"unsafe"
+)
 
 type Joystick int
 
@@ -193,8 +202,15 @@ const (
 	CursorNormal   int = C.GLFW_CURSOR_NORMAL
 	CursorHidden       = C.GLFW_CURSOR_HIDDEN
 	CursorDisabled     = C.GLFW_CURSOR_DISABLED
-	True               = C.GL_TRUE
-	False              = C.GL_FALSE
+)
+
+type Modifier int
+
+const (
+	ModShift   Modifier = C.GLFW_MOD_SHIFT
+	ModControl          = C.GLFW_MOD_CONTROL
+	ModAlt              = C.GLFW_MOD_ALT
+	ModSuper            = C.GLFW_MOD_SUPER
 )
 
 /*
@@ -353,4 +369,154 @@ See Also
 */
 func (win *Window) SetInputMode(mode InputMode, value int) {
 	C.glfwSetInputMode(win.internalPtr, C.int(mode), C.int(value))
+}
+
+/*
+This function sets the character callback of the specific window, which is called when a Unicode character is input.
+
+The character callback is intended for text input. If you want to know whether a specific key was pressed or released, use the key callback instead.
+
+Parameters
+	callback	The new callback, or nil to remove the currently set callback.
+*/
+func (win *Window) SetCharCallback(callback func(char rune)) {
+	if callback == nil {
+		C.glfwSetCharCallback(win.internalPtr, nil)
+	} else {
+		win.charCB = callback
+		C.goSetCharCB(win.internalPtr)
+	}
+}
+
+/*
+This function sets the cursor boundary crossing callback of the specified window, which is called when the cursor enters or leaves the client area of the window.
+
+Parameters
+	callback	The new callback, or nil to remove the currently set callback.
+*/
+func (win *Window) SetCursorEnterCallback(callback func(flag bool)) {
+	if callback == nil {
+		C.glfwSetCursorEnterCallback(win.internalPtr, nil)
+	} else {
+		win.cursorEnterCB = callback
+		C.goSetCursorEnterCB(win.internalPtr)
+	}
+}
+
+/*
+This function sets the cursor position callback of the specified window, which is called when the cursor is moved. The callback is provided with the position, in screen coordinates, relative to the upper-left corner of the client area of the window.
+
+Parameters
+	callback	The new callback, or nil to remove the currently set callback.
+*/
+func (win *Window) SetCursorPosCallback(callback func(xpos, ypos float64)) {
+	if callback == nil {
+		C.glfwSetCursorPosCallback(win.internalPtr, nil)
+	} else {
+		win.cursorPosCB = callback
+		C.goSetCursorPosCB(win.internalPtr)
+	}
+}
+
+/*
+This function sets the key callback of the specific window, which is called when a key is pressed, repeated or released.
+
+The key functions deal with physical keys, with layout independent key tokens named after their values in the standard US keyboard layout. If you want to input text, use the character callback instead.
+
+When a window loses focus, it will generate synthetic key release events for all pressed keys. You can tell these events from user-generated events by the fact that the synthetic ones are generated after the window has lost focus, i.e. Focused will be false and the focus callback will have already been called.
+
+The scancode of a key is specific to that platform or sometimes even to that machine. Scancodes are intended to allow users to bind keys that don't have a GLFW key token. Such keys have key set to KeyUnknown, their state is not saved and so it cannot be retrieved with GetKey.
+
+Sometimes GLFW needs to generate synthetic key events, in which case the scancode may be zero.
+
+Parameters
+	callback	The new callback, or nil to remove the currently set callback.
+*/
+func (win *Window) SetKeyCallback(callback func(key Key, scancode int, action InputAction, mods Modifier)) {
+	if callback == nil {
+		C.glfwSetKeyCallback(win.internalPtr, nil)
+	} else {
+		win.keyCB = callback
+		C.goSetKeyCB(win.internalPtr)
+	}
+}
+
+/*
+This function sets the mouse button callback of the specified window, which is called when a mouse button is pressed or released.
+
+When a window loses focus, it will generate synthetic mouse button release events for all pressed mouse buttons. You can tell these events from user-generated events by the fact that the synthetic ones are generated after the window has lost focus, i.e. Focused will be false and the focus callback will have already been called.
+
+Parameters
+	callback	The new callback, or nil to remove the currently set callback.
+*/
+func (win *Window) SetMouseButtonCallback(callback func(button MouseButton, action InputAction, mods Modifier)) {
+	if callback == nil {
+		C.glfwSetMouseButtonCallback(win.internalPtr, nil)
+	} else {
+		win.mouseButtonCB = callback
+		C.goSetMouseButtonCB(win.internalPtr)
+	}
+}
+
+/*
+This function sets the scroll callback of the specified window, which is called when a scrolling device is used, such as a mouse wheel or scrolling area of a touchpad.
+
+The scroll callback receives all scrolling input, like that from a mouse wheel or a touchpad scrolling area.
+
+Parameters
+	callback	The new callback, or nil to remove the currently set callback.
+*/
+func (win *Window) SetScrollCallback(callback func(xoff, yoff float64)) {
+	if callback == nil {
+		C.glfwSetScrollCallback(win.internalPtr, nil)
+	} else {
+		win.scrollCB = callback
+		C.goSetScrollCB(win.internalPtr)
+	}
+}
+
+//export goCallSetCharCB
+func goCallSetCharCB(window unsafe.Pointer, char C.uint) {
+	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+		win.charCB(rune(char))
+	}
+}
+
+//export goCallSetCursorEnterCB
+func goCallSetCursorEnterCB(window unsafe.Pointer, cFlag C.int) {
+	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+		flag := false
+		if cFlag == C.GL_TRUE {
+			flag = true
+		}
+		win.cursorEnterCB(flag)
+	}
+}
+
+//export goCallSetCursorPosCB
+func goCallSetCursorPosCB(window unsafe.Pointer, xpos, ypos C.double) {
+	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+		win.cursorPosCB(float64(xpos), float64(ypos))
+	}
+}
+
+//export goCallSetKeyCB
+func goCallSetKeyCB(window unsafe.Pointer, key, scancode, action, mods C.int) {
+	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+		win.keyCB(Key(key), int(scancode), InputAction(action), Modifier(mods))
+	}
+}
+
+//export goCallSetMouseButtonCB
+func goCallSetMouseButtonCB(window unsafe.Pointer, button, action, mods C.int) {
+	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+		win.mouseButtonCB(MouseButton(button), InputAction(action), Modifier(mods))
+	}
+}
+
+//export goCallSetScrollCB
+func goCallSetScrollCB(window unsafe.Pointer, xoff, yoff C.double) {
+	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+		win.scrollCB(float64(xoff), float64(yoff))
+	}
 }
