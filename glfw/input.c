@@ -1,5 +1,13 @@
 #include "_cgo_export.h"
 
+float getAxesAtIndex(float* axes, int index) {
+	return axes[index];
+}
+
+unsigned char getButtonAtIndex(unsigned char* buttons, int index) {
+	return buttons[index];
+}
+
 void setCharCallback(GLFWwindow* win, unsigned int rune) {
 	goCallSetCharCB(win, rune);
 }

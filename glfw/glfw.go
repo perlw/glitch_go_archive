@@ -1,4 +1,12 @@
-// TODO
+/*
+A straight GLFW binding.
+
+Not idiomatic Go in any real stretch, wanted to keep it close to the original API.
+
+GLFW is an Open Source, multi-platform library for creating windows with OpenGL contexts and managing input and events. It is easy to integrate into existing applications and does not lay claim to the main loop.
+
+See http://www.glfw.org for the original library and for more information.
+*/
 package glfw
 
 //#cgo windows LDFLAGS: -lglfw3dll -lopengl32 -lgdi32
