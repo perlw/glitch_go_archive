@@ -56,14 +56,6 @@ const (
 	OpenGLCoreProfile        = C.GLFW_OPENGL_CORE_PROFILE
 )
 
-type InputMode int
-
-const (
-	Cursor             InputMode = C.GLFW_CURSOR
-	StickyKeys                   = C.GLFW_STICKY_KEYS
-	StickyMouseButtons           = C.GLFW_STICKY_MOUSE_BUTTONS
-)
-
 // Opaque window object.
 type Window struct {
 	internalPtr *C.GLFWwindow
@@ -447,62 +439,6 @@ See Also
 */
 func (win *Window) SwapBuffers() {
 	C.glfwSwapBuffers(win.internalPtr)
-}
-
-/*
-This function returns the contents of the system clipboard, if it contains or is convertible to a UTF-8 encoded string.
-
-Returns
-	The contents of the clipboard as a UTF-8 encoded string.
-Note
-	This function may only be called from the main thread.
-*/
-func (win *Window) GetClipboardString() string {
-	return C.GoString(C.glfwGetClipboardString(win.internalPtr))
-}
-
-/*
-This function sets the system clipboard to the specified, UTF-8 encoded string. The string is copied before returning, so you don't have to retain it afterwards.
-
-Parameters
-	str	A UTF-8 encoded string.
-Note
-	This function may only be called from the main thread.
-See Also
-	GetClipboardString
-*/
-func (win *Window) SetClipboardString(str string) {
-	cStr := C.CString(str)
-	defer C.free(unsafe.Pointer(cStr))
-	C.glfwSetClipboardString(win.internalPtr, cStr)
-}
-
-/*
-This function returns the last reported position of the cursor, in screen coordinates, relative to the upper-left corner of the client area of the specified window.
-
-If the cursor is disabled (with CursorDisabled) then the cursor position is unbounded and limited only by the minimum and maximum values of a double.
-
-The coordinate can be converted to their integer equivalents with the floor function. Casting directly to an integer type works for positive coordinates, but fails for negative ones.
-
-Returns
-	xpos, ypos
-See Also
-	SetCursorPos
-*/
-func (win *Window) GetCursorPosition() (float64, float64) {
-	var xpos, ypos C.double
-	C.glfwGetCursorPos(win.internalPtr, &xpos, &ypos)
-	return float64(xpos), float64(ypos)
-}
-
-/*
-Parameters
-	mode	One of Cursor, StickyKeys or StickyMouseButtons.
-See Also
-	SetInputMode
-*/
-func (win *Window) GetInputMode(mode InputMode) int {
-	return int(C.glfwGetInputMode(win.internalPtr, C.int(mode)))
 }
 
 /*
