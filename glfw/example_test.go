@@ -1,4 +1,4 @@
-package glfw
+package glfw_test
 
 import (
 	"fmt"
