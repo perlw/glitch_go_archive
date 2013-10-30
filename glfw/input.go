@@ -477,14 +477,14 @@ func (win *Window) SetScrollCallback(callback func(xoff, yoff float64)) {
 
 //export goCallSetCharCB
 func goCallSetCharCB(window unsafe.Pointer, char C.uint) {
-	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+	if win, ok := windows.get((*C.GLFWwindow)(window)); ok {
 		win.charCB(rune(char))
 	}
 }
 
 //export goCallSetCursorEnterCB
 func goCallSetCursorEnterCB(window unsafe.Pointer, cFlag C.int) {
-	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+	if win, ok := windows.get((*C.GLFWwindow)(window)); ok {
 		flag := false
 		if cFlag == C.GL_TRUE {
 			flag = true
@@ -495,28 +495,28 @@ func goCallSetCursorEnterCB(window unsafe.Pointer, cFlag C.int) {
 
 //export goCallSetCursorPosCB
 func goCallSetCursorPosCB(window unsafe.Pointer, xpos, ypos C.double) {
-	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+	if win, ok := windows.get((*C.GLFWwindow)(window)); ok {
 		win.cursorPosCB(float64(xpos), float64(ypos))
 	}
 }
 
 //export goCallSetKeyCB
 func goCallSetKeyCB(window unsafe.Pointer, key, scancode, action, mods C.int) {
-	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+	if win, ok := windows.get((*C.GLFWwindow)(window)); ok {
 		win.keyCB(Key(key), int(scancode), InputAction(action), Modifier(mods))
 	}
 }
 
 //export goCallSetMouseButtonCB
 func goCallSetMouseButtonCB(window unsafe.Pointer, button, action, mods C.int) {
-	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+	if win, ok := windows.get((*C.GLFWwindow)(window)); ok {
 		win.mouseButtonCB(MouseButton(button), InputAction(action), Modifier(mods))
 	}
 }
 
 //export goCallSetScrollCB
 func goCallSetScrollCB(window unsafe.Pointer, xoff, yoff C.double) {
-	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+	if win, ok := windows.get((*C.GLFWwindow)(window)); ok {
 		win.scrollCB(float64(xoff), float64(yoff))
 	}
 }

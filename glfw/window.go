@@ -13,6 +13,7 @@ import "C"
 
 import (
 	"errors"
+	"sync"
 	"unsafe"
 )
 
@@ -75,7 +76,31 @@ type Window struct {
 	scrollCB          func(xoff, yoff float64)
 }
 
-var windows = map[*C.GLFWwindow]*Window{}
+type windowData struct {
+	mutex sync.RWMutex
+	list  map[*C.GLFWwindow]*Window
+}
+
+var windows = windowData{list: map[*C.GLFWwindow]*Window{}}
+
+func (win *windowData) get(cWin *C.GLFWwindow) (*Window, bool) {
+	win.mutex.RLock()
+	defer win.mutex.RUnlock()
+	wnd, ok := win.list[cWin]
+	return wnd, ok
+}
+
+func (win *windowData) set(wnd *Window) {
+	win.mutex.Lock()
+	defer win.mutex.Unlock()
+	win.list[wnd.internalPtr] = wnd
+}
+
+func (win *windowData) del(wnd *Window) {
+	win.mutex.Lock()
+	defer win.mutex.Unlock()
+	delete(win.list, wnd.internalPtr)
+}
 
 /*
 This function creates a window and its associated context. Most of the options controlling how the window and its context should be created are specified through WindowHint.
@@ -129,7 +154,7 @@ func CreateWindow(width, height int, title string, monitor *Monitor, share *Wind
 	}
 
 	win := &Window{internalPtr: cWinPtr}
-	windows[cWinPtr] = win
+	windows.set(win)
 
 	return win, nil
 }
@@ -146,7 +171,7 @@ See Also
 */
 func GetCurrentContext() (*Window, error) {
 	cWinPtr := C.glfwGetCurrentContext()
-	if win, ok := windows[cWinPtr]; ok {
+	if win, ok := windows.get(cWinPtr); ok {
 		return win, nil
 	}
 
@@ -193,7 +218,7 @@ See Also
 	CreateWindow
 */
 func (win *Window) Destroy() {
-	delete(windows, win.internalPtr)
+	windows.del(win)
 	C.glfwDestroyWindow(win.internalPtr)
 }
 
@@ -566,42 +591,42 @@ func (win *Window) SetIconifyCallback(callback func(iconified bool)) {
 
 //export goCallSetWindowPosCB
 func goCallSetWindowPosCB(window unsafe.Pointer, x, y C.int) {
-	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+	if win, ok := windows.get((*C.GLFWwindow)(window)); ok {
 		win.positionCB(int(x), int(y))
 	}
 }
 
 //export goCallSetWindowSizeCB
 func goCallSetWindowSizeCB(window unsafe.Pointer, width, height C.int) {
-	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+	if win, ok := windows.get((*C.GLFWwindow)(window)); ok {
 		win.sizeCB(int(width), int(height))
 	}
 }
 
 //export goCallSetFramebufferSizeCB
 func goCallSetFramebufferSizeCB(window unsafe.Pointer, width, height C.int) {
-	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+	if win, ok := windows.get((*C.GLFWwindow)(window)); ok {
 		win.framebufferSizeCB(int(width), int(height))
 	}
 }
 
 //export goCallSetWindowCloseCB
 func goCallSetWindowCloseCB(window unsafe.Pointer) {
-	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+	if win, ok := windows.get((*C.GLFWwindow)(window)); ok {
 		win.closeCB()
 	}
 }
 
 //export goCallSetWindowRefreshCB
 func goCallSetWindowRefreshCB(window unsafe.Pointer) {
-	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+	if win, ok := windows.get((*C.GLFWwindow)(window)); ok {
 		win.refreshCB()
 	}
 }
 
 //export goCallSetWindowFocusCB
 func goCallSetWindowFocusCB(window unsafe.Pointer, focused C.int) {
-	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+	if win, ok := windows.get((*C.GLFWwindow)(window)); ok {
 		val := false
 		if focused == C.GL_TRUE {
 			val = true
@@ -612,7 +637,7 @@ func goCallSetWindowFocusCB(window unsafe.Pointer, focused C.int) {
 
 //export goCallSetWindowIconifyCB
 func goCallSetWindowIconifyCB(window unsafe.Pointer, iconified C.int) {
-	if win, ok := windows[(*C.GLFWwindow)(window)]; ok {
+	if win, ok := windows.get((*C.GLFWwindow)(window)); ok {
 		val := false
 		if iconified == C.GL_TRUE {
 			val = true
