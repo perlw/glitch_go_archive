@@ -1,0 +1,5 @@
+package gl
+
+func Init() {
+
+}
