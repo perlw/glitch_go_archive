@@ -13,6 +13,29 @@ const (
 	Mult              = C.GL_MULT
 	Return            = C.GL_RETURN
 
+	// Begin
+	Points        = C.GL_POINTS
+	Lines         = C.GL_LINES
+	LineStrip     = C.GL_LINE_STRIP
+	LineLoop      = C.GL_LINE_LOOP
+	Triangles     = C.GL_TRIANGLES
+	TriangleStrip = C.GL_TRIANGLE_STRIP
+	TriangleFan   = C.GL_TRIANGLE_FAN
+	Quads         = C.GL_QUADS
+	QuadStrip     = C.GL_QUAD_STRIP
+	Polygon       = C.GL_POLYGON
+
+	// BlendFunc
+	Zero             = C.GL_ZERO
+	One              = C.GL_ONE
+	DstColor         = C.GL_DST_COLOR
+	OneMinusDstColor = C.GL_ONE_MINUS_DST_COLOR
+	SrcAlpha         = C.GL_SRC_ALPHA
+	OneMinusSrcAlpha = C.GL_ONE_MINUS_SRC_ALPHA
+	DstAlpha         = C.GL_DST_ALPHA
+	OneMinusDstAlpha = C.GL_ONE_MINUS_DST_ALPHA
+	SrcAlphaSaturate = C.GL_SRC_ALPHA_SATURATE
+
 	// DepthFunc, AlphaFunc
 	Never    = C.GL_NEVER
 	Less     = C.GL_LESS

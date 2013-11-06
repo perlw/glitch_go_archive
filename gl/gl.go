@@ -26,7 +26,7 @@ func AlphaFunc(constant GLConstant, value float32) {
 func AreTexturesResident(textures []uint32) ([]bool, error) {
 	size := len(textures)
 	if size == 0 {
-		return nil, errors.New("gl: Empty list")
+		return nil, errors.New("gl: Empty textures")
 	}
 	residences := make([]bool, size)
 
@@ -40,6 +40,33 @@ func AreTexturesResident(textures []uint32) ([]bool, error) {
 
 func ArrayElement(index int) {
 	C.glArrayElement(C.GLint(index))
+}
+
+func Begin(constant GLConstant) {
+	C.glBegin(C.GLenum(constant))
+}
+
+func BindTexture(target GLConstant, texture uint32) {
+	C.glBindTexture(C.GLenum(target), C.GLuint(texture))
+}
+
+func Bitmap(width, height int, xorig, yorig, xmove, ymove float32, bitmap []byte) error {
+	size := len(bitmap)
+	if size == 0 {
+		return errors.New("gl: Empty bitmap")
+	}
+
+	C.glBitmap(C.GLsizei(width), C.GLsizei(height), C.GLfloat(xorig), C.GLfloat(yorig), C.GLfloat(xmove), C.GLfloat(ymove), (*C.GLubyte)(unsafe.Pointer(&bitmap[0])))
+
+	return nil
+}
+
+func BlendColorEXT(red, green, blue, alpha float32) {
+	C.glBlendColorEXT(C.GLclampf(red), C.GLclampf(green), C.GLclampf(blue), C.GLclampf(alpha))
+}
+
+func BlendFunc(sfactor, dfactor GLConstant) {
+	C.glBlendFunc(C.GLenum(sfactor), C.GLenum(dfactor))
 }
 
 func Clear(clearBits GLConstant) {
@@ -60,6 +87,10 @@ func DepthFunc(constant GLConstant) {
 
 func Enable(constant GLConstant) {
 	C.glEnable(C.GLenum(constant))
+}
+
+func End() {
+	C.glEnd()
 }
 
 func Disable(constant GLConstant) {
