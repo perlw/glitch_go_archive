@@ -6,18 +6,30 @@ import "C"
 type GLConstant int
 
 const (
-	Never            GLConstant = C.GL_NEVER
-	Less                        = C.GL_LESS
-	Equal                       = C.GL_EQUAL
-	LEqual                      = C.GL_LEQUAL
-	Greater                     = C.GL_GREATER
-	NotEqual                    = C.GL_NOTEQUAL
-	GEqual                      = C.GL_EQUAL
-	Always                      = C.GL_ALWAYS
-	ColorBufferBit              = C.GL_COLOR_BUFFER_BIT
-	DepthBufferBit              = C.GL_DEPTH_BUFFER_BIT
-	StencilBufferBit            = C.GL_STENCIL_BUFFER_BIT
-	Blend                       = C.GL_BLEND
+	// Accum
+	AccumC GLConstant = C.GL_ACCUM
+	Load              = C.GL_LOAD
+	Add               = C.GL_ADD
+	Mult              = C.GL_MULT
+	Return            = C.GL_RETURN
+
+	// DepthFunc, AlphaFunc
+	Never    = C.GL_NEVER
+	Less     = C.GL_LESS
+	Equal    = C.GL_EQUAL
+	LEqual   = C.GL_LEQUAL
+	Greater  = C.GL_GREATER
+	NotEqual = C.GL_NOTEQUAL
+	GEqual   = C.GL_EQUAL
+	Always   = C.GL_ALWAYS
+
+	// Clear
+	ColorBufferBit   = C.GL_COLOR_BUFFER_BIT
+	DepthBufferBit   = C.GL_DEPTH_BUFFER_BIT
+	StencilBufferBit = C.GL_STENCIL_BUFFER_BIT
+
+	// Enable
+	Blend = C.GL_BLEND
 	//ClipDistance                      = GL_CLIP_DISTANCE
 	ColorLogicOp           = C.GL_COLOR_LOGIC_OP
 	CullFace               = C.GL_CULL_FACE

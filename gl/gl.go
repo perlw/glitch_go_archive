@@ -5,9 +5,41 @@ package gl
 // #include "common.h"
 import "C"
 
+import (
+	"errors"
+	"unsafe"
+)
+
 func Init() {
 	C.glewExperimental = 1
 	C.glewInit()
+}
+
+func Accum(constant GLConstant, value float32) {
+	C.glAccum(C.GLenum(constant), C.GLfloat(value))
+}
+
+func AlphaFunc(constant GLConstant, value float32) {
+	C.glAlphaFunc(C.GLenum(constant), C.GLclampf(value))
+}
+
+func AreTexturesResident(textures []uint32) ([]bool, error) {
+	size := len(textures)
+	if size == 0 {
+		return nil, errors.New("gl: Empty list")
+	}
+	residences := make([]bool, size)
+
+	if ret := C.glAreTexturesResident(C.GLsizei(size), (*C.GLuint)(unsafe.Pointer(&textures[0])), (*C.GLboolean)(unsafe.Pointer(&residences[0]))); ret == C.GL_TRUE {
+		for t := range residences {
+			residences[t] = true
+		}
+	}
+	return residences, nil
+}
+
+func ArrayElement(index int) {
+	C.glArrayElement(C.GLint(index))
 }
 
 func Clear(clearBits GLConstant) {
