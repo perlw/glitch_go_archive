@@ -25,6 +25,10 @@ const (
 	QuadStrip     = C.GL_QUAD_STRIP
 	Polygon       = C.GL_POLYGON
 
+	// BindTexture
+	Texture1D = C.GL_TEXTURE_1D
+	Texture2D = C.GL_TEXTURE_2D
+
 	// BlendFunc
 	Zero             = C.GL_ZERO
 	One              = C.GL_ONE
