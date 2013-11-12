@@ -25,7 +25,7 @@ func main() {
 	window.MakeContextCurrent()
 
 	gl.Init()
-	gl.Enable(gl.CullFace)
+	gl.Enable(gl.CullFaceC)
 	gl.Enable(gl.DepthTest)
 	gl.ClearColor(0.5, 0.5, 0.5, 1.0)
 	gl.ClearDepth(1)

@@ -59,7 +59,7 @@ const (
 	Blend = C.GL_BLEND
 	//ClipDistance                      = GL_CLIP_DISTANCE
 	ColorLogicOp           = C.GL_COLOR_LOGIC_OP
-	CullFace               = C.GL_CULL_FACE
+	CullFaceC              = C.GL_CULL_FACE
 	DepthClamp             = C.GL_DEPTH_CLAMP
 	DepthTest              = C.GL_DEPTH_TEST
 	Dither                 = C.GL_DITHER

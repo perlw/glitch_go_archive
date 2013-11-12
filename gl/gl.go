@@ -134,6 +134,20 @@ func BlendFunc(sfactor, dfactor GLConstant) {
 }
 
 /*
+Execute a display list.
+
+Parameters
+    list - Specifies the integer name of the display list to be executed.
+*/
+func CallList(list uint32) {
+	C.glCallList(C.GLuint(list))
+}
+
+func CallLists() {
+
+}
+
+/*
 Clear buffers to preset values.
 
 Parameters
@@ -141,6 +155,10 @@ Parameters
 */
 func Clear(mask GLConstant) {
 	C.glClear(C.GLbitfield(mask))
+}
+
+func ClearAccum() {
+
 }
 
 /*
@@ -161,6 +179,58 @@ Parameters
 */
 func ClearDepth(depth float32) {
 	C.glClearDepth(C.GLclampd(depth))
+}
+
+func ClearIndex() {
+
+}
+
+func ClearStencil() {
+
+}
+
+func ClipPlane() {
+
+}
+
+func Color() {
+
+}
+
+func ColorMask() {
+
+}
+
+func ColorMaterial() {
+
+}
+
+func ColorPointer() {
+
+}
+
+func CopyPixels() {
+
+}
+
+func CopyTexImage1D() {
+
+}
+
+func CopyTexImage2D() {
+
+}
+
+func CopyTexSubImage1D() {
+
+}
+
+func CopyTexSubImage2D() {
+
+}
+
+func CullFace() {
+
 }
 
 /*
