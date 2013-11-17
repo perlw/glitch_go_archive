@@ -331,32 +331,103 @@ func ColorMaterial(face, mode GLConstant) {
 	C.glColorMaterial(C.GLenum(face), C.GLenum(mode))
 }
 
-func ColorPointer() {
+/*
+Define an array of colors.
 
+Parameters
+    size - Specifies the number of components per color. Must be 3 or 4.
+    stride - Specifies the byte offset between consecutive colors. If stride is 0, (the initial value), the colors are understood to be tightly packed in the slice.
+    colors - A slice containing the color values.
+*/
+func ColorPointer(size, stride int, colors interface{}) error {
+	if size != 3 || size != 4 {
+		return errors.New("gl: size must be 3 or 4")
+	}
+
+	_, _, enum, ptr, err := sliceToGLData(colors)
+	if err != nil {
+		return err
+	}
+
+	C.glColorPointer(C.GLint(size), enum, C.GLsizei(stride), ptr)
+
+	return nil
 }
 
-func CopyPixels() {
+/*
+Copy pixels in the frame buffer.
 
+Parameters
+    x, y - Specify the window coordinates of the lower left corner of the rectangular region of pixels to be copied.
+    width, height - Specify the dimensions of the rectangular region of pixels to be copied. Both must be nonnegative.
+    typeConstant - Specifies whether color values, depth values, or stencil values are to be copied. Symbolic constants Color, Depth, and Stencil are accepted.
+*/
+func CopyPixels(x, y, width, height int, typeConstant GLConstant) {
+	C.glCopyPixels(C.GLint(x), C.GLint(y), C.GLsizei(width), C.GLsizei(height), C.GLenum(typeConstant))
 }
 
-func CopyTexImage1D() {
+/*
+Copy pixels into a 1D texture image.
 
+Parameters
+    level - Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.
+    internalFormat - Specifies the internal format of the texture. Must be one of the following symbolic constants: Alpha, Alpha4, Alpha8, Alpha12, Alpha16, Luminance, Luminance4, Luminance8, Luminance12, Luminance16, LuminanceAlpha, Luminance4Alpha4, Luminance6Alpha2, Luminance8Alpha8, Luminance12Alpha4, Luminance12Alpha12, Luminance16Alpha16, Intensity, Intensity4, Intensity8, Intensity12, Intensity16, Rgb, R3G3B2, Rgb4, Rgb5, Rgb8, Rgb10, Rgb12, Rgb16, Rgba, Rgba2, Rgba4, Rgb5A1, Rgba8, Rgb10A2, Rgba12, or Rgba16.
+    x, y - Specify the window coordinates of the left corner of the row of pixels to be copied.
+    width - Specifies the width of the texture image. Must be 0 or 2n + 2xborder for some integer n. The height of the texture image is 1.
+    border - Specifies the width of the border. Must be either 0 or 1.
+*/
+func CopyTexImage1D(level int, internalFormat GLConstant, x, y, width, border int) {
+	C.glCopyTexImage1D(C.GL_TEXTURE_1D, C.GLint(level), C.GLenum(internalFormat), C.GLint(x), C.GLint(y), C.GLsizei(width), C.GLint(border))
 }
 
-func CopyTexImage2D() {
+/*
+Copy pixels into a 2D texture image.
 
+Parameters
+    level - Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.
+    internalFormat - Specifies the internal format of the texture. Must be one of the following symbolic constants: Alpha, Alpha4, Alpha8, Alpha12, Alpha16, Luminance, Luminance4, Luminance8, Luminance12, Luminance16, LuminanceAlpha, Luminance4Alpha4, Luminance6Alpha2, Luminance8Alpha8, Luminance12Alpha4, Luminance12Alpha12, Luminance16Alpha16, Intensity, Intensity4, Intensity8, Intensity12, Intensity16, Rgb, R3G3B2, Rgb4, Rgb5, Rgb8, Rgb10, Rgb12, Rgb16, Rgba, Rgba2, Rgba4, Rgb5A1, Rgba8, Rgb10A2, Rgba12, or Rgba16.
+    x, y - Specify the window coordinates of the left corner of the row of pixels to be copied.
+    width, height - Specifies the width and height of the texture image. Must be 0 or 2n + 2xborder for some integer n. The height of the texture image is 1.
+    border - Specifies the width of the border. Must be either 0 or 1.
+*/
+func CopyTexImage2D(level int, internalFormat GLConstant, x, y, width, height, border int) {
+	C.glCopyTexImage2D(C.GL_TEXTURE_2D, C.GLint(level), C.GLenum(internalFormat), C.GLint(x), C.GLint(y), C.GLsizei(width), C.GLsizei(height), C.GLint(border))
 }
 
-func CopyTexSubImage1D() {
+/*
+Copy a one-dimensional texture subimage.
 
+Parameters
+    level - Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.
+    xoffset - Specifies the texel offset within the texture array.
+    x, y - Specify the window coordinates of the left corner of the row of pixels to be copied.
+    width - Specifies the width of the texture subimage
+*/
+func CopyTexSubImage1D(level, xoffset, x, y, width int) {
+	C.glCopyTexSubImage1D(C.GL_TEXTURE_1D, C.GLint(level), C.GLint(xoffset), C.GLint(x), C.GLint(y), C.GLsizei(width))
 }
 
-func CopyTexSubImage2D() {
+/*
+Copy a two-dimensional texture subimage.
 
+Parameters
+    level - Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.
+    xoffset, yoffset - Specifies the texel offset within the texture array.
+    x, y - Specify the window coordinates of the left corner of the row of pixels to be copied.
+    width, height - Specifies the width and height of the texture subimage
+*/
+func CopyTexSubImage2D(level, xoffset, yoffset, x, y, width, height int) {
+	C.glCopyTexSubImage2D(C.GL_TEXTURE_2D, C.GLint(level), C.GLint(xoffset), C.GLint(yoffset), C.GLint(x), C.GLint(y), C.GLsizei(width), C.GLsizei(height))
 }
 
-func CullFace() {
+/*
+Specify whether front- or back-facing facets can be culled.
 
+Parameters
+    mode - Specifies whether front- or back-facing facets are candidates for culling. Symbolic constants Front, Back, and FrontAndBack are accepted. The initial value is Back.
+*/
+func CullFace(mode GLConstant) {
+	C.glCullFace(C.GLenum(mode))
 }
 
 /*
