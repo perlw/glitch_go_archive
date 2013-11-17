@@ -55,6 +55,25 @@ const (
 	DepthBufferBit   = C.GL_DEPTH_BUFFER_BIT
 	StencilBufferBit = C.GL_STENCIL_BUFFER_BIT
 
+	// ClipPlane
+	ClipPlane0    = C.GL_CLIP_PLANE0
+	ClipPlane1    = C.GL_CLIP_PLANE1
+	ClipPlane2    = C.GL_CLIP_PLANE2
+	ClipPlane3    = C.GL_CLIP_PLANE3
+	ClipPlane4    = C.GL_CLIP_PLANE4
+	ClipPlane5    = C.GL_CLIP_PLANE5
+	MaxClipPlanes = C.GL_MAX_CLIP_PLANES
+
+	// ColorMaterial
+	Front             = C.GL_FRONT
+	Back              = C.GL_BACK
+	FrontAndBack      = C.GL_FRONT_AND_BACK
+	Emission          = C.GL_EMISSION
+	Ambient           = C.GL_AMBIENT
+	Diffuse           = C.GL_DIFFUSE
+	Specular          = C.GL_SPECULAR
+	AmbientAndDiffuse = C.GL_AMBIENT_AND_DIFFUSE
+
 	// Enable
 	Blend = C.GL_BLEND
 	//ClipDistance                      = GL_CLIP_DISTANCE

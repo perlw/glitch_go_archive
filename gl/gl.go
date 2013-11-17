@@ -143,8 +143,20 @@ func CallList(list uint32) {
 	C.glCallList(C.GLuint(list))
 }
 
-func CallLists() {
+/*
+Execute a list of display lists.
 
+Parameters
+    lists - Specifies a slice of name offsets in the display list
+*/
+func CallLists(lists []uint32) error {
+	num, _, enum, ptr, err := sliceToGLData(lists)
+	if err != nil {
+		return err
+	}
+
+	C.glCallLists(num, enum, ptr)
+	return nil
 }
 
 /*
@@ -157,8 +169,14 @@ func Clear(mask GLConstant) {
 	C.glClear(C.GLbitfield(mask))
 }
 
-func ClearAccum() {
+/*
+Specify clear values for the accumulation buffer.
 
+Parameters
+    red, green, blue, alpha - Specify the red, green, blue, and alpha values used when the accumulation buffers are cleared. The initial values are all 0.
+*/
+func ClearAccum(red, green, blue, alpha float32) {
+	C.glClearAccum(C.GLfloat(red), C.GLfloat(green), C.GLfloat(blue), C.GLfloat(alpha))
 }
 
 /*
@@ -167,42 +185,150 @@ Specify clear values for the color buffers.
 Parameters
     red, green, blue, alpha - Specify the red, green, blue, and alpha values used when the color buffers are cleared. The initial values are all 0.
 */
-func ClearColor(r, g, b, a float32) {
-	C.glClearColor(C.GLclampf(r), C.GLclampf(g), C.GLclampf(b), C.GLclampf(a))
+func ClearColor(red, green, blue, alpha float32) {
+	C.glClearColor(C.GLclampf(red), C.GLclampf(green), C.GLclampf(blue), C.GLclampf(alpha))
 }
 
 /*
 Specify the clear value for the depth buffer.
 
 Parameters
-    depth Specifies the depth value used when the depth buffer is cleared. The initial value is 1.
+    depth - Specifies the depth value used when the depth buffer is cleared. The initial value is 1.
 */
 func ClearDepth(depth float32) {
 	C.glClearDepth(C.GLclampd(depth))
 }
 
-func ClearIndex() {
+/*
+Specify the clear value for the color index buffers.
 
+Parameters
+    c - Specifies the index used when the color index buffers are cleared. The initial value is 0.
+*/
+func ClearIndex(c float32) {
+	C.glClearIndex(C.GLfloat(c))
 }
 
-func ClearStencil() {
+/*
+Specify the clear value for the stencil buffer.
 
+Parameters
+    s - Specifies the index used when the stencil buffer is cleared. The initial value is 0.
+*/
+func ClearStencil(s int) {
+	C.glClearStencil(C.GLint(s))
 }
 
-func ClipPlane() {
+/*
+Specify a plane against which all geometry is clipped.
 
+Parameters
+    plane - Specifies which clipping plane is being positioned. Symbolic names of the form ClipPlanei, where i is an integer between 0 and MaxClipPlanes - 1, are accepted.
+    equation - Specifies a slice of floating-point values. These values are interpreted as a plane equation.
+*/
+func ClipPlane(plane GLConstant, equation []float64) {
+	C.glClipPlane(C.GLenum(plane), (*C.GLdouble)(&equation[0]))
 }
 
-func Color() {
+/*
+Set the current color.
 
+Parameters
+    red, green, blue - The red, green, and blue channels.
+*/
+func Color3b(red, green, blue byte) {
+	C.glColor3b(C.GLbyte(red), C.GLbyte(green), C.GLbyte(blue))
 }
 
-func ColorMask() {
+/*
+Set the current color.
 
+Parameters
+    red, green, blue - The red, green, and blue channels.
+*/
+func Color3d(red, green, blue float64) {
+	C.glColor3d(C.GLdouble(red), C.GLdouble(green), C.GLdouble(blue))
 }
 
-func ColorMaterial() {
+/*
+Set the current color.
 
+Parameters
+    red, green, blue - The red, green, and blue channels.
+*/
+func Color3f(red, green, blue float32) {
+	C.glColor3f(C.GLfloat(red), C.GLfloat(green), C.GLfloat(blue))
+}
+
+/*
+Set the current color.
+
+Parameters
+    red, green, blue - The red, green, and blue channels.
+*/
+func Color3i(red, green, blue int32) {
+	C.glColor3i(C.GLint(red), C.GLint(green), C.GLint(blue))
+}
+
+/*
+Set the current color.
+
+Parameters
+    red, green, blue - The red, green, and blue channels.
+*/
+func Color3s(red, green, blue int16) {
+	C.glColor3s(C.GLshort(red), C.GLshort(green), C.GLshort(blue))
+}
+
+/*
+Set the current color.
+
+Parameters
+    red, green, blue - The red, green, and blue channels.
+*/
+func Color3ub(red, green, blue uint8) {
+	C.glColor3ub(C.GLubyte(red), C.GLubyte(green), C.GLubyte(blue))
+}
+
+/*
+Set the current color.
+
+Parameters
+    red, green, blue - The red, green, and blue channels.
+*/
+func Color3ui(red, green, blue uint32) {
+	C.glColor3ui(C.GLuint(red), C.GLuint(green), C.GLuint(blue))
+}
+
+/*
+Set the current color.
+
+Parameters
+    red, green, blue - The red, green, and blue channels.
+*/
+func Color3us(red, green, blue uint16) {
+	C.glColor3us(C.GLushort(red), C.GLushort(green), C.GLushort(blue))
+}
+
+/*
+Enable and disable writing of frame buffer color components.
+
+Parameters
+    red, green, blue, alpha - Specify whether red, green, blue, and alpha can or cannot be written into the frame buffer. The initial values are all true, indicating that the color components can be written.
+*/
+func ColorMask(red, green, blue, alpha bool) {
+	C.glColorMask(boolToGLBool(red), boolToGLBool(green), boolToGLBool(blue), boolToGLBool(alpha))
+}
+
+/*
+Cause a material color to track the current color.
+
+Parameters
+    face - Specifies whether front, back, or both front and back material parameters should track the current color. Accepted values are Front, Back, and FrontAndBack. The initial value is FrontAndBack.
+    mode - Specifies which of several material parameters track the current color. Accepted values are Emission, Ambient, Diffuse, Specular, and AmbientAndDiffuse. The initial value is AmbientAndDiffuse.
+*/
+func ColorMaterial(face, mode GLConstant) {
+	C.glColorMaterial(C.GLenum(face), C.GLenum(mode))
 }
 
 func ColorPointer() {

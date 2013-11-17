@@ -81,3 +81,17 @@ func sliceToGLData(slice interface{}) (C.GLsizei, C.GLsizei, C.GLenum, unsafe.Po
 
 	return C.GLsizei(v.Len()), C.GLsizei(v.Len() * size), enum, unsafe.Pointer(v.Pointer()), nil
 }
+
+func boolToGLBool(value bool) C.GLboolean {
+	if value {
+		return C.GL_TRUE
+	}
+	return C.GL_FALSE
+}
+
+func glBoolToBool(value C.GLboolean) bool {
+	if value == C.GL_TRUE {
+		return true
+	}
+	return false
+}
