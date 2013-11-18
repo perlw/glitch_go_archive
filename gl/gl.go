@@ -16,121 +16,299 @@ func Init() {
 }
 
 /*
-Operate on the accumulation buffer.
+Select active texture unit
 
 Parameters
-    op - Specifies the accumulation buffer operation. Symbolic constants Accum, Load, Add, Mult, and Return are accepted.
-    value - Specifies a floating-point value used in the accumulation buffer operation. op determines how value is used.
+    texture - Specifies which texture unit to make active. The number of texture units is implementation dependent, but must be at least 48. texture must be one of TEXTUREi, where i ranges from 0 (MAX_COMBINED_TEXTURE_IMAGE_UNITS - 1). The initial value is TEXTURE0.
 */
-func Accum(op GLConstant, value float32) {
-	C.glAccum(C.GLenum(op), C.GLfloat(value))
+func ActiveTexture(texture GLenum) {
+	C.glActiveTexture(C.GLenum(texture))
 }
 
 /*
-Specify the alpha test function.
+Attaches a shader object to a program object
 
 Parameters
-    constFunc - Specifies the alpha comparison function. Symbolic constants Never, Less, Equal, LEqual, Greater, NotEqual, GEqual, and Always are accepted. The initial value is Always.
-    ref - Specifies the reference value that incoming alpha values are compared to. This value is clamped to the range 0 through 1, where 0 represents the lowest possible alpha value and 1 the highest possible value. The initial reference value is 0.
+    program - Specifies the program object to which a shader object will be attached.
+    shader - Specifies the shader object that is to be attached.
 */
-func AlphaFunc(constFunc GLConstant, ref float32) {
-	C.glAlphaFunc(C.GLenum(constFunc), C.GLclampf(ref))
+func AttachShader(program, shader uint32) {
+	C.glAttachShader(C.GLuint(program), C.GLuint(shader))
 }
 
 /*
-Determine if textures are loaded in texture memory.
+Start conditional rendering
 
 Parameters
-    textures - A slice of texture ids to be queried.
-
-Returns
-    A slice of bools representing if each texture is resident.
+    id - Specifies the name of an occlusion query object whose results are used to determine if the rendering commands are discarded.
+    mode - Specifies how BeginConditionalRender interprets the results of the occlusion query.
 */
-func AreTexturesResident(textures []uint32) ([]bool, error) {
-	size := len(textures)
-	if size == 0 {
-		return nil, errors.New("gl: Empty textures")
-	}
-	residences := make([]bool, size)
-
-	if ret := C.glAreTexturesResident(C.GLsizei(size), (*C.GLuint)(unsafe.Pointer(&textures[0])), (*C.GLboolean)(unsafe.Pointer(&residences[0]))); ret == C.GL_TRUE {
-		for t := range residences {
-			residences[t] = true
-		}
-	}
-	return residences, nil
+func BeginConditionalRender(id uint32, mode GLenum) {
+	C.glBeginConditionalRender(C.GLuint(id), C.GLenum(mode))
 }
 
 /*
-Render a vertex using the specified vertex array element.
+Delimit the boundaries of a query object
 
 Parameters
-    index - Specifies an index into the enabled vertex data arrays.
+    target - Specifies the target type of query object established between BeginQuery and the subsequent EndQuery. The symbolic constant must be one of SAMPLES_PASSED, ANY_SAMPLES_PASSED, PRIMITIVES_GENERATED, TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, or TIME_ELAPSED.
+    id - Specifies the name of a query object.
 */
-func ArrayElement(index int) {
-	C.glArrayElement(C.GLint(index))
+func BeginQuery(target GLenum, id uint32) {
+	C.glBeginQuery(C.GLenum(target), C.GLuint(id))
 }
 
 /*
-Delimit the vertices of a primitive or a group of like primitives.
+Start transform feedback operation
 
 Parameters
-    mode - Specifies the primitive or primitives that will be created from vertices presented between Begin and the subsequent End. Ten symbolic constants are accepted: Points, Lines, LineStrip, LineLoop, Triangles, TriangleStrip, TriangleFan, Quads, QuadStrip, and Polygon.
+    primitiveMode - Specify the output type of the primitives that will be recorded into the buffer objects that are bound for transform feedback.
 */
-func Begin(mode GLConstant) {
-	C.glBegin(C.GLenum(mode))
+func BeginTransformFeedback(primitiveMode GLenum) {
+	C.glBeginTransformFeedback(C.GLenum(primitiveMode))
 }
 
 /*
-Bind a named texture to a texture target.
+Associates a generic vertex attribute index with a named attribute variable
 
 Parameters
-    target - Specifies the target to which the texture is bound. Must be either Texture1D or Texture2D. Initially, both Texture1D and Texture2D are bound to texture 0.
+    program - Specifies the handle of the program object in which the association is to be made.
+    index - Specifies the index of the generic vertex attribute to be bound.
+    name - Specifies a string containing the name of the vertex shader attribute variable to which index is to be bound.
+*/
+func BindAttribLocation(program, index uint32, name string) {
+	cName := C.CString(name)
+	defer C.free(unsafe.Pointer(cName))
+	C.glBindAttribLocation(C.GLuint(program), C.GLuint(index), (*C.GLchar)(cName))
+}
+
+/*
+Bind a named buffer object
+
+Parameters
+    target - Specifies the target to which the buffer object is bound. The symbolic constant must be ARRAY_BUFFER, COPY_READ_BUFFER, COPY_WRITE_BUFFER, ELEMENT_ARRAY_BUFFER, PIXEL_PACK_BUFFER, PIXEL_UNPACK_BUFFER, TEXTURE_BUFFER, TRANSFORM_FEEDBACK_BUFFER, or UNIFORM_BUFFER.
+    buffer - Specifies the name of a buffer object.
+*/
+func BindBuffer(target GLenum, buffer uint32) {
+	C.glBindBuffer(C.GLenum(target), C.GLuint(buffer))
+}
+
+/*
+Bind a buffer object to an indexed buffer target
+
+Parameters
+    target - Specify the target of the bind operation. target must be either TRANSFORM_FEEDBACK_BUFFER or UNIFORM_BUFFER.
+    index - Specify the index of the binding point within the array specified by target.
+    buffer - The name of a buffer object to bind to the specified binding point.
+*/
+func BindBufferBase(target GLenum, index, buffer uint32) {
+	C.glBindBufferBase(C.GLenum(target), C.GLuint(index), C.GLuint(buffer))
+}
+
+/*
+Bind a range within a buffer object to an indexed buffer target
+
+Parameters
+    target - Specify the target of the bind operation. target must be either TRANSFORM_FEEDBACK_BUFFER or UNIFORM_BUFFER.
+    index - Specify the index of the binding point within the array specified by target.
+    buffer - The name of a buffer object to bind to the specified binding point.
+    offset - The starting offset in basic machine units into the buffer object buffer.
+    size - The amount of data in machine units that can be read from the buffet object while used as an indexed target.
+*/
+func BindBufferRange(target GLenum, index, buffer, offset, size uint32) {
+	C.glBindBufferRange(C.GLenum(target), C.GLuint(index), C.GLuint(buffer), C.GLintptr(offset), C.GLsizeiptr(size))
+}
+
+/*
+Bind a user-defined varying out variable to a fragment shader color number
+
+Parameters
+    program - The name of the program containing varying out variable whose binding to modify.
+    colorNumber - The color number to bind the user-defined varying out variable to.
+    name - The name of the user-defined varying out variable whose binding to modify.
+*/
+func BindFragDataLocation(program, colorNumber uint32, name string) {
+	cName := C.CString(name)
+	defer C.free(unsafe.Pointer(cName))
+	C.glBindFragDataLocation(C.GLuint(program), C.GLuint(colorNumber), (*C.GLchar)(cName))
+}
+
+/*
+Bind a user-defined varying out variable to a fragment shader color number and index
+
+Parameters
+    program - The name of the program containing varying out variable whose binding to modify.
+    colorNumber - The color number to bind the user-defined varying out variable to.
+    index - The index of the color input to bind the user-defined varying out variable to.
+    name - The name of the user-defined varying out variable whose binding to modify.
+*/
+func BindFragDataLocationIndexed(program, colorNumber, index uint32, name string) {
+	cName := C.CString(name)
+	defer C.free(unsafe.Pointer(cName))
+	C.glBindFragDataLocationIndexed(C.GLuint(program), C.GLuint(colorNumber), C.GLuint(index), cName)
+}
+
+/*
+Bind a framebuffer to a framebuffer target
+
+Parameters
+    target - Specifies the framebuffer target of the binding operation.
+    framebuffer - Specifies the name of the framebuffer object to bind.
+*/
+func BindFramebuffer(target GLenum, framebuffer uint32) {
+	C.glBindFramebuffer(C.GLenum(target), C.GLuint(framebuffer))
+}
+
+/*
+Bind a renderbuffer to a renderbuffer target
+
+Parameters
+    renderbuffer - Specifies the name of the renderbuffer object to bind.
+*/
+func BindRenderbuffer(renderbuffer uint32) {
+	C.glBindRenderbuffer(C.GL_RENDERBUFFER, C.GLuint(renderbuffer))
+}
+
+/*
+Bind a named sampler to a texturing target
+
+Parameters
+    unit - Specifies the index of the texture unit to which the sampler is bound.
+    sampler - Specifies the name of a sampler.
+*/
+func BindSampler(unit, sampler uint32) {
+	C.glBindSampler(C.GLuint(unit), C.GLuint(sampler))
+}
+
+/*
+Bind a named texture to a texturing target
+
+Parameters
+    target - Specifies the target to which the texture is bound. Must be either TEXTURE_1D, TEXTURE_2D, TEXTURE_3D, or TEXTURE_1D_ARRAY, TEXTURE_2D_ARRAY, TEXTURE_RECTANGLE, TEXTURE_CUBE_MAP, TEXTURE_BUFFER, TEXTURE_2D_MULTISAMPLE or TEXTURE_2D_MULTISAMPLE_ARRAY.
     texture - Specifies the name of a texture.
 */
-func BindTexture(target GLConstant, texture uint32) {
+func BindTexture(target GLenum, texture uint32) {
 	C.glBindTexture(C.GLenum(target), C.GLuint(texture))
 }
 
 /*
-Draw a bitmap.
+Bind a vertex array object
 
 Parameters
-    width, height - Specify the pixel width and height of the bitmap image.
-    xorig, yorig - Specify the location of the origin in the bitmap image. The origin is measured from the lower left corner of the bitmap, with right and up being the positive axes.
-    xmove, ymove - Specify the x and y offsets to be added to the current raster position after the bitmap is drawn.
-    bitmap - A slice of raw bitmap data.
+    array - Specifies the name of the vertex array to bind.
 */
-func Bitmap(width, height int, xorig, yorig, xmove, ymove float32, bitmap []byte) error {
-	size := len(bitmap)
-	if size == 0 {
-		return errors.New("gl: Empty bitmap")
-	}
-
-	C.glBitmap(C.GLsizei(width), C.GLsizei(height), C.GLfloat(xorig), C.GLfloat(yorig), C.GLfloat(xmove), C.GLfloat(ymove), (*C.GLubyte)(unsafe.Pointer(&bitmap[0])))
-
-	return nil
+func BindVertexArray(array uint32) {
+	C.glBindVertexArray(C.GLuint(array))
 }
 
 /*
-Set the blend color.
+Set the blend color
 
 Parameters
-    red, green, blue, alpha - Specify the components of BlendColorExt.
+    red, green, blue, alpha - Specify the components of BLEND_COLOR.
 */
-func BlendColorEXT(red, green, blue, alpha float32) {
-	C.glBlendColorEXT(C.GLclampf(red), C.GLclampf(green), C.GLclampf(blue), C.GLclampf(alpha))
+func BlendColor(red, green, blue, alpha float32) {
+	C.glBlendColor(C.GLclampf(red), C.GLclampf(green), C.GLclampf(blue), C.GLclampf(alpha))
+}
+
+/*
+Specify the equation used for both the RGB blend equation and the Alpha blend equation
+
+Parameters
+    mode - Specifies how source and destination colors are combined. It must be FUNC_ADD, FUNC_SUBTRACT, FUNC_REVERSE_SUBTRACT, MIN, MAX.
+*/
+func BlendEquation(mode GLenum) {
+	C.glBlendEquation(C.GLenum(mode))
+}
+
+/*
+Set the RGB blend equation and the alpha blend equation separately
+
+Parameters
+    modeRGB - Specifies the RGB blend equation, how the red, green, and blue components of the source and destination colors are combined. It must be FUNC_ADD, FUNC_SUBTRACT, FUNC_REVERSE_SUBTRACT, MIN, MAX.
+    modeAlpha - Specifies the alpha blend equation, how the alpha component of the source and destination colors are combined. It must be FUNC_ADD, FUNC_SUBTRACT, FUNC_REVERSE_SUBTRACT, MIN, MAX.
+*/
+func BlendEquationSeparate(modeRGB, modeAlpha GLenum) {
+	C.glBlendEquationSeparate(C.GLenum(modeRGB), C.GLenum(modeAlpha))
 }
 
 /*
 Specify pixel arithmetic.
 
 Parameters
-    sfactor - Specifies how the red, green, blue, and alpha source blending factors are computed. Nine symbolic constants are accepted: Zero, One, DstColor, OneMinusDstColor, SrcAlpha, OneMinusSrcAlpha, DstAlpha, OneMinusDstAlpha, and SrcAlphaSaturate. The initial value is One.
-    dfactor - Specifies how the red, green, blue, and alpha destination blending factors are computed. Eight symbolic constants are accepted: Zero, One, OneMinusDstColor, SrcAlpha, OneMinusSrcAlpha, DstAlpha, OneMinusDstAlpha, and SrcAlphaSaturate. The initial value is Zero.
+    sfactor - Specifies how the red, green, blue, and alpha source blending factors are computed. The initial value is ONE.
+    dfactor - Specifies how the red, green, blue, and alpha destination blending factors are computed. The following symbolic constants are accepted: ZERO, ONE, SRC_COLOR, ONE_MINUS_SRC_COLOR, DST_COLOR, ONE_MINUS_DST_COLOR, SRC_ALPHA, ONE_MINUS_SRC_ALPHA, DST_ALPHA, ONE_MINUS_DST_ALPHA. CONSTANT_COLOR, ONE_MINUS_CONSTANT_COLOR, CONSTANT_ALPHA, and ONE_MINUS_CONSTANT_ALPHA. The initial value is ZERO.
 */
-func BlendFunc(sfactor, dfactor GLConstant) {
+func BlendFunc(sfactor, dfactor GLenum) {
 	C.glBlendFunc(C.GLenum(sfactor), C.GLenum(dfactor))
+}
+
+/*
+Specify pixel arithmetic for RGB and alpha components separately
+
+Parameters
+    srcRGB - Specifies how the red, green, and blue blending factors are computed. The initial value is ONE.
+    dstRGB - Specifies how the red, green, and blue destination blending factors are computed. The initial value is ZERO.
+    srcAlpha - Specified how the alpha source blending factor is computed. The initial value is ONE.
+    dstAlpha - Specified how the alpha destination blending factor is computed. The initial value is ZERO.
+*/
+func BlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha GLenum) {
+	C.glBlendFuncSeparate(C.GLenum(srcRGB), C.GLenum(dstRGB), C.GLenum(srcAlpha), C.GLenum(dstAlpha))
+}
+
+/*
+Copy a block of pixels from the read framebuffer to the draw framebuffer
+
+Parameters
+    srcX0, srcY0, srcX1, srcY1 - Specify the bounds of the source rectangle within the read buffer of the read framebuffer.
+    dstX0, dstY0, dstX1, dstY1 - Specify the bounds of the destination rectangle within the write buffer of the write framebuffer.
+    mask - The bitwise OR of the flags indicating which buffers are to be copied. The allowed flags are COLOR_BUFFER_BIT, DEPTH_BUFFER_BIT and STENCIL_BUFFER_BIT.
+    filter - Specifies the interpolation to be applied if the image is stretched. Must be NEAREST or LINEAR.
+*/
+func BlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1 int, mask GLbitfield, filter GLenum) {
+	C.glBlitFramebuffer(C.GLint(srcX0), C.GLint(srcY0), C.GLint(srcX1), C.GLint(srcY1), C.GLint(dstX0), C.GLint(dstY0), C.GLint(dstX1), C.GLint(dstY1), C.GLbitfield(mask), C.GLenum(filter))
+}
+
+/*
+Creates and initializes a buffer object's data store
+
+Parameters
+    target - Specifies the target buffer object. The symbolic constant must be ARRAY_BUFFER, COPY_READ_BUFFER, COPY_WRITE_BUFFER, ELEMENT_ARRAY_BUFFER, PIXEL_PACK_BUFFER, PIXEL_UNPACK_BUFFER, TEXTURE_BUFFER, TRANSFORM_FEEDBACK_BUFFER, or UNIFORM_BUFFER.
+    data - Specifies a slice of the data that will be copied into the data store for initialization, or nil if not data is to be copied.
+    usage - Specifies the expected usage pattern of the data store. The symbolic constant must be STREAM_DRAW, STREAM_READ, STREAM_COPY, STATIC_DRAW, STATIC_READ, STATIC_COPY, DYNAMIC_DRAW, DYNAMIC_READ, or DYNAMIC_COPY.
+*/
+func BufferData(target GLenum, data interface{}, usage GLenum) error {
+	if data == nil {
+		C.glBufferData(C.GLenum(target), 0, nil, C.GLenum(usage))
+	} else {
+		_, size, _, ptr, err := sliceToGLData(data)
+		if err != nil {
+			return err
+		}
+
+		C.glBufferData(C.GLenum(target), C.GLsizeiptr(size), ptr, C.GLenum(usage))
+	}
+
+	return nil
+}
+
+/*
+Updates a subset of a buffer object's data store
+
+Parameters
+    target - Specifies the target buffer object. The symbolic constant must be ARRAY_BUFFER, COPY_READ_BUFFER, COPY_WRITE_BUFFER, ELEMENT_ARRAY_BUFFER, PIXEL_PACK_BUFFER, PIXEL_UNPACK_BUFFER, TEXTURE_BUFFER, TRANSFORM_FEEDBACK_BUFFER, or UNIFORM_BUFFER.
+    offset - Specifies the offset into the buffer object's data store where data replacement will begin, measured in bytes.
+    data - Specifies a slice to the new data that will be copied into the data store.
+*/
+func BufferSubData(target GLenum, offset int32, data interface{}) error {
+	_, size, _, ptr, err := sliceToGLData(data)
+	if err != nil {
+		return err
+	}
+
+	C.glBufferSubData(C.GLenum(target), C.GLintptr(offset), C.GLsizeiptr(size), ptr)
+
+	return nil
 }
 
 /*
