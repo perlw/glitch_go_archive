@@ -19,7 +19,7 @@ func Init() {
 Select active texture unit
 
 Parameters
-    texture - Specifies which texture unit to make active. The number of texture units is implementation dependent, but must be at least 48. texture must be one of TEXTUREi, where i ranges from 0 (MAX_COMBINED_TEXTURE_IMAGE_UNITS - 1). The initial value is TEXTURE0.
+    texture - Specifies which texture unit to make active. The number of texture units is implementation dependent, but must be at least 48. texture must be one of Texturei, where i ranges from 0 (MaxCombinedTextureImageUnits - 1). The initial value is Texture0.
 */
 func ActiveTexture(texture GLenum) {
 	C.glActiveTexture(C.GLenum(texture))
@@ -51,7 +51,7 @@ func BeginConditionalRender(id uint32, mode GLenum) {
 Delimit the boundaries of a query object
 
 Parameters
-    target - Specifies the target type of query object established between BeginQuery and the subsequent EndQuery. The symbolic constant must be one of SAMPLES_PASSED, ANY_SAMPLES_PASSED, PRIMITIVES_GENERATED, TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, or TIME_ELAPSED.
+    target - Specifies the target type of query object established between BeginQuery and the subsequent EndQuery. The symbolic constant must be one of SamplesPassed, AnySamplesPassed, PrimitivesGenerated, TransformFeedbackPrimitivesWritten, or TimeElapsed.
     id - Specifies the name of a query object.
 */
 func BeginQuery(target GLenum, id uint32) {
@@ -86,7 +86,7 @@ func BindAttribLocation(program, index uint32, name string) {
 Bind a named buffer object
 
 Parameters
-    target - Specifies the target to which the buffer object is bound. The symbolic constant must be ARRAY_BUFFER, COPY_READ_BUFFER, COPY_WRITE_BUFFER, ELEMENT_ARRAY_BUFFER, PIXEL_PACK_BUFFER, PIXEL_UNPACK_BUFFER, TEXTURE_BUFFER, TRANSFORM_FEEDBACK_BUFFER, or UNIFORM_BUFFER.
+    target - Specifies the target to which the buffer object is bound. The symbolic constant must be ArrayBuffer, CopyReadBuffer, CopyWriteBuffer, ElementArrayBuffer, PixelPackBuffer, PixelUnpackBuffer, TextureBuffer, TransformFeedbackBuffer,  or UniformBuffer.
     buffer - Specifies the name of a buffer object.
 */
 func BindBuffer(target GLenum, buffer uint32) {
@@ -97,7 +97,7 @@ func BindBuffer(target GLenum, buffer uint32) {
 Bind a buffer object to an indexed buffer target
 
 Parameters
-    target - Specify the target of the bind operation. target must be either TRANSFORM_FEEDBACK_BUFFER or UNIFORM_BUFFER.
+    target - Specify the target of the bind operation. target must be either TransformFeedbackBuffer or UniformBuffer.
     index - Specify the index of the binding point within the array specified by target.
     buffer - The name of a buffer object to bind to the specified binding point.
 */
@@ -109,7 +109,7 @@ func BindBufferBase(target GLenum, index, buffer uint32) {
 Bind a range within a buffer object to an indexed buffer target
 
 Parameters
-    target - Specify the target of the bind operation. target must be either TRANSFORM_FEEDBACK_BUFFER or UNIFORM_BUFFER.
+    target - Specify the target of the bind operation. target must be either TransformFeedbackBuffer or UniformBuffer.
     index - Specify the index of the binding point within the array specified by target.
     buffer - The name of a buffer object to bind to the specified binding point.
     offset - The starting offset in basic machine units into the buffer object buffer.
@@ -184,7 +184,7 @@ func BindSampler(unit, sampler uint32) {
 Bind a named texture to a texturing target
 
 Parameters
-    target - Specifies the target to which the texture is bound. Must be either TEXTURE_1D, TEXTURE_2D, TEXTURE_3D, or TEXTURE_1D_ARRAY, TEXTURE_2D_ARRAY, TEXTURE_RECTANGLE, TEXTURE_CUBE_MAP, TEXTURE_BUFFER, TEXTURE_2D_MULTISAMPLE or TEXTURE_2D_MULTISAMPLE_ARRAY.
+    target - Specifies the target to which the texture is bound. Must be either Texture1d, Texture2d, Texture3d, or Texture1dArray, Texture2dArray, TextureRectangle, TextureCubeMap, TextureBuffer, Texture2dMultisample or Texture2dMultisampleArray.
     texture - Specifies the name of a texture.
 */
 func BindTexture(target GLenum, texture uint32) {
@@ -215,7 +215,7 @@ func BlendColor(red, green, blue, alpha float32) {
 Specify the equation used for both the RGB blend equation and the Alpha blend equation
 
 Parameters
-    mode - Specifies how source and destination colors are combined. It must be FUNC_ADD, FUNC_SUBTRACT, FUNC_REVERSE_SUBTRACT, MIN, MAX.
+    mode - Specifies how source and destination colors are combined. It must be FuncAdd, FuncSubtract, FuncReverseSubtract, Min, Max.
 */
 func BlendEquation(mode GLenum) {
 	C.glBlendEquation(C.GLenum(mode))
@@ -225,8 +225,8 @@ func BlendEquation(mode GLenum) {
 Set the RGB blend equation and the alpha blend equation separately
 
 Parameters
-    modeRGB - Specifies the RGB blend equation, how the red, green, and blue components of the source and destination colors are combined. It must be FUNC_ADD, FUNC_SUBTRACT, FUNC_REVERSE_SUBTRACT, MIN, MAX.
-    modeAlpha - Specifies the alpha blend equation, how the alpha component of the source and destination colors are combined. It must be FUNC_ADD, FUNC_SUBTRACT, FUNC_REVERSE_SUBTRACT, MIN, MAX.
+    modeRGB - Specifies the RGB blend equation, how the red, green, and blue components of the source and destination colors are combined. It must be FuncAdd, FuncSubtract, FuncReverseSubtract, Min, Max.
+    modeAlpha - Specifies the alpha blend equation, how the alpha component of the source and destination colors are combined. It must be FuncAdd, FuncSubtract, FuncReverseSubtract, Min, Max.
 */
 func BlendEquationSeparate(modeRGB, modeAlpha GLenum) {
 	C.glBlendEquationSeparate(C.GLenum(modeRGB), C.GLenum(modeAlpha))
@@ -236,8 +236,8 @@ func BlendEquationSeparate(modeRGB, modeAlpha GLenum) {
 Specify pixel arithmetic.
 
 Parameters
-    sfactor - Specifies how the red, green, blue, and alpha source blending factors are computed. The initial value is ONE.
-    dfactor - Specifies how the red, green, blue, and alpha destination blending factors are computed. The following symbolic constants are accepted: ZERO, ONE, SRC_COLOR, ONE_MINUS_SRC_COLOR, DST_COLOR, ONE_MINUS_DST_COLOR, SRC_ALPHA, ONE_MINUS_SRC_ALPHA, DST_ALPHA, ONE_MINUS_DST_ALPHA. CONSTANT_COLOR, ONE_MINUS_CONSTANT_COLOR, CONSTANT_ALPHA, and ONE_MINUS_CONSTANT_ALPHA. The initial value is ZERO.
+    sfactor - Specifies how the red, green, blue, and alpha source blending factors are computed. The initial value is One.
+    dfactor - Specifies how the red, green, blue, and alpha destination blending factors are computed. The following symbolic constants are accepted: Zero, One, SrcColor, OneMinusSrcColor, DstColor, OneMinusDstColor, SrcAlpha, OneMinusSrcAlpha, DstAlpha, OneMinusDstAlphaConstantColor, OneMinusConstantColor, ConstantAlpha, and OneMinusConstantAlpha. The initial value is Zero.
 */
 func BlendFunc(sfactor, dfactor GLenum) {
 	C.glBlendFunc(C.GLenum(sfactor), C.GLenum(dfactor))
@@ -247,10 +247,10 @@ func BlendFunc(sfactor, dfactor GLenum) {
 Specify pixel arithmetic for RGB and alpha components separately
 
 Parameters
-    srcRGB - Specifies how the red, green, and blue blending factors are computed. The initial value is ONE.
-    dstRGB - Specifies how the red, green, and blue destination blending factors are computed. The initial value is ZERO.
-    srcAlpha - Specified how the alpha source blending factor is computed. The initial value is ONE.
-    dstAlpha - Specified how the alpha destination blending factor is computed. The initial value is ZERO.
+    srcRGB - Specifies how the red, green, and blue blending factors are computed. The initial value is One.
+    dstRGB - Specifies how the red, green, and blue destination blending factors are computed. The initial value is Zero.
+    srcAlpha - Specified how the alpha source blending factor is computed. The initial value is One.
+    dstAlpha - Specified how the alpha destination blending factor is computed. The initial value is Zero.
 */
 func BlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha GLenum) {
 	C.glBlendFuncSeparate(C.GLenum(srcRGB), C.GLenum(dstRGB), C.GLenum(srcAlpha), C.GLenum(dstAlpha))
@@ -262,8 +262,8 @@ Copy a block of pixels from the read framebuffer to the draw framebuffer
 Parameters
     srcX0, srcY0, srcX1, srcY1 - Specify the bounds of the source rectangle within the read buffer of the read framebuffer.
     dstX0, dstY0, dstX1, dstY1 - Specify the bounds of the destination rectangle within the write buffer of the write framebuffer.
-    mask - The bitwise OR of the flags indicating which buffers are to be copied. The allowed flags are COLOR_BUFFER_BIT, DEPTH_BUFFER_BIT and STENCIL_BUFFER_BIT.
-    filter - Specifies the interpolation to be applied if the image is stretched. Must be NEAREST or LINEAR.
+    mask - The bitwise OR of the flags indicating which buffers are to be copied. The allowed flags are ColorBufferBit, DepthBufferBit and StencilBufferBit.
+    filter - Specifies the interpolation to be applied if the image is stretched. Must be Nearest or Linear.
 */
 func BlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1 int, mask GLbitfield, filter GLenum) {
 	C.glBlitFramebuffer(C.GLint(srcX0), C.GLint(srcY0), C.GLint(srcX1), C.GLint(srcY1), C.GLint(dstX0), C.GLint(dstY0), C.GLint(dstX1), C.GLint(dstY1), C.GLbitfield(mask), C.GLenum(filter))
@@ -273,9 +273,9 @@ func BlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1 int,
 Creates and initializes a buffer object's data store
 
 Parameters
-    target - Specifies the target buffer object. The symbolic constant must be ARRAY_BUFFER, COPY_READ_BUFFER, COPY_WRITE_BUFFER, ELEMENT_ARRAY_BUFFER, PIXEL_PACK_BUFFER, PIXEL_UNPACK_BUFFER, TEXTURE_BUFFER, TRANSFORM_FEEDBACK_BUFFER, or UNIFORM_BUFFER.
+    target - Specifies the target buffer object. The symbolic constant must be ArrayBuffer, CopyReadBuffer, CopyWriteBuffer, ElementArrayBuffer, PixelPackBuffer, PixelUnpackBuffer, TextureBuffer, TransformFeedbackBuffer, or UniformBuffer.
     data - Specifies a slice of the data that will be copied into the data store for initialization, or nil if not data is to be copied.
-    usage - Specifies the expected usage pattern of the data store. The symbolic constant must be STREAM_DRAW, STREAM_READ, STREAM_COPY, STATIC_DRAW, STATIC_READ, STATIC_COPY, DYNAMIC_DRAW, DYNAMIC_READ, or DYNAMIC_COPY.
+    usage - Specifies the expected usage pattern of the data store. The symbolic constant must be StreamDraw, StreamRead, StreamCopy, StaticDraw, StaticRead, StaticCopy, DynamicDraw, DynamicRead, or DynamicCopy.
 */
 func BufferData(target GLenum, data interface{}, usage GLenum) error {
 	if data == nil {
@@ -296,7 +296,7 @@ func BufferData(target GLenum, data interface{}, usage GLenum) error {
 Updates a subset of a buffer object's data store
 
 Parameters
-    target - Specifies the target buffer object. The symbolic constant must be ARRAY_BUFFER, COPY_READ_BUFFER, COPY_WRITE_BUFFER, ELEMENT_ARRAY_BUFFER, PIXEL_PACK_BUFFER, PIXEL_UNPACK_BUFFER, TEXTURE_BUFFER, TRANSFORM_FEEDBACK_BUFFER, or UNIFORM_BUFFER.
+    target - Specifies the target buffer object. The symbolic constant must be ArrayBuffer, CopyReadBuffer, CopyWriteBuffer, ElementArrayBuffer, PixelPackBuffer, PixelUnpackBuffer, TextureBuffer, TransformFeedbackBuffer, or UniformBuffer.
     offset - Specifies the offset into the buffer object's data store where data replacement will begin, measured in bytes.
     data - Specifies a slice to the new data that will be copied into the data store.
 */

@@ -7,157 +7,147 @@ type GLenum int
 
 const (
 	// ActiveTexture
-	TEXTURE0  GLenum = C.GL_TEXTURE0
-	TEXTURE1         = C.GL_TEXTURE1
-	TEXTURE2         = C.GL_TEXTURE2
-	TEXTURE3         = C.GL_TEXTURE3
-	TEXTURE4         = C.GL_TEXTURE4
-	TEXTURE5         = C.GL_TEXTURE5
-	TEXTURE6         = C.GL_TEXTURE6
-	TEXTURE7         = C.GL_TEXTURE7
-	TEXTURE8         = C.GL_TEXTURE8
-	TEXTURE9         = C.GL_TEXTURE9
-	TEXTURE10        = C.GL_TEXTURE10
-	TEXTURE11        = C.GL_TEXTURE11
-	TEXTURE12        = C.GL_TEXTURE12
-	TEXTURE13        = C.GL_TEXTURE13
-	TEXTURE14        = C.GL_TEXTURE14
-	TEXTURE15        = C.GL_TEXTURE15
-	TEXTURE16        = C.GL_TEXTURE16
-	TEXTURE17        = C.GL_TEXTURE17
-	TEXTURE18        = C.GL_TEXTURE18
-	TEXTURE19        = C.GL_TEXTURE19
-	TEXTURE20        = C.GL_TEXTURE20
-	TEXTURE21        = C.GL_TEXTURE21
-	TEXTURE22        = C.GL_TEXTURE22
-	TEXTURE23        = C.GL_TEXTURE23
-	TEXTURE24        = C.GL_TEXTURE24
-	TEXTURE25        = C.GL_TEXTURE25
-	TEXTURE26        = C.GL_TEXTURE26
-	TEXTURE27        = C.GL_TEXTURE27
-	TEXTURE28        = C.GL_TEXTURE28
-	TEXTURE29        = C.GL_TEXTURE29
-	TEXTURE30        = C.GL_TEXTURE30
-	TEXTURE31        = C.GL_TEXTURE31
+	Texture0                     GLenum = C.GL_TEXTURE0
+	Texture1                            = C.GL_TEXTURE1
+	Texture2                            = C.GL_TEXTURE2
+	Texture3                            = C.GL_TEXTURE3
+	Texture4                            = C.GL_TEXTURE4
+	Texture5                            = C.GL_TEXTURE5
+	Texture6                            = C.GL_TEXTURE6
+	Texture7                            = C.GL_TEXTURE7
+	Texture8                            = C.GL_TEXTURE8
+	Texture9                            = C.GL_TEXTURE9
+	Texture10                           = C.GL_TEXTURE10
+	Texture11                           = C.GL_TEXTURE11
+	Texture12                           = C.GL_TEXTURE12
+	Texture13                           = C.GL_TEXTURE13
+	Texture14                           = C.GL_TEXTURE14
+	Texture15                           = C.GL_TEXTURE15
+	Texture16                           = C.GL_TEXTURE16
+	Texture17                           = C.GL_TEXTURE17
+	Texture18                           = C.GL_TEXTURE18
+	Texture19                           = C.GL_TEXTURE19
+	Texture20                           = C.GL_TEXTURE20
+	Texture21                           = C.GL_TEXTURE21
+	Texture22                           = C.GL_TEXTURE22
+	Texture23                           = C.GL_TEXTURE23
+	Texture24                           = C.GL_TEXTURE24
+	Texture25                           = C.GL_TEXTURE25
+	Texture26                           = C.GL_TEXTURE26
+	Texture27                           = C.GL_TEXTURE27
+	Texture28                           = C.GL_TEXTURE28
+	Texture29                           = C.GL_TEXTURE29
+	Texture30                           = C.GL_TEXTURE30
+	Texture31                           = C.GL_TEXTURE31
+	MaxCombinedTextureImageUnits        = C.GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS
 
 	// BeginConditionalRender
-	QUERY_BY_REGION_WAIT    = C.GL_QUERY_BY_REGION_WAIT
-	QUERY_BY_REGION_NO_WAIT = C.GL_QUERY_BY_REGION_NO_WAIT
+	QueryByRegionWait   = C.GL_QUERY_BY_REGION_WAIT
+	QueryByRegionNoWait = C.GL_QUERY_BY_REGION_NO_WAIT
 
 	// BeginQuery
-	SAMPLES_PASSED                        = C.GL_SAMPLES_PASSED
-	ANY_SAMPLES_PASSED                    = C.GL_ANY_SAMPLES_PASSED
-	PRIMITICES_GENERATED                  = C.GL_PRIMITIVES_GENERATED
-	TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN = C.GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN
-	TIME_ELAPSED                          = C.GL_TIME_ELAPSED
+	SamplesPassed                      = C.GL_SAMPLES_PASSED
+	AnySamplesPassed                   = C.GL_ANY_SAMPLES_PASSED
+	PrimiticesGenerated                = C.GL_PRIMITIVES_GENERATED
+	TransformFeedbackPrimitivesWritten = C.GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN
+	TimeElapsed                        = C.GL_TIME_ELAPSED
 
 	// BeginTransformFeedback
-	POINTS                   = C.GL_POINTS
-	LINES                    = C.GL_LINES
-	LINE_LOOP                = C.GL_LINE_LOOP
-	LINE_STRIP               = C.GL_LINE_STRIP
-	LINES_ADJACENCY          = C.GL_LINES_ADJACENCY
-	LINE_STRIP_ADJACENCY     = C.GL_LINE_STRIP_ADJACENCY
-	TRIANGLES                = C.GL_TRIANGLES
-	TRIANGLE_STRIP           = C.GL_TRIANGLE_STRIP
-	TRIANGLE_FAN             = C.GL_TRIANGLE_FAN
-	TRIANGLES_ADJACENCY      = C.GL_TRIANGLES_ADJACENCY
-	TRIANGLE_STRIP_ADJACENCY = C.GL_TRIANGLE_STRIP_ADJACENCY
+	Points                 = C.GL_POINTS
+	Lines                  = C.GL_LINES
+	LineLoop               = C.GL_LINE_LOOP
+	LineStrip              = C.GL_LINE_STRIP
+	LinesAdjacency         = C.GL_LINES_ADJACENCY
+	LineStripAdjacency     = C.GL_LINE_STRIP_ADJACENCY
+	Triangles              = C.GL_TRIANGLES
+	TriangleStrip          = C.GL_TRIANGLE_STRIP
+	TriangleFan            = C.GL_TRIANGLE_FAN
+	TrianglesAdjacency     = C.GL_TRIANGLES_ADJACENCY
+	TriangleStripAdjacency = C.GL_TRIANGLE_STRIP_ADJACENCY
 
 	// BindBuffer, BufferData
-	ARRAY_BUFFER         = C.GL_ARRAY_BUFFER
-	COPY_READ_BUFFER     = C.GL_COPY_READ_BUFFER
-	COPY_WRITE_BUFFER    = C.GL_COPY_WRITE_BUFFER
-	ELEMENT_ARRAY_BUFFER = C.GL_ELEMENT_ARRAY_BUFFER
-	PIXEL_PACK_BUFFER    = C.GL_PIXEL_PACK_BUFFER
-	PIXEL_UNPACK_BUFFER  = C.GL_PIXEL_UNPACK_BUFFER
+	ArrayBuffer        = C.GL_ARRAY_BUFFER
+	CopyReadBuffer     = C.GL_COPY_READ_BUFFER
+	CopyWriteBuffer    = C.GL_COPY_WRITE_BUFFER
+	ElementArrayBuffer = C.GL_ELEMENT_ARRAY_BUFFER
+	PixelPackBuffer    = C.GL_PIXEL_PACK_BUFFER
+	PixelUnpackBuffer  = C.GL_PIXEL_UNPACK_BUFFER
 	// BindBufferBase, BindBufferRange
-	TRANSFORM_FEEDBACK_BUFFER = C.GL_TRANSFORM_FEEDBACK_BUFFER
-	UNIFORM_BUFFER            = C.GL_UNIFORM_BUFFER
+	TransformFeedbackBuffer = C.GL_TRANSFORM_FEEDBACK_BUFFER
+	UniformBuffer           = C.GL_UNIFORM_BUFFER
 
 	// BindFramebuffer
-	DRAW_FRAMEBUFFER = C.GL_DRAW_FRAMEBUFFER
-	READ_FRAMEBUFFER = C.GL_READ_FRAMEBUFFER
-	FRAMEBUFFER      = C.GL_FRAMEBUFFER
+	DrawFramebuffer = C.GL_DRAW_FRAMEBUFFER
+	ReadFramebuffer = C.GL_READ_FRAMEBUFFER
+	Framebuffer     = C.GL_FRAMEBUFFER
 
 	// BindTexture
-	TEXTURE_1D                   = C.GL_TEXTURE_1D
-	TEXTURE_2D                   = C.GL_TEXTURE_2D
-	TEXTURE_3D                   = C.GL_TEXTURE_3D
-	TEXTURE_1D_ARRAY             = C.GL_TEXTURE_1D_ARRAY
-	TEXTURE_2D_ARRAY             = C.GL_TEXTURE_2D_ARRAY
-	TEXTURE_RECTANGLE            = C.GL_TEXTURE_RECTANGLE
-	TEXTURE_CUBE_MAP             = C.GL_TEXTURE_CUBE_MAP
-	TEXTURE_BUFFER               = C.GL_TEXTURE_BUFFER
-	TEXTURE_2D_MULTISAMPLE       = C.GL_TEXTURE_2D_MULTISAMPLE
-	TEXTURE_2D_MULTISAMPLE_ARRAY = C.GL_TEXTURE_2D_MULTISAMPLE_ARRAY
+	Texture1d                 = C.GL_TEXTURE_1D
+	Texture2d                 = C.GL_TEXTURE_2D
+	Texture3d                 = C.GL_TEXTURE_3D
+	Texture1dArray            = C.GL_TEXTURE_1D_ARRAY
+	Texture2dArray            = C.GL_TEXTURE_2D_ARRAY
+	TextureRectangle          = C.GL_TEXTURE_RECTANGLE
+	TextureCubeMap            = C.GL_TEXTURE_CUBE_MAP
+	TextureBuffer             = C.GL_TEXTURE_BUFFER
+	Texture2dMultisample      = C.GL_TEXTURE_2D_MULTISAMPLE
+	Texture2dMultisampleArray = C.GL_TEXTURE_2D_MULTISAMPLE_ARRAY
 
 	// BlendEquation, BlendEquationSeparate
-	FUNC_ADD              = C.GL_FUNC_ADD
-	FUNC_SUBTRACT         = C.GL_FUNC_SUBTRACT
-	FUNC_REVERSE_SUBTRACT = C.GL_FUNC_REVERSE_SUBTRACT
-	MIN                   = C.GL_MIN
-	MAX                   = C.GL_MAX
+	FuncAdd             = C.GL_FUNC_ADD
+	FuncSubtract        = C.GL_FUNC_SUBTRACT
+	FuncReverseSubtract = C.GL_FUNC_REVERSE_SUBTRACT
+	Min                 = C.GL_MIN
+	Max                 = C.GL_MAX
 
 	// BlendFunc
-	ZERO                     = C.GL_ZERO
-	ONE                      = C.GL_ONE
-	SRC_COLOR                = C.GL_SRC_COLOR
-	ONE_MINUS_SRC_COLOR      = C.GL_ONE_MINUS_SRC_COLOR
-	DST_COLOR                = C.GL_DST_COLOR
-	ONE_MINUS_DST_COLOR      = C.GL_ONE_MINUS_DST_COLOR
-	SRC_ALPHA                = C.GL_SRC_ALPHA
-	ONE_MINUS_SRC_ALPHA      = C.GL_ONE_MINUS_SRC_ALPHA
-	DST_ALPHA                = C.GL_DST_ALPHA
-	ONE_MINUS_DST_ALPHA      = C.GL_ONE_MINUS_DST_ALPHA
-	CONSTANT_COLOR           = C.GL_CONSTANT_COLOR
-	ONE_MINUS_CONSTANT_COLOR = C.GL_ONE_MINUS_CONSTANT_COLOR
-	CONSTANT_ALPHA           = C.GL_CONSTANT_ALPHA
-	ONE_MINUS_CONSTANT_ALPHA = C.GL_ONE_MINUS_CONSTANT_ALPHA
-	SRC_ALPHA_SATURATE       = C.GL_SRC_ALPHA_SATURATE
-	SRC1_COLOR               = C.GL_SRC1_COLOR
-	ONE_MINUS_SRC1_COLOR     = C.GL_ONE_MINUS_SRC1_COLOR
-	SRC1_ALPHA               = C.GL_SRC1_ALPHA
-	ONE_MINUS_SRC1_ALPHA     = C.GL_ONE_MINUS_SRC1_ALPHA
+	Zero                  = C.GL_ZERO
+	One                   = C.GL_ONE
+	SrcColor              = C.GL_SRC_COLOR
+	OneMinusSrcColor      = C.GL_ONE_MINUS_SRC_COLOR
+	DstColor              = C.GL_DST_COLOR
+	OneMinusDstColor      = C.GL_ONE_MINUS_DST_COLOR
+	SrcAlpha              = C.GL_SRC_ALPHA
+	OneMinusSrcAlpha      = C.GL_ONE_MINUS_SRC_ALPHA
+	DstAlpha              = C.GL_DST_ALPHA
+	OneMinusDstAlpha      = C.GL_ONE_MINUS_DST_ALPHA
+	ConstantColor         = C.GL_CONSTANT_COLOR
+	OneMinusConstantColor = C.GL_ONE_MINUS_CONSTANT_COLOR
+	ConstantAlpha         = C.GL_CONSTANT_ALPHA
+	OneMinusConstantAlpha = C.GL_ONE_MINUS_CONSTANT_ALPHA
+	SrcAlphaSaturate      = C.GL_SRC_ALPHA_SATURATE
+	Src1Color             = C.GL_SRC1_COLOR
+	OneMinusSrc1Color     = C.GL_ONE_MINUS_SRC1_COLOR
+	Src1Alpha             = C.GL_SRC1_ALPHA
+	OneMinusSrc1Alpha     = C.GL_ONE_MINUS_SRC1_ALPHA
 
 	// BlitFramebuffer
-	NEAREST = C.GL_NEAREST
-	LINEAR  = C.GL_LINEAR
+	Nearest = C.GL_NEAREST
+	Linear  = C.GL_LINEAR
 
 	// BufferData
-	STREAM_DRAW  = C.GL_STREAM_DRAW
-	STREAM_READ  = C.GL_STREAM_READ
-	STREAM_COPY  = C.GL_STREAM_COPY
-	STATIC_DRAW  = C.GL_STATIC_DRAW
-	STATIC_READ  = C.GL_STATIC_READ
-	STATIC_COPY  = C.GL_STATIC_COPY
-	DYNAMIC_DRAW = C.GL_DYNAMIC_DRAW
-	DYNAMIC_READ = C.GL_DYNAMIC_READ
-	DYNAMIC_COPY = C.GL_DYNAMIC_COPY
+	StreamDraw  = C.GL_STREAM_DRAW
+	StreamRead  = C.GL_STREAM_READ
+	StreamCopy  = C.GL_STREAM_COPY
+	StaticDraw  = C.GL_STATIC_DRAW
+	StaticRead  = C.GL_STATIC_READ
+	StaticCopy  = C.GL_STATIC_COPY
+	DynamicDraw = C.GL_DYNAMIC_DRAW
+	DynamicRead = C.GL_DYNAMIC_READ
+	DynamicCopy = C.GL_DYNAMIC_COPY
 )
 
 type GLbitfield int
 
 const (
-	COLOR_BUFFER_BIT   GLbitfield = C.GL_COLOR_BUFFER_BIT
-	DEPTH_BUFFER_BIT              = C.GL_DEPTH_BUFFER_BIT
-	STENCIL_BUFFER_BIT            = C.GL_STENCIL_BUFFER_BIT
+	ColorBufferBit   GLbitfield = C.GL_COLOR_BUFFER_BIT
+	DepthBufferBit              = C.GL_DEPTH_BUFFER_BIT
+	StencilBufferBit            = C.GL_STENCIL_BUFFER_BIT
 )
 
 type GLConstant int
 
 const (
-	// BlendFunc
-	Zero             = C.GL_ZERO
-	One              = C.GL_ONE
-	DstColor         = C.GL_DST_COLOR
-	OneMinusDstColor = C.GL_ONE_MINUS_DST_COLOR
-	SrcAlpha         = C.GL_SRC_ALPHA
-	OneMinusSrcAlpha = C.GL_ONE_MINUS_SRC_ALPHA
-	DstAlpha         = C.GL_DST_ALPHA
-	OneMinusDstAlpha = C.GL_ONE_MINUS_DST_ALPHA
-	SrcAlphaSaturate = C.GL_SRC_ALPHA_SATURATE
-
 	// DepthFunc, AlphaFunc
 	Never    = C.GL_NEVER
 	Less     = C.GL_LESS
@@ -167,11 +157,6 @@ const (
 	NotEqual = C.GL_NOTEQUAL
 	GEqual   = C.GL_EQUAL
 	Always   = C.GL_ALWAYS
-
-	// Clear
-	ColorBufferBit   = C.GL_COLOR_BUFFER_BIT
-	DepthBufferBit   = C.GL_DEPTH_BUFFER_BIT
-	StencilBufferBit = C.GL_STENCIL_BUFFER_BIT
 
 	// ClipPlane
 	ClipPlane0    = C.GL_CLIP_PLANE0
