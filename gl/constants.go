@@ -81,10 +81,13 @@ const (
 	ReadFramebuffer = C.GL_READ_FRAMEBUFFER
 	Framebuffer     = C.GL_FRAMEBUFFER
 
-	// BindTexture
+	// BindTexture, CompressedTexImage
 	Texture1d                 = C.GL_TEXTURE_1D
 	Texture2d                 = C.GL_TEXTURE_2D
 	Texture3d                 = C.GL_TEXTURE_3D
+	ProxyTexture1d            = C.GL_PROXY_TEXTURE_1D
+	ProxyTexture2d            = C.GL_PROXY_TEXTURE_2D
+	ProxyTexture3d            = C.GL_PROXY_TEXTURE_3D
 	Texture1dArray            = C.GL_TEXTURE_1D_ARRAY
 	Texture2dArray            = C.GL_TEXTURE_2D_ARRAY
 	TextureRectangle          = C.GL_TEXTURE_RECTANGLE
@@ -92,6 +95,15 @@ const (
 	TextureBuffer             = C.GL_TEXTURE_BUFFER
 	Texture2dMultisample      = C.GL_TEXTURE_2D_MULTISAMPLE
 	Texture2dMultisampleArray = C.GL_TEXTURE_2D_MULTISAMPLE_ARRAY
+	ProxyTexture1dArray       = C.GL_PROXY_TEXTURE_1D_ARRAY
+	ProxyTexture2dArray       = C.GL_PROXY_TEXTURE_2D_ARRAY
+	TextureCubeMapPositiveX   = C.GL_TEXTURE_CUBE_MAP_POSITIVE_X
+	TextureCubeMapNegativeX   = C.GL_TEXTURE_CUBE_MAP_NEGATIVE_X
+	TextureCubeMapPositiveY   = C.GL_TEXTURE_CUBE_MAP_POSITIVE_Y
+	TextureCubeMapNegativeY   = C.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y
+	TextureCubeMapPositiveZ   = C.GL_TEXTURE_CUBE_MAP_POSITIVE_Z
+	TextureCubeMapNegativeZ   = C.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
+	ProxyTextureCubeMap       = C.GL_PROXY_TEXTURE_CUBE_MAP
 
 	// BlendEquation, BlendEquationSeparate
 	FuncAdd             = C.GL_FUNC_ADD
@@ -135,6 +147,60 @@ const (
 	DynamicDraw = C.GL_DYNAMIC_DRAW
 	DynamicRead = C.GL_DYNAMIC_READ
 	DynamicCopy = C.GL_DYNAMIC_COPY
+
+	// CheckFramebufferStatus
+	FramebufferUndefined                   = C.GL_FRAMEBUFFER_UNDEFINED
+	FramebufferIncompleteAttachment        = C.GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT
+	FramebufferIncompleteMissingAttachment = C.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT
+	FramebufferIncompleteDrawBuffer        = C.GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER
+	FramebufferIncompleteReadBuffer        = C.GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER
+	FramebufferUnsupported                 = C.GL_FRAMEBUFFER_UNSUPPORTED
+	FramebufferIncompleteMultisample       = C.GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE
+	FramebufferIncompleteLayerTargets      = C.GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS
+
+	// CopyTexImage
+	CompressedRed       = C.GL_COMPRESSED_RED
+	CompressedRg        = C.GL_COMPRESSED_RG
+	CompressedRgb       = C.GL_COMPRESSED_RGB
+	CompressedRgba      = C.GL_COMPRESSED_RGBA
+	CompressedSrgb      = C.GL_COMPRESSED_SRGB
+	CompressedSrgbAlpha = C.GL_COMPRESSED_SRGB_ALPHA
+	DepthComponent      = C.GL_DEPTH_COMPONENT
+	DepthComponent16    = C.GL_DEPTH_COMPONENT16
+	DepthComponent24    = C.GL_DEPTH_COMPONENT24
+	DepthComponent32    = C.GL_DEPTH_COMPONENT32
+	Red                 = C.GL_RED
+	Rg                  = C.GL_RG
+	Rgb                 = C.GL_RGB
+	R3G3B2              = C.GL_R3_G3_B2
+	Rgb4                = C.GL_RGB4
+	Rgb5                = C.GL_RGB5
+	Rgb8                = C.GL_RGB8
+	Rgb10               = C.GL_RGB10
+	Rgb12               = C.GL_RGB12
+	Rgb16               = C.GL_RGB16
+	Rgba                = C.GL_RGBA
+	Rgba2               = C.GL_RGBA2
+	Rgba4               = C.GL_RGBA4
+	Rgb5A1              = C.GL_RGB5_A1
+	Rgba8               = C.GL_RGBA8
+	Rgb10A2             = C.GL_RGB10_A2
+	Rgba12              = C.GL_RGBA12
+	Rgba16              = C.GL_RGBA16
+	Srgb                = C.GL_SRGB
+	Srgb8               = C.GL_SRGB8
+	SrgbAlpha           = C.GL_SRGB_ALPHA
+	Srgb8Alpha8         = C.GL_SRGB8_ALPHA8
+
+	// CreateShader
+	VertexShader   = C.GL_VERTEX_SHADER
+	GeometryShader = C.GL_GEOMETRY_SHADER
+	FragmentShader = C.GL_FRAGMENT_SHADER
+
+	// CullFace
+	Front        = C.GL_FRONT
+	Back         = C.GL_BACK
+	FrontAndBack = C.GL_FRONT_AND_BACK
 )
 
 type GLbitfield int
@@ -166,61 +232,6 @@ const (
 	ClipPlane4    = C.GL_CLIP_PLANE4
 	ClipPlane5    = C.GL_CLIP_PLANE5
 	MaxClipPlanes = C.GL_MAX_CLIP_PLANES
-
-	// ColorMaterial, CullFace
-	Front             = C.GL_FRONT
-	Back              = C.GL_BACK
-	FrontAndBack      = C.GL_FRONT_AND_BACK
-	Emission          = C.GL_EMISSION
-	Ambient           = C.GL_AMBIENT
-	Diffuse           = C.GL_DIFFUSE
-	Specular          = C.GL_SPECULAR
-	AmbientAndDiffuse = C.GL_AMBIENT_AND_DIFFUSE
-
-	// CopyPixels
-	Color   = C.GL_COLOR
-	Depth   = C.GL_DEPTH
-	Stencil = C.GL_STENCIL
-
-	// CopyTexImage
-	Alpha              = C.GL_ALPHA
-	Alpha4             = C.GL_ALPHA4
-	Alpha8             = C.GL_ALPHA8
-	Alpha12            = C.GL_ALPHA12
-	Alpha16            = C.GL_ALPHA16
-	Luminance          = C.GL_LUMINANCE
-	Luminance4         = C.GL_LUMINANCE4
-	Luminance8         = C.GL_LUMINANCE8
-	Luminance12        = C.GL_LUMINANCE12
-	Luminance16        = C.GL_LUMINANCE16
-	LuminanceAlpha     = C.GL_LUMINANCE_ALPHA
-	Luminance4Alpha4   = C.GL_LUMINANCE4_ALPHA4
-	Luminance6Alpha2   = C.GL_LUMINANCE6_ALPHA2
-	Luminance8Alpha8   = C.GL_LUMINANCE8_ALPHA8
-	Luminance12Alpha4  = C.GL_LUMINANCE12_ALPHA4
-	Luminance12Alpha12 = C.GL_LUMINANCE12_ALPHA12
-	Luminance16Alpha16 = C.GL_LUMINANCE16_ALPHA16
-	Intensity          = C.GL_INTENSITY
-	Intensity4         = C.GL_INTENSITY4
-	Intensity8         = C.GL_INTENSITY8
-	Intensity12        = C.GL_INTENSITY12
-	Intensity16        = C.GL_INTENSITY16
-	Rgb                = C.GL_RGB
-	R3G3B2             = C.GL_R3_G3_B2
-	Rgb4               = C.GL_RGB4
-	Rgb5               = C.GL_RGB5
-	Rgb8               = C.GL_RGB8
-	Rgb10              = C.GL_RGB10
-	Rgb12              = C.GL_RGB12
-	Rgb16              = C.GL_RGB16
-	Rgba               = C.GL_RGBA
-	Rgba2              = C.GL_RGBA2
-	Rgba4              = C.GL_RGBA4
-	Rgb5A1             = C.GL_RGB5_A1
-	Rgba8              = C.GL_RGBA8
-	Rgb10A2            = C.GL_RGB10_A2
-	Rgba12             = C.GL_RGBA12
-	Rgba16             = C.GL_RGBA16
 
 	// Enable
 	Blend = C.GL_BLEND

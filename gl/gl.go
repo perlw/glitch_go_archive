@@ -6,9 +6,10 @@ package gl
 import "C"
 
 import (
-	"errors"
 	"unsafe"
 )
+
+type GLsync C.GLsync
 
 func Init() {
 	C.glewExperimental = 1
@@ -145,7 +146,7 @@ Parameters
 func BindFragDataLocationIndexed(program, colorNumber, index uint32, name string) {
 	cName := C.CString(name)
 	defer C.free(unsafe.Pointer(cName))
-	C.glBindFragDataLocationIndexed(C.GLuint(program), C.GLuint(colorNumber), C.GLuint(index), cName)
+	C.glBindFragDataLocationIndexed(C.GLuint(program), C.GLuint(colorNumber), C.GLuint(index), (*C.GLchar)(cName))
 }
 
 /*
@@ -312,29 +313,23 @@ func BufferSubData(target GLenum, offset int32, data interface{}) error {
 }
 
 /*
-Execute a display list.
+Check the completeness status of a framebuffer
 
 Parameters
-    list - Specifies the integer name of the display list to be executed.
+    target - Specify the target of the framebuffer completeness check.
 */
-func CallList(list uint32) {
-	C.glCallList(C.GLuint(list))
+func CheckFramebufferStatus(target GLenum) GLenum {
+	return GLenum(C.glCheckFramebufferStatus(C.GLenum(target)))
 }
 
 /*
-Execute a list of display lists.
+Specify whether data read via ReadPixels should be clamped
 
 Parameters
-    lists - Specifies a slice of name offsets in the display list
+    clamp - Specifies whether to apply color clamping. clamp must be True or False.
 */
-func CallLists(lists []uint32) error {
-	num, _, enum, ptr, err := sliceToGLData(lists)
-	if err != nil {
-		return err
-	}
-
-	C.glCallLists(num, enum, ptr)
-	return nil
+func ClampColor(clamp GLenum) {
+	C.glClampColor(C.GL_CLAMP_READ_COLOR, C.GLenum(clamp))
 }
 
 /*
@@ -343,18 +338,8 @@ Clear buffers to preset values.
 Parameters
     mask - Bitwise OR of masks that indicate the buffers to be cleared. The four masks are ColorBufferBit, DepthBufferBit, AccumBufferBit, and StencilBufferBit.
 */
-func Clear(mask GLConstant) {
+func Clear(mask GLbitfield) {
 	C.glClear(C.GLbitfield(mask))
-}
-
-/*
-Specify clear values for the accumulation buffer.
-
-Parameters
-    red, green, blue, alpha - Specify the red, green, blue, and alpha values used when the accumulation buffers are cleared. The initial values are all 0.
-*/
-func ClearAccum(red, green, blue, alpha float32) {
-	C.glClearAccum(C.GLfloat(red), C.GLfloat(green), C.GLfloat(blue), C.GLfloat(alpha))
 }
 
 /*
@@ -378,16 +363,6 @@ func ClearDepth(depth float32) {
 }
 
 /*
-Specify the clear value for the color index buffers.
-
-Parameters
-    c - Specifies the index used when the color index buffers are cleared. The initial value is 0.
-*/
-func ClearIndex(c float32) {
-	C.glClearIndex(C.GLfloat(c))
-}
-
-/*
 Specify the clear value for the stencil buffer.
 
 Parameters
@@ -398,94 +373,14 @@ func ClearStencil(s int) {
 }
 
 /*
-Specify a plane against which all geometry is clipped.
+Block and wait for a sync object to become signaled
 
 Parameters
-    plane - Specifies which clipping plane is being positioned. Symbolic names of the form ClipPlanei, where i is an integer between 0 and MaxClipPlanes - 1, are accepted.
-    equation - Specifies a slice of floating-point values. These values are interpreted as a plane equation.
+    sync - The sync object whose status to wait on.
+    timeout - The timeout, specified in nanoseconds, for which the implementation should wait for sync to become signaled.
 */
-func ClipPlane(plane GLConstant, equation []float64) {
-	C.glClipPlane(C.GLenum(plane), (*C.GLdouble)(&equation[0]))
-}
-
-/*
-Set the current color.
-
-Parameters
-    red, green, blue - The red, green, and blue channels.
-*/
-func Color3b(red, green, blue byte) {
-	C.glColor3b(C.GLbyte(red), C.GLbyte(green), C.GLbyte(blue))
-}
-
-/*
-Set the current color.
-
-Parameters
-    red, green, blue - The red, green, and blue channels.
-*/
-func Color3d(red, green, blue float64) {
-	C.glColor3d(C.GLdouble(red), C.GLdouble(green), C.GLdouble(blue))
-}
-
-/*
-Set the current color.
-
-Parameters
-    red, green, blue - The red, green, and blue channels.
-*/
-func Color3f(red, green, blue float32) {
-	C.glColor3f(C.GLfloat(red), C.GLfloat(green), C.GLfloat(blue))
-}
-
-/*
-Set the current color.
-
-Parameters
-    red, green, blue - The red, green, and blue channels.
-*/
-func Color3i(red, green, blue int32) {
-	C.glColor3i(C.GLint(red), C.GLint(green), C.GLint(blue))
-}
-
-/*
-Set the current color.
-
-Parameters
-    red, green, blue - The red, green, and blue channels.
-*/
-func Color3s(red, green, blue int16) {
-	C.glColor3s(C.GLshort(red), C.GLshort(green), C.GLshort(blue))
-}
-
-/*
-Set the current color.
-
-Parameters
-    red, green, blue - The red, green, and blue channels.
-*/
-func Color3ub(red, green, blue uint8) {
-	C.glColor3ub(C.GLubyte(red), C.GLubyte(green), C.GLubyte(blue))
-}
-
-/*
-Set the current color.
-
-Parameters
-    red, green, blue - The red, green, and blue channels.
-*/
-func Color3ui(red, green, blue uint32) {
-	C.glColor3ui(C.GLuint(red), C.GLuint(green), C.GLuint(blue))
-}
-
-/*
-Set the current color.
-
-Parameters
-    red, green, blue - The red, green, and blue channels.
-*/
-func Color3us(red, green, blue uint16) {
-	C.glColor3us(C.GLushort(red), C.GLushort(green), C.GLushort(blue))
+func ClientWaitSync(sync GLsync, timeout uint64) GLenum {
+	return GLenum(C.glClientWaitSync(C.GLsync(sync), C.GL_SYNC_FLUSH_COMMANDS_BIT, C.GLuint64(timeout)))
 }
 
 /*
@@ -499,103 +394,264 @@ func ColorMask(red, green, blue, alpha bool) {
 }
 
 /*
-Cause a material color to track the current color.
+Compiles a shader object
 
 Parameters
-    face - Specifies whether front, back, or both front and back material parameters should track the current color. Accepted values are Front, Back, and FrontAndBack. The initial value is FrontAndBack.
-    mode - Specifies which of several material parameters track the current color. Accepted values are Emission, Ambient, Diffuse, Specular, and AmbientAndDiffuse. The initial value is AmbientAndDiffuse.
+    shader - Specifies the shader object to be compiled.
 */
-func ColorMaterial(face, mode GLConstant) {
-	C.glColorMaterial(C.GLenum(face), C.GLenum(mode))
+func CompileShader(shader uint32) {
+	C.glCompileShader(C.GLuint(shader))
 }
 
 /*
-Define an array of colors.
+Specify a one-dimensional texture image in a compressed format
 
 Parameters
-    size - Specifies the number of components per color. Must be 3 or 4.
-    stride - Specifies the byte offset between consecutive colors. If stride is 0, (the initial value), the colors are understood to be tightly packed in the slice.
-    colors - A slice containing the color values.
+    target - Specifies the target texture. Must be Texture1d or ProxyTexture1d.
+    level - Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.
+    internalformat - Specifies the format of the compressed image data stored at address data.
+    width - Specifies the width of the texture image. All implementations support texture images that are at least 64 texels wide. The height of the 1D texture image is 1.
+    border - This value must be 0.
+    data - Specifies a pointer to the compressed image data in memory.
 */
-func ColorPointer(size, stride int, colors interface{}) error {
-	if size != 3 || size != 4 {
-		return errors.New("gl: size must be 3 or 4")
-	}
-
-	_, _, enum, ptr, err := sliceToGLData(colors)
+func CompressedTexImage1D(target GLenum, level int, internalFormat GLenum, width, border int, data interface{}) error {
+	_, size, _, ptr, err := sliceToGLData(data)
 	if err != nil {
 		return err
 	}
 
-	C.glColorPointer(C.GLint(size), enum, C.GLsizei(stride), ptr)
+	C.glCompressedTexImage1D(C.GLenum(target), C.GLint(level), C.GLenum(internalFormat), C.GLsizei(width), C.GLint(border), C.GLsizei(size), ptr)
 
 	return nil
 }
 
 /*
-Copy pixels in the frame buffer.
+Specify a two-dimensional texture image in a compressed format
 
 Parameters
-    x, y - Specify the window coordinates of the lower left corner of the rectangular region of pixels to be copied.
-    width, height - Specify the dimensions of the rectangular region of pixels to be copied. Both must be nonnegative.
-    typeConstant - Specifies whether color values, depth values, or stencil values are to be copied. Symbolic constants Color, Depth, and Stencil are accepted.
+    target - Specifies the target texture. Must be Texture2d, ProxyTexture2d, Texture1dArray, ProxyTexture1dArray, TextureCubeMapPositiveX, TextureCubeMapNegativeX, TextureCubeMapPositiveY, TextureCubeMapNegativeY, TextureCubeMapPositiveZ, TextureCubeMapNegativeZ, or ProxyTextureCubeMap.
+    level - Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.
+    internalformat - Specifies the format of the compressed image data stored at address data.
+    width - Specifies the width of the texture image. All implementations support 2D texture images that are at least 64 texels wide and cube-mapped texture images that are at least 16 texels wide.
+    height - Specifies the height of the texture image. All implementations support 2D texture images that are at least 64 texels high and cube-mapped texture images that are at least 16 texels high.
+    border - This value must be 0.
+    data - Specifies a pointer to the compressed image data in memory.
 */
-func CopyPixels(x, y, width, height int, typeConstant GLConstant) {
-	C.glCopyPixels(C.GLint(x), C.GLint(y), C.GLsizei(width), C.GLsizei(height), C.GLenum(typeConstant))
+func CompressedTexImage2D(target GLenum, level int, internalFormat GLenum, width, height, border int, data interface{}) error {
+	_, size, _, ptr, err := sliceToGLData(data)
+	if err != nil {
+		return err
+	}
+
+	C.glCompressedTexImage2D(C.GLenum(target), C.GLint(level), C.GLenum(internalFormat), C.GLsizei(width), C.GLsizei(height), C.GLint(border), C.GLsizei(size), ptr)
+
+	return nil
+}
+
+/*
+Specify a three-dimensional texture image in a compressed format
+
+Parameters
+    target - Specifies the target texture. Must be Texture3d, ProxyTexture3d, Texture2dArray or ProxyTexture2dArray.
+    level - Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.
+    internalformat - Specifies the format of the compressed image data stored at address data.
+    width - Specifies the width of the texture image. All implementations support 3D texture images that are at least 16 texels wide.
+    height - Specifies the height of the texture image. All implementations support 3D texture images that are at least 16 texels high.
+    depth - Specifies the depth of the texture image. All implementations support 3D texture images that are at least 16 texels deep.
+    border - This value must be 0.
+    data - Specifies a pointer to the compressed image data in memory.
+*/
+func CompressedTexImage3D(target GLenum, level int, internalFormat GLenum, width, height, depth, border int, data interface{}) error {
+	_, size, _, ptr, err := sliceToGLData(data)
+	if err != nil {
+		return err
+	}
+
+	C.glCompressedTexImage3D(C.GLenum(target), C.GLint(level), C.GLenum(internalFormat), C.GLsizei(width), C.GLsizei(height), C.GLsizei(depth), C.GLint(border), C.GLsizei(size), ptr)
+
+	return nil
+}
+
+/*
+Specify a one-dimensional texture subimage in a compressed format
+
+Parameters
+    target - Specifies the target texture. Must be Texture1d.
+    level - Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.
+    xoffset - Specifies a texel offset in the x direction within the texture array.
+    width - Specifies the width of the texture image. All implementations support texture images that are at least 64 texels wide. The height of the 1D texture image is 1.
+    format - Specifies the format of the compressed image data stored at address data.
+    border - This value must be 0.
+    data - Specifies a pointer to the compressed image data in memory.
+*/
+func CompressedTexSubImage1D(target GLenum, level, xoffset, width int, format GLenum, data interface{}) error {
+	_, size, _, ptr, err := sliceToGLData(data)
+	if err != nil {
+		return err
+	}
+
+	C.glCompressedTexSubImage1D(C.GLenum(target), C.GLint(level), C.GLint(xoffset), C.GLsizei(width), C.GLenum(format), C.GLsizei(size), ptr)
+
+	return nil
+}
+
+/*
+Specify a two-dimensional texture subimage in a compressed format
+
+Parameters
+    target - Specifies the target texture. Must be Texture2d, TextureCubeMapPositiveX, TextureCubeMapNegativeX, TextureCubeMapPositiveY, TextureCubeMapNegativeY, TextureCubeMapPositiveZ, or TextureCubeMapNegativeZ.
+    level - Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.
+    xoffset - Specifies a texel offset in the x direction within the texture array.
+    yoffset - Specifies a texel offset in the y direction within the texture array.
+    width - Specifies the width of the texture subimage.
+    height - Specifies the height of the texture subimage.
+    format - Specifies the format of the compressed image data stored at address data.
+    data - Specifies a pointer to the compressed image data in memory.
+*/
+func CompressedTexSubImage2D(target GLenum, level, xoffset, yoffset, width, height int, format GLenum, data interface{}) error {
+	_, size, _, ptr, err := sliceToGLData(data)
+	if err != nil {
+		return err
+	}
+
+	C.glCompressedTexSubImage2D(C.GLenum(target), C.GLint(level), C.GLint(xoffset), C.GLint(yoffset), C.GLsizei(width), C.GLsizei(height), C.GLenum(format), C.GLsizei(size), ptr)
+
+	return nil
+}
+
+/*
+Specify a three-dimensional texture subimage in a compressed format
+
+Parameters
+    target - Specifies the target texture. Must be Texture3d.
+    level - Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.
+    xoffset - Specifies a texel offset in the x direction within the texture array.
+    yoffset - Specifies a texel offset in the y direction within the texture array.
+    zoffset - Specifies a texel offset in the z direction within the texture array.
+    width - Specifies the width of the texture subimage.
+    height - Specifies the height of the texture subimage.
+    depth - Specifies the depth of the texture subimage.
+    format - Specifies the format of the compressed image data stored at address data.
+    data - Specifies a pointer to the compressed image data in memory.
+*/
+func CompressedTexSubImage3D(target GLenum, level, xoffset, yoffset, zoffset, width, height, depth int, format GLenum, data interface{}) error {
+	_, size, _, ptr, err := sliceToGLData(data)
+	if err != nil {
+		return err
+	}
+
+	C.glCompressedTexSubImage3D(C.GLenum(target), C.GLint(level), C.GLint(xoffset), C.GLint(yoffset), C.GLint(zoffset), C.GLsizei(width), C.GLsizei(height), C.GLsizei(depth), C.GLenum(format), C.GLsizei(size), ptr)
+
+	return nil
+}
+
+/*
+Copy part of the data store of a buffer object to the data store of another buffer object
+
+Parameters
+    readTarget - Specifies the target from whose data store data should be read.
+    writeTarget - Specifies the target to whose data store data should be written.
+    readOffset - Specifies the offset, in basic machine units, within the data store of readTarget from which data should be read.
+    writeOffset - Specifies the offset, in basic machine units, within the data store of writeTarget to which data should be written.
+    size - Specifies the size, in basic machine units, of the data to be copied from readTarget to writeTarget.
+*/
+func CopyBufferSubData(readTarget, writeTarget GLenum, readOffset, writeOffset, size int) {
+	C.glCopyBufferSubData(C.GLenum(readTarget), C.GLenum(writeTarget), C.GLintptr(readOffset), C.GLintptr(writeOffset), C.GLsizeiptr(size))
 }
 
 /*
 Copy pixels into a 1D texture image.
 
 Parameters
+    target - Specifies the target texture. Must be Texture1d.
     level - Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.
-    internalFormat - Specifies the internal format of the texture. Must be one of the following symbolic constants: Alpha, Alpha4, Alpha8, Alpha12, Alpha16, Luminance, Luminance4, Luminance8, Luminance12, Luminance16, LuminanceAlpha, Luminance4Alpha4, Luminance6Alpha2, Luminance8Alpha8, Luminance12Alpha4, Luminance12Alpha12, Luminance16Alpha16, Intensity, Intensity4, Intensity8, Intensity12, Intensity16, Rgb, R3G3B2, Rgb4, Rgb5, Rgb8, Rgb10, Rgb12, Rgb16, Rgba, Rgba2, Rgba4, Rgb5A1, Rgba8, Rgb10A2, Rgba12, or Rgba16.
+    internalFormat - Specifies the internal format of the texture. Must be one of the following symbolic constants: CompressedRed, CompressedRg, CompressedRgb, CompressedRgba. CompressedSrgb, CompressedSrgbAlpha. DepthComponent, DepthComponent16, DepthComponent24, DepthComponent32, Red, Rg, Rgb, R3G3B2, Rgb4, Rgb5, Rgb8, Rgb10, Rgb12, Rgb16, Rgba, Rgba2, Rgba4, Rgb5A1, Rgba8, Rgb10A2, Rgba12, Rgba16, Srgb, Srgb8, SrgbAlpha, or Srgb8Alpha8.
     x, y - Specify the window coordinates of the left corner of the row of pixels to be copied.
-    width - Specifies the width of the texture image. Must be 0 or 2n + 2xborder for some integer n. The height of the texture image is 1.
-    border - Specifies the width of the border. Must be either 0 or 1.
+    width - Specifies the width of the texture image. The height of the texture image is 1.
+    border - Must be 0.
 */
-func CopyTexImage1D(level int, internalFormat GLConstant, x, y, width, border int) {
-	C.glCopyTexImage1D(C.GL_TEXTURE_1D, C.GLint(level), C.GLenum(internalFormat), C.GLint(x), C.GLint(y), C.GLsizei(width), C.GLint(border))
+func CopyTexImage1D(target GLenum, level int, internalFormat GLenum, x, y, width, border int) {
+	C.glCopyTexImage1D(C.GLenum(target), C.GLint(level), C.GLenum(internalFormat), C.GLint(x), C.GLint(y), C.GLsizei(width), C.GLint(border))
 }
 
 /*
 Copy pixels into a 2D texture image.
 
 Parameters
+    target - Specifies the target texture. Must be Texture2d, TextureCubeMapPositiveX, TextureCubeMapNegativeX, TextureCubeMapPositiveY, TextureCubeMapNegativeY, TextureCubeMapPositiveZ, or TextureCubeMapNegativeZ.
     level - Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.
-    internalFormat - Specifies the internal format of the texture. Must be one of the following symbolic constants: Alpha, Alpha4, Alpha8, Alpha12, Alpha16, Luminance, Luminance4, Luminance8, Luminance12, Luminance16, LuminanceAlpha, Luminance4Alpha4, Luminance6Alpha2, Luminance8Alpha8, Luminance12Alpha4, Luminance12Alpha12, Luminance16Alpha16, Intensity, Intensity4, Intensity8, Intensity12, Intensity16, Rgb, R3G3B2, Rgb4, Rgb5, Rgb8, Rgb10, Rgb12, Rgb16, Rgba, Rgba2, Rgba4, Rgb5A1, Rgba8, Rgb10A2, Rgba12, or Rgba16.
+    internalFormat - Specifies the internal format of the texture. Must be one of the following symbolic constants: CompressedRed, CompressedRg, CompressedRgb, CompressedRgba. CompressedSrgb, CompressedSrgbAlpha. DepthComponent, DepthComponent16, DepthComponent24, DepthComponent32, Red, Rg, Rgb, R3G3B2, Rgb4, Rgb5, Rgb8, Rgb10, Rgb12, Rgb16, Rgba, Rgba2, Rgba4, Rgb5A1, Rgba8, Rgb10A2, Rgba12, Rgba16, Srgb, Srgb8, SrgbAlpha, or Srgb8Alpha8.
     x, y - Specify the window coordinates of the left corner of the row of pixels to be copied.
-    width, height - Specifies the width and height of the texture image. Must be 0 or 2n + 2xborder for some integer n. The height of the texture image is 1.
-    border - Specifies the width of the border. Must be either 0 or 1.
+    width - Specifies the width of the texture image.
+    height - Specifies the width of the texture image.
+    border - Must be 0.
 */
-func CopyTexImage2D(level int, internalFormat GLConstant, x, y, width, height, border int) {
-	C.glCopyTexImage2D(C.GL_TEXTURE_2D, C.GLint(level), C.GLenum(internalFormat), C.GLint(x), C.GLint(y), C.GLsizei(width), C.GLsizei(height), C.GLint(border))
+func CopyTexImage2D(target GLenum, level int, internalFormat GLenum, x, y, width, height, border int) {
+	C.glCopyTexImage2D(C.GLenum(target), C.GLint(level), C.GLenum(internalFormat), C.GLint(x), C.GLint(y), C.GLsizei(width), C.GLsizei(height), C.GLint(border))
 }
 
 /*
-Copy a one-dimensional texture subimage.
+Copy a one-dimensional texture subimage
 
 Parameters
+    target - Must be Texture1d.
     level - Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.
     xoffset - Specifies the texel offset within the texture array.
     x, y - Specify the window coordinates of the left corner of the row of pixels to be copied.
     width - Specifies the width of the texture subimage
 */
-func CopyTexSubImage1D(level, xoffset, x, y, width int) {
-	C.glCopyTexSubImage1D(C.GL_TEXTURE_1D, C.GLint(level), C.GLint(xoffset), C.GLint(x), C.GLint(y), C.GLsizei(width))
+func CopyTexSubImage1D(target GLenum, level, xoffset, x, y, width int) {
+	C.glCopyTexSubImage1D(C.GLenum(target), C.GLint(level), C.GLint(xoffset), C.GLint(x), C.GLint(y), C.GLsizei(width))
 }
 
 /*
-Copy a two-dimensional texture subimage.
+Copy a two-dimensional texture subimage
 
 Parameters
+    target - Specifies the target texture. Must be Texture2d, TextureCubeMapPositiveX, TextureCubeMapNegativeX, TextureCubeMapPositiveY, TextureCubeMapNegativeY, TextureCubeMapPositiveZ, or TextureCubeMapNegativeZ.
     level - Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.
-    xoffset, yoffset - Specifies the texel offset within the texture array.
+    xoffset - Specifies a texel offset in the x direction within the texture array.
+    yoffset - Specifies a texel offset in the y direction within the texture array.
     x, y - Specify the window coordinates of the left corner of the row of pixels to be copied.
-    width, height - Specifies the width and height of the texture subimage
+    width - Specifies the width of the texture subimage
+    height - Specifies the height of the texture subimage
 */
-func CopyTexSubImage2D(level, xoffset, yoffset, x, y, width, height int) {
-	C.glCopyTexSubImage2D(C.GL_TEXTURE_2D, C.GLint(level), C.GLint(xoffset), C.GLint(yoffset), C.GLint(x), C.GLint(y), C.GLsizei(width), C.GLsizei(height))
+func CopyTexSubImage2D(target GLenum, level, xoffset, yoffset, x, y, width, height int) {
+	C.glCopyTexSubImage2D(C.GLenum(target), C.GLint(level), C.GLint(xoffset), C.GLint(yoffset), C.GLint(x), C.GLint(y), C.GLsizei(width), C.GLsizei(height))
+}
+
+/*
+Copy a three-dimensional texture subimage
+
+Parameters
+    target - Specifies the target texture. Must be Texture3d or Texture2dArray.
+    level - Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.
+    xoffset - Specifies a texel offset in the x direction within the texture array.
+    yoffset - Specifies a texel offset in the y direction within the texture array.
+    zoffset - Specifies a texel offset in the z direction within the texture array.
+    x, y - Specify the window coordinates of the left corner of the row of pixels to be copied.
+    width - Specifies the width of the texture subimage
+    height - Specifies the height of the texture subimage
+*/
+func CopyTexSubImage3D(target GLenum, level, xoffset, yoffset, zoffset, x, y, width, height int) {
+	C.glCopyTexSubImage3D(C.GLenum(target), C.GLint(level), C.GLint(xoffset), C.GLint(yoffset), C.GLint(zoffset), C.GLint(x), C.GLint(y), C.GLsizei(width), C.GLsizei(height))
+}
+
+/*
+Creates a program object
+*/
+func CreateProgram() uint32 {
+	return uint32(C.glCreateProgram())
+}
+
+/*
+Creates a shader object
+
+Parameters
+    shaderType - Specifies the type of shader to be created. Must be one of VertexShader, GeometryShader or FragmentShader.
+*/
+func CreateShader(shaderType GLenum) uint32 {
+	return uint32(C.glCreateShader(C.GLenum(shaderType)))
 }
 
 /*
@@ -607,6 +663,8 @@ Parameters
 func CullFace(mode GLConstant) {
 	C.glCullFace(C.GLenum(mode))
 }
+
+// <-------- THIS FAR --------->
 
 /*
 Specify the value used for depth buffer comparisons.
