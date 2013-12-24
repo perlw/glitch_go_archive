@@ -660,51 +660,384 @@ Specify whether front- or back-facing facets can be culled.
 Parameters
     mode - Specifies whether front- or back-facing facets are candidates for culling. Symbolic constants Front, Back, and FrontAndBack are accepted. The initial value is Back.
 */
-func CullFace(mode GLConstant) {
+func CullFace(mode GLenum) {
 	C.glCullFace(C.GLenum(mode))
+}
+
+/*
+Delete named buffer objects
+
+Parameters
+    buffers - Specifies an array of buffer objects to be deleted.
+*/
+func DeleteBuffers(buffers []uint32) {
+	count := len(buffers)
+	C.glDeleteBuffers(C.GLsizei(count), (*C.GLuint)(&buffers[0]))
+}
+
+/*
+Delete framebuffer objects
+
+Parameters
+    framebuffers - Specifies an array of framebuffer objects to be deleted.
+*/
+func DeleteFramebuffers(framebuffers []uint32) {
+	count := len(framebuffers)
+	C.glDeleteFramebuffers(C.GLsizei(count), (*C.GLuint)(&framebuffers[0]))
+}
+
+/*
+Deletes a program object
+
+Parameters
+    program - Specifies the program object to be deleted.
+*/
+func DeleteProgram(program uint32) {
+	C.glDeleteProgram(C.GLuint(program))
+}
+
+/*
+Delete named query objects
+
+Parameters
+    ids - Specifies an array of query objects to be deleted.
+*/
+func DeleteQeueries(ids []uint32) {
+	count := len(ids)
+	C.glDeleteQueries(C.GLsizei(count), (*C.GLuint)(&ids[0]))
+}
+
+/*
+Delete renderbuffer objects
+
+Parameters
+    renderbuffers - Specifies an array of renderbuffer objects to be deleted.
+*/
+func DeleteRenderbuffers(renderbuffers []uint32) {
+	count := len(renderbuffers)
+	C.glDeleteRenderbuffers(C.GLsizei(count), (*C.GLuint)(&renderbuffers[0]))
+}
+
+/*
+Delete named sampler objects
+
+Parameters
+    samplers - Specifies an array of sampler objects to be deleted.
+*/
+func DeleteSamplers(samplers []uint32) {
+	count := len(samplers)
+	C.glDeleteSamplers(C.GLsizei(count), (*C.GLuint)(&samplers[0]))
+}
+
+/*
+Deletes a shader object
+
+Parameters
+    shader - Specifies the shader object to be deleted.
+*/
+func DeleteShader(shader uint32) {
+	C.glDeleteShader(C.GLuint(shader))
+}
+
+/*
+Deletes a sync object
+
+Parameters
+    sync - Specifies the sync object to be deleted.
+*/
+func DeleteSync(sync GLsync) {
+	C.glDeleteSync(C.GLsync(sync))
+}
+
+/*
+Delete named textures
+
+Parameters
+    textures - Specifies an array of textures to be deleted.
+*/
+func DeleteTextures(textures []uint32) {
+	count := len(textures)
+	C.glDeleteTextures(C.GLsizei(count), (*C.GLuint)(&textures[0]))
+}
+
+/*
+Delete vertex array objects
+
+Parameters
+    arrays - Specifies an array of vertex arrays to be deleted.
+*/
+func DeleteVertexArrays(arrays []uint32) {
+	count := len(arrays)
+	C.glDeleteVertexArrays(C.GLsizei(count), (*C.GLuint)(&arrays[0]))
+}
+
+/*
+Specify the value used for depth buffer comparisons
+
+Parameters
+    constFunc - Specifies the depth comparison function. Symbolic constants Never, Less, Equal, LEqual, Greater, NotEqual, GEqual, and Always are accepted. The initial value is Less.
+*/
+func DepthFunc(constFunc GLenum) {
+	C.glDepthFunc(C.GLenum(constFunc))
+}
+
+/*
+Enable or disable writing into the depth buffer
+
+Parameters
+    flag - Specifies whether the depth buffer is enabled for writing. If flag is false, depth buffer writing is disabled. Otherwise, it is enabled. Initially, depth buffer writing is enabled.
+*/
+func DepthMask(flag bool) {
+	C.glDepthMask(boolToGLBool(flag))
+}
+
+/*
+Specify mapping of depth values from normalized device coordinates to window coordinates
+
+Parameters
+    nearVal - Specifies the mapping of the near clipping plane to window coordinates. The initial value is 0.
+    farVal - Specifies the mapping of the far clipping plane to window coordinates. The initial value is 1.
+*/
+func DepthRange(nearVal, farVal float32) {
+	C.glDepthRange(C.GLclampd(nearVal), C.GLclampd(farVal))
+}
+
+/*
+Detaches a shader object from a program object to which it is attached
+
+Parameters
+    program - Specifies the program object from which to detach the shader object.
+    shader - Specifies the shader object to be detached.
+*/
+func DetachShader(program, shader uint32) {
+	C.glDetachShader(C.GLuint(program), C.GLuint(shader))
+}
+
+/*
+Disable server-side GL capabilities
+
+Parameters
+    capability - Specifies a symbolic constant indicating a GL capability.
+*/
+func Disable(capability GLenum) {
+	C.glDisable(C.GLenum(capability))
+}
+
+/*
+Disable a generic vertex attribute array
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be disabled.
+*/
+func DisableVertexAttribArray(index uint32) {
+	C.glDisableVertexAttribArray(C.GLuint(index))
+}
+
+/*
+Disable server-side GL capabilities
+
+Parameters
+    capability - Specifies a symbolic constant indicating a GL capability.
+    index - Specifies the index of the switch to disable.
+*/
+func Disablei(capability GLenum, index uint32) {
+	C.glDisablei(C.GLenum(capability), C.GLuint(index))
+}
+
+/*
+Render primitives from array data
+
+Parameters
+    mode - Specifies what kind of primitives to render. Symbolic constants Points, LineStrip, LineLoop, Lines, LineStripAdjacency, LinesAdjacency, TriangleStrip, TriangleFan, Triangles, TriangleStripAdjacency and TrianglesAdjacency are accepted.
+    first - Specifies the starting index in the enabled arrays.
+    count - Specifies the number of indices to be rendered.
+*/
+func DrawArrays(mode GLenum, first, count int) {
+	C.glDrawArrays(C.GLenum(mode), C.GLint(first), C.GLsizei(count))
+}
+
+/*
+Draw multiple instances of a range of elements
+
+Parameters
+    mode - Specifies what kind of primitives to render. Symbolic constants Points, LineStrip, LineLoop, Lines, LineStripAdjacency, LinesAdjacency, TriangleStrip, TriangleFan, Triangles, TriangleStripAdjacency and TrianglesAdjacency are accepted.
+    first - Specifies the starting index in the enabled arrays.
+    count - Specifies the number of indices to be rendered.
+    primcount - Specifies the number of instances of the specified range of indices to be rendered.
+*/
+func DrawArraysInstanced(mode GLenum, first, count, primcount int) {
+	C.glDrawArraysInstanced(C.GLenum(mode), C.GLint(first), C.GLsizei(count), C.GLsizei(primcount))
+}
+
+/*
+Specify which color buffers are to be drawn into
+
+Parameters
+    mode - Specifies up to four color buffers to be drawn into. Symbolic constants None, FrontLeft, FrontRight, BackLeft, BackRight, Front, Back, Left, Right, and FrontAndBack are accepted. The initial value is Front for single-buffered contexts, and Back for double-buffered contexts.
+*/
+func DrawBuffer(mode GLenum) {
+	C.glDrawBuffer(C.GLenum(mode))
+}
+
+/*
+Specifies a list of color buffers to be drawn into
+
+Parameters
+    bufs - Specifies an array of symbolic constants specifying the buffers into which fragment colors or data values will be written.
+*/
+func DrawBuffers(bufs []uint32) {
+	count := len(bufs)
+	C.glDrawBuffers(C.GLsizei(count), (*C.GLenum)(&bufs[0]))
+}
+
+/*
+Render primitives from array data
+
+Parameters
+    mode - Specifies what kind of primitives to render. Symbolic constants Points, LineStrip, LineLoop, Lines, LineStripAdjacency, LinesAdjacency, TriangleStrip, TriangleFan, Triangles, TriangleStripAdjacency and TrianglesAdjacency are accepted.
+    data - Specifies a slice containing the indices.
+*/
+func DrawElements(mode GLenum, data interface{}) error {
+	_, size, sliceType, ptr, err := sliceToGLData(data)
+	if err != nil {
+		return err
+	}
+
+	C.glDrawElements(C.GLenum(mode), size, sliceType, ptr)
+	return nil
+}
+
+/*
+Render primitives from array data with a per-element offset
+
+Parameters
+    mode - Specifies what kind of primitives to render. Symbolic constants Points, LineStrip, LineLoop, Lines, LineStripAdjacency, LinesAdjacency, TriangleStrip, TriangleFan, Triangles, TriangleStripAdjacency and TrianglesAdjacency are accepted.
+    data - Specifies a slice containing the indices.
+    basevertex - Specifies a constant that should be added to each element of indices when chosing elements from the enabled vertex arrays.
+*/
+func DrawElementsBaseVertex(mode GLenum, data interface{}, basevertex int) error {
+	_, size, sliceType, ptr, err := sliceToGLData(data)
+	if err != nil {
+		return err
+	}
+
+	C.glDrawElementsBaseVertex(C.GLenum(mode), size, sliceType, ptr, C.GLint(basevertex))
+	return nil
+}
+
+/*
+Draw multiple instances of a set of elements
+
+Parameters
+    mode - Specifies what kind of primitives to render. Symbolic constants Points, LineStrip, LineLoop, Lines, LineStripAdjacency, LinesAdjacency, TriangleStrip, TriangleFan, Triangles, TriangleStripAdjacency and TrianglesAdjacency are accepted.
+    data - Specifies a slice containing the indices.
+    primcount - Specifies the number of instances of the specified range of indices to be rendered.
+*/
+func DrawElementsInstanced(mode GLenum, data interface{}, primcount int) error {
+	_, size, sliceType, ptr, err := sliceToGLData(data)
+	if err != nil {
+		return err
+	}
+
+	C.glDrawElementsInstanced(C.GLenum(mode), size, sliceType, ptr, C.GLsizei(primcount))
+	return nil
+}
+
+/*
+Render multiple instances of a set of primitives from array data with a per-element offset
+
+Parameters
+    mode - Specifies what kind of primitives to render. Symbolic constants Points, LineStrip, LineLoop, Lines, LineStripAdjacency, LinesAdjacency, TriangleStrip, TriangleFan, Triangles, TriangleStripAdjacency and TrianglesAdjacency are accepted.
+    data - Specifies a slice containing the indices.
+    primcount - Specifies the number of instances of the specified range of indices to be rendered.
+    basevertex - Specifies a constant that should be added to each element of indices when chosing elements from the enabled vertex arrays.
+*/
+func DrawElementsInstancedBaseVertex(mode GLenum, data interface{}, primcount, basevertex int) error {
+	_, size, sliceType, ptr, err := sliceToGLData(data)
+	if err != nil {
+		return err
+	}
+
+	C.glDrawElementsInstancedBaseVertex(C.GLenum(mode), size, sliceType, ptr, C.GLsizei(primcount), C.GLint(basevertex))
+	return nil
+}
+
+/*
+Render primitives from array data
+
+Parameters
+    mode - Specifies what kind of primitives to render. Symbolic constants Points, LineStrip, LineLoop, Lines, LineStripAdjacency, LinesAdjacency, TriangleStrip, TriangleFan, Triangles, TriangleStripAdjacency and TrianglesAdjacency are accepted.
+    start - Specifies the minimum array index contained in indices.
+    end - Specifies the maximum array index contained in indices.
+    count - Specifies the number of elements to be rendered.
+    data - Specifies a slice containing the indices.
+*/
+func DrawRangeElements(mode GLenum, start, end uint32, count int, data interface{}) error {
+	_, _, sliceType, ptr, err := sliceToGLData(data)
+	if err != nil {
+		return err
+	}
+
+	C.glDrawRangeElements(C.GLenum(mode), C.GLuint(start), C.GLuint(end), C.GLsizei(count), sliceType, ptr)
+	return nil
+}
+
+/*
+Render primitives from array data with a per-element offset
+
+Parameters
+    mode - Specifies what kind of primitives to render. Symbolic constants Points, LineStrip, LineLoop, Lines, LineStripAdjacency, LinesAdjacency, TriangleStrip, TriangleFan, Triangles, TriangleStripAdjacency and TrianglesAdjacency are accepted.
+    start - Specifies the minimum array index contained in indices.
+    end - Specifies the maximum array index contained in indices.
+    count - Specifies the number of elements to be rendered.
+    data - Specifies a slice containing the indices.
+    basevertex - Specifies a constant that should be added to each element of indices when chosing elements from the enabled vertex arrays.
+*/
+func DrawRangeElementsBaseVertex(mode GLenum, start, end uint32, count int, data interface{}, basevertex int) error {
+	_, _, sliceType, ptr, err := sliceToGLData(data)
+	if err != nil {
+		return err
+	}
+
+	C.glDrawRangeElementsBaseVertex(C.GLenum(mode), C.GLuint(start), C.GLuint(end), C.GLsizei(count), sliceType, ptr, C.GLint(basevertex))
+	return nil
 }
 
 // <-------- THIS FAR --------->
 
 /*
-Specify the value used for depth buffer comparisons.
-
-Parameters
-    constFunc - Specifies the depth comparison function. Symbolic constants Never, Less, Equal, LEqual, Greater, NotEqual, GEqual, and Always are accepted. The initial value is Less.
-*/
-func DepthFunc(constFunc GLConstant) {
-	C.glDepthFunc(C.GLenum(constFunc))
-}
-
-/*
-Enable server-side GL capabilities.
+Enable server-side GL capabilities
 
 Parameters
     capability - Specifies a symbolic constant indicating a GL capability.
 */
-func Enable(capability GLConstant) {
+func Enable(capability GLenum) {
 	C.glEnable(C.GLenum(capability))
 }
 
 /*
-Delimit the vertices of a primitive or a group of like primitives.
+Enable a generic vertex attribute array
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be enabled.
 */
-func End() {
-	C.glEnd()
+func EnableVertexAttribArray(index uint32) {
+	C.glEnableVertexAttribArray(C.GLuint(index))
 }
 
 /*
-Disable server-side GL capabilities.
+Enable server-side GL capabilities
 
 Parameters
     capability - Specifies a symbolic constant indicating a GL capability.
+    index - Specifies the index of the switch to enable.
 */
-func Disable(capability GLConstant) {
-	C.glDisable(C.GLenum(capability))
+func Enablei(capability GLenum, index uint32) {
+	C.glEnablei(C.GLenum(capability), C.GLuint(index))
 }
 
 /*
-Set the viewport.
+Set the viewport
 
 Parameters
     x, y - Specify the lower left corner of the viewport rectangle, in pixels. The initial value is (0, 0).

@@ -52,7 +52,7 @@ const (
 	TransformFeedbackPrimitivesWritten = C.GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN
 	TimeElapsed                        = C.GL_TIME_ELAPSED
 
-	// BeginTransformFeedback
+	// BeginTransformFeedback, DrawArrays, DrawArraysInstanced
 	Points                 = C.GL_POINTS
 	Lines                  = C.GL_LINES
 	LineLoop               = C.GL_LINE_LOOP
@@ -197,24 +197,21 @@ const (
 	GeometryShader = C.GL_GEOMETRY_SHADER
 	FragmentShader = C.GL_FRAGMENT_SHADER
 
-	// CullFace
+	// CullFace, DrawBuffer
 	Front        = C.GL_FRONT
 	Back         = C.GL_BACK
 	FrontAndBack = C.GL_FRONT_AND_BACK
-)
 
-type GLbitfield int
+	// DrawBuffer
+	None       = C.GL_NONE
+	FrontLeft  = C.GL_FRONT_LEFT
+	FrontRight = C.GL_FRONT_RIGHT
+	BackLeft   = C.GL_BACK_LEFT
+	BackRight  = C.GL_BACK_RIGHT
+	Left       = C.GL_LEFT
+	Right      = C.GL_RIGHT
 
-const (
-	ColorBufferBit   GLbitfield = C.GL_COLOR_BUFFER_BIT
-	DepthBufferBit              = C.GL_DEPTH_BUFFER_BIT
-	StencilBufferBit            = C.GL_STENCIL_BUFFER_BIT
-)
-
-type GLConstant int
-
-const (
-	// DepthFunc, AlphaFunc
+	// DepthFunc
 	Never    = C.GL_NEVER
 	Less     = C.GL_LESS
 	Equal    = C.GL_EQUAL
@@ -224,24 +221,20 @@ const (
 	GEqual   = C.GL_EQUAL
 	Always   = C.GL_ALWAYS
 
-	// ClipPlane
-	ClipPlane0    = C.GL_CLIP_PLANE0
-	ClipPlane1    = C.GL_CLIP_PLANE1
-	ClipPlane2    = C.GL_CLIP_PLANE2
-	ClipPlane3    = C.GL_CLIP_PLANE3
-	ClipPlane4    = C.GL_CLIP_PLANE4
-	ClipPlane5    = C.GL_CLIP_PLANE5
-	MaxClipPlanes = C.GL_MAX_CLIP_PLANES
-
-	// Enable
-	Blend = C.GL_BLEND
-	//ClipDistance                      = GL_CLIP_DISTANCE
+	// Disable, Enable
+	Blend                  = C.GL_BLEND
+	ClipDistance0          = C.GL_CLIP_DISTANCE0
+	ClipDistance1          = C.GL_CLIP_DISTANCE1
+	ClipDistance2          = C.GL_CLIP_DISTANCE2
+	ClipDistance3          = C.GL_CLIP_DISTANCE3
+	ClipDistance4          = C.GL_CLIP_DISTANCE4
+	ClipDistance5          = C.GL_CLIP_DISTANCE5
 	ColorLogicOp           = C.GL_COLOR_LOGIC_OP
-	CullFaceC              = C.GL_CULL_FACE
+	CullFaceConst          = C.GL_CULL_FACE
 	DepthClamp             = C.GL_DEPTH_CLAMP
 	DepthTest              = C.GL_DEPTH_TEST
 	Dither                 = C.GL_DITHER
-	FrameBufferSRGB        = C.GL_FRAMEBUFFER_SRGB
+	FramebufferSrgb        = C.GL_FRAMEBUFFER_SRGB
 	LineSmooth             = C.GL_LINE_SMOOTH
 	Multisample            = C.GL_MULTISAMPLE
 	PolygonOffsetFill      = C.GL_POLYGON_OFFSET_FILL
@@ -249,14 +242,19 @@ const (
 	PolygonOffsetPoint     = C.GL_POLYGON_OFFSET_POINT
 	PolygonSmooth          = C.GL_POLYGON_SMOOTH
 	PrimitiveRestart       = C.GL_PRIMITIVE_RESTART
-	RasterizerDiscard      = C.GL_RASTERIZER_DISCARD
 	SampleAlphaToCoverage  = C.GL_SAMPLE_ALPHA_TO_COVERAGE
 	SampleAlphaToOne       = C.GL_SAMPLE_ALPHA_TO_ONE
 	SampleCoverage         = C.GL_SAMPLE_COVERAGE
-	SampleShading          = C.GL_SAMPLE_SHADING
-	SampleMask             = C.GL_SAMPLE_MASK
 	ScissorTest            = C.GL_SCISSOR_TEST
 	StencilTest            = C.GL_STENCIL_TEST
 	TextureCubeMapSeamless = C.GL_TEXTURE_CUBE_MAP_SEAMLESS
-	ProgramPointSIze       = C.GL_PROGRAM_POINT_SIZE
+	ProgramPointSize       = C.GL_PROGRAM_POINT_SIZE
+)
+
+type GLbitfield int
+
+const (
+	ColorBufferBit   GLbitfield = C.GL_COLOR_BUFFER_BIT
+	DepthBufferBit              = C.GL_DEPTH_BUFFER_BIT
+	StencilBufferBit            = C.GL_STENCIL_BUFFER_BIT
 )
