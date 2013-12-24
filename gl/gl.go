@@ -1003,8 +1003,6 @@ func DrawRangeElementsBaseVertex(mode GLenum, start, end uint32, count int, data
 	return nil
 }
 
-// <-------- THIS FAR --------->
-
 /*
 Enable server-side GL capabilities
 
@@ -1035,6 +1033,32 @@ Parameters
 func Enablei(capability GLenum, index uint32) {
 	C.glEnablei(C.GLenum(capability), C.GLuint(index))
 }
+
+/*
+End conditional rendering
+*/
+func EndConditionalRender() {
+	C.glEndConditionalRender()
+}
+
+/*
+End delimiting the boundaries of a query object
+
+Parameters
+    target - Specifies the target type of query object to be concluded. The symbolic constant must be one of SamplesPassed, AnySamplesPassed, PrimitivesGenerated, TransformFeedbackPrimitivesWritten, or TimeElapsed.
+*/
+func EndQuery(target GLenum) {
+	C.glEndQuery(C.GLenum(target))
+}
+
+/*
+End transform feedback operation
+*/
+func EndTransformFeedback() {
+	C.glEndTransformFeedback()
+}
+
+// <-------- THIS FAR --------->
 
 /*
 Set the viewport
