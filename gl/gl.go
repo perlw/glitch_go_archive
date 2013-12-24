@@ -1058,6 +1058,136 @@ func EndTransformFeedback() {
 	C.glEndTransformFeedback()
 }
 
+/*
+Create a new sync object and insert it into the GL command stream
+
+Parameters
+    condition - Specifies the condition that must be met to set the sync object's state to signaled. condition must be SyncGpuCommandsComplete.
+    flags - Specifies a bitwise combination of flags controlling the behavior of the sync object. No flags are presently defined for this operation and flags will be ignored.
+*/
+func FenceSync(condition GLenum, flags GLbitfield) GLsync {
+	return GLsync(C.glFenceSync(C.GLenum(condition), 0))
+}
+
+/*
+Block until all GL execution is complete
+*/
+func Finish() {
+	C.glFinish()
+}
+
+/*
+Force execution of GL commands in finite time
+*/
+func Flush() {
+	C.glFlush()
+}
+
+/*
+Indicate modifications to a range of a mapped buffer
+
+Parameters
+    target - Specifies the target of the flush operation. target must be ArrayBuffer, CopyReadBuffer, CopyWriteBuffer, ElementArrayBuffer, PixelPackBuffer, PixelUnpackBuffer, TextureBuffer, TransformFeedbackBuffer, or UniformBuffer.
+    offset - Specifies the start of the buffer subrange, in basic machine units.
+    length - Specifies the length of the buffer subrange, in basic machine units.
+*/
+func FlushMappedBufferRange(target GLenum, offset, length uint32) {
+	C.glFlushMappedBufferRange(C.GLenum(target), C.GLintptr(offset), C.GLsizeiptr(length))
+}
+
+/*
+Attach a renderbuffer as a logical buffer to the currently bound framebuffer object
+
+Parameters
+    target - Specifies the framebuffer target. target must be DrawFramebuffer, ReadFramebuffer, or Framebuffer. Framebuffer is equivalent to DrawFramebuffer.
+    attachment - Specifies the attachment point of the framebuffer.
+    rednerbuffertarget - Specifies the renderbuffer target and must be Renderbuffer.
+    renderbuffer - Specifies the name of an existing renderbuffer object of type renderbuffertarget to attach.
+*/
+func FramebufferRenderbuffer(target, attachment, renderbuffertarget GLenum, renderbuffer uint32) {
+	C.glFramebufferRenderbuffer(C.GLenum(target), C.GLenum(attachment), C.GLenum(renderbuffertarget), C.GLuint(renderbuffer))
+}
+
+/*
+Attach a level of a texture object as a logical buffer to the currently bound framebuffer object
+
+Parameters
+    target - Specifies the framebuffer target. target must be DrawFramebuffer, ReadFramebuffer, or Framebuffer. Framebuffer is equivalent to DrawFramebuffer.
+    attachment - Specifies the attachment point of the framebuffer. attachment must be ColorAttachmenti, DepthAttachment, StencilAttachment or DepthStencilAttachment.
+    texture - Specifies the texture object to attach to the framebuffer attachment point named by attachment.
+    level - Specifies the mipmap level of texture to attach.
+*/
+func FramebufferTexture(target, attachment GLenum, texture uint32, level int) {
+	C.glFramebufferTexture(C.GLenum(target), C.GLenum(attachment), C.GLuint(texture), C.GLint(level))
+}
+
+/*
+Attach a level of a texture object as a logical buffer to the currently bound framebuffer object
+
+Parameters
+    target - Specifies the framebuffer target. target must be DrawFramebuffer, ReadFramebuffer, or Framebuffer. Framebuffer is equivalent to DrawFramebuffer.
+    attachment - Specifies the attachment point of the framebuffer. attachment must be ColorAttachmenti, DepthAttachment, StencilAttachment or DepthStencilAttachment.
+    textarget - For FramebufferTexture1d, FramebufferTexture2d and FramebufferTexture3d, specifies what type of texture is expected in the texture parameter, or for cube map textures, which face is to be attached.
+    texture - Specifies the texture object to attach to the framebuffer attachment point named by attachment.
+    level - Specifies the mipmap level of texture to attach.
+*/
+func FramebufferTexture1d(target, attachment, textarget GLenum, texture uint32, level int) {
+	C.glFramebufferTexture1D(C.GLenum(target), C.GLenum(attachment), C.GLenum(textarget), C.GLuint(texture), C.GLint(level))
+}
+
+/*
+Attach a level of a texture object as a logical buffer to the currently bound framebuffer object
+
+Parameters
+    target - Specifies the framebuffer target. target must be DrawFramebuffer, ReadFramebuffer, or Framebuffer. Framebuffer is equivalent to DrawFramebuffer.
+    attachment - Specifies the attachment point of the framebuffer. attachment must be ColorAttachmenti, DepthAttachment, StencilAttachment or DepthStencilAttachment.
+    textarget - For FramebufferTexture1d, FramebufferTexture2d and FramebufferTexture3d, specifies what type of texture is expected in the texture parameter, or for cube map textures, which face is to be attached.
+    texture - Specifies the texture object to attach to the framebuffer attachment point named by attachment.
+    level - Specifies the mipmap level of texture to attach.
+*/
+func FramebufferTexture2d(target, attachment, textarget GLenum, texture uint32, level int) {
+	C.glFramebufferTexture2D(C.GLenum(target), C.GLenum(attachment), C.GLenum(textarget), C.GLuint(texture), C.GLint(level))
+}
+
+/*
+Attach a level of a texture object as a logical buffer to the currently bound framebuffer object
+
+Parameters
+    target - Specifies the framebuffer target. target must be DrawFramebuffer, ReadFramebuffer, or Framebuffer. Framebuffer is equivalent to DrawFramebuffer.
+    attachment - Specifies the attachment point of the framebuffer. attachment must be ColorAttachmenti, DepthAttachment, StencilAttachment or DepthStencilAttachment.
+    textarget - For FramebufferTexture1d, FramebufferTexture2d and FramebufferTexture3d, specifies what type of texture is expected in the texture parameter, or for cube map textures, which face is to be attached.
+    texture - Specifies the texture object to attach to the framebuffer attachment point named by attachment.
+    level - Specifies the mipmap level of texture to attach.
+    layer - Specifies the layer of texture to attach.
+*/
+func FramebufferTexture3d(target, attachment, textarget GLenum, texture uint32, level, layer int) {
+	C.glFramebufferTexture3D(C.GLenum(target), C.GLenum(attachment), C.GLenum(textarget), C.GLuint(texture), C.GLint(level), C.GLint(layer))
+}
+
+/*
+Attach a single layer of a texture to a framebuffer
+
+Parameters
+    target - Specifies the framebuffer target. target must be DrawFramebuffer, ReadFramebuffer, or Framebuffer. Framebuffer is equivalent to DrawFramebuffer.
+    attachment - Specifies the attachment point of the framebuffer. attachment must be ColorAttachmenti, DepthAttachment, StencilAttachment or DepthStencilAttachment.
+    texture - Specifies the texture object to attach to the framebuffer attachment point named by attachment.
+    level - Specifies the mipmap level of texture to attach.
+    layer - Specifies the layer of texture to attach.
+*/
+func FramebufferTextureLayer(target, attachment GLenum, texture uint32, level, layer int) {
+	C.glFramebufferTextureLayer(C.GLenum(target), C.GLenum(attachment), C.GLuint(texture), C.GLint(level), C.GLint(layer))
+}
+
+/*
+Define front- and back-facing polygons
+
+Parameters
+    mode - Specifies the orientation of front-facing polygons. CW and CCW are accepted. The initial value is CCW.
+*/
+func FrontFace(mode GLenum) {
+	C.glFrontFace(C.GLenum(mode))
+}
+
 // <-------- THIS FAR --------->
 
 /*

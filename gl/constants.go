@@ -65,14 +65,15 @@ const (
 	TrianglesAdjacency     = C.GL_TRIANGLES_ADJACENCY
 	TriangleStripAdjacency = C.GL_TRIANGLE_STRIP_ADJACENCY
 
-	// BindBuffer, BufferData
+	// BindBuffer, BufferData, FlushMappedBufferRange
 	ArrayBuffer        = C.GL_ARRAY_BUFFER
 	CopyReadBuffer     = C.GL_COPY_READ_BUFFER
 	CopyWriteBuffer    = C.GL_COPY_WRITE_BUFFER
 	ElementArrayBuffer = C.GL_ELEMENT_ARRAY_BUFFER
 	PixelPackBuffer    = C.GL_PIXEL_PACK_BUFFER
 	PixelUnpackBuffer  = C.GL_PIXEL_UNPACK_BUFFER
-	// BindBufferBase, BindBufferRange
+
+	// BindBufferBase, BindBufferRange, FlushMappedBufferRange
 	TransformFeedbackBuffer = C.GL_TRANSFORM_FEEDBACK_BUFFER
 	UniformBuffer           = C.GL_UNIFORM_BUFFER
 
@@ -249,6 +250,34 @@ const (
 	StencilTest            = C.GL_STENCIL_TEST
 	TextureCubeMapSeamless = C.GL_TEXTURE_CUBE_MAP_SEAMLESS
 	ProgramPointSize       = C.GL_PROGRAM_POINT_SIZE
+
+	// FenceSync
+	SyncGpuCommandsComplete = C.GL_SYNC_GPU_COMMANDS_COMPLETE
+
+	// glFramebufferTexture, glFramebufferTextureLayer
+	ColorAttachment0       = C.GL_COLOR_ATTACHMENT0
+	ColorAttachment1       = C.GL_COLOR_ATTACHMENT1
+	ColorAttachment2       = C.GL_COLOR_ATTACHMENT2
+	ColorAttachment3       = C.GL_COLOR_ATTACHMENT3
+	ColorAttachment4       = C.GL_COLOR_ATTACHMENT4
+	ColorAttachment5       = C.GL_COLOR_ATTACHMENT5
+	ColorAttachment6       = C.GL_COLOR_ATTACHMENT6
+	ColorAttachment7       = C.GL_COLOR_ATTACHMENT7
+	ColorAttachment8       = C.GL_COLOR_ATTACHMENT8
+	ColorAttachment9       = C.GL_COLOR_ATTACHMENT9
+	ColorAttachment10      = C.GL_COLOR_ATTACHMENT10
+	ColorAttachment11      = C.GL_COLOR_ATTACHMENT11
+	ColorAttachment12      = C.GL_COLOR_ATTACHMENT12
+	ColorAttachment13      = C.GL_COLOR_ATTACHMENT13
+	ColorAttachment14      = C.GL_COLOR_ATTACHMENT14
+	ColorAttachment15      = C.GL_COLOR_ATTACHMENT15
+	DepthAttachment        = C.GL_DEPTH_ATTACHMENT
+	StencilAttachment      = C.GL_STENCIL_ATTACHMENT
+	DepthStencilAttachment = C.GL_DEPTH_STENCIL_ATTACHMENT
+
+	// FrontFace
+	CW  = C.GL_CW
+	CCW = C.GL_CCW
 )
 
 type GLbitfield int
