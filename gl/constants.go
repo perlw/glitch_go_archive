@@ -445,6 +445,79 @@ const (
 	MinorVersion                         = C.GL_MINOR_VERSION
 	ContextFlags                         = C.GL_CONTEXT_FLAGS
 	ViewportConst                        = C.GL_VIEWPORT
+
+	// GetActiveAttrib, GetActiveUniform, etc
+	Float                                = C.GL_FLOAT
+	FloatVec2                            = C.GL_FLOAT_VEC2
+	FloatVec3                            = C.GL_FLOAT_VEC3
+	FloatVec4                            = C.GL_FLOAT_VEC4
+	Int                                  = C.GL_INT
+	IntVec2                              = C.GL_INT_VEC2
+	IntVec3                              = C.GL_INT_VEC3
+	IntVec4                              = C.GL_INT_VEC4
+	UnsignedInt                          = C.GL_UNSIGNED_INT
+	UnsignedIntVec2                      = C.GL_UNSIGNED_INT_VEC2
+	UnsignedIntVec3                      = C.GL_UNSIGNED_INT_VEC3
+	UnsignedIntVec4                      = C.GL_UNSIGNED_INT_VEC4
+	Bool                                 = C.GL_BOOL
+	BoolVec2                             = C.GL_BOOL_VEC2
+	BoolVec3                             = C.GL_BOOL_VEC3
+	BoolVec4                             = C.GL_BOOL_VEC4
+	FloatMat2                            = C.GL_FLOAT_MAT2
+	FloatMat3                            = C.GL_FLOAT_MAT3
+	FloatMat4                            = C.GL_FLOAT_MAT4
+	FLOATMAT2x3                          = C.GL_FLOAT_MAT2x3
+	FLOATMAT2x4                          = C.GL_FLOAT_MAT2x4
+	FLOATMAT3x2                          = C.GL_FLOAT_MAT3x2
+	FLOATMAT3x4                          = C.GL_FLOAT_MAT3x4
+	FLOATMAT4x2                          = C.GL_FLOAT_MAT4x2
+	FLOATMAT4x3                          = C.GL_FLOAT_MAT4x3
+	Sampler1d                            = C.GL_SAMPLER_1D
+	Sampler2d                            = C.GL_SAMPLER_2D
+	Sampler3d                            = C.GL_SAMPLER_3D
+	SamplerCube                          = C.GL_SAMPLER_CUBE
+	Sampler1dShadow                      = C.GL_SAMPLER_1D_SHADOW
+	Sampler2dShadow                      = C.GL_SAMPLER_2D_SHADOW
+	Sampler1dArray                       = C.GL_SAMPLER_1D_ARRAY
+	Sampler2dArray                       = C.GL_SAMPLER_2D_ARRAY
+	Sampler1dArrayShadow                 = C.GL_SAMPLER_1D_ARRAY_SHADOW
+	Sampler2dArrayShadow                 = C.GL_SAMPLER_2D_ARRAY_SHADOW
+	Sampler2dMultisample                 = C.GL_SAMPLER_2D_MULTISAMPLE
+	Sampler2dMultisampleArray            = C.GL_SAMPLER_2D_MULTISAMPLE_ARRAY
+	SamplerCubeShadow                    = C.GL_SAMPLER_CUBE_SHADOW
+	SamplerBuffer                        = C.GL_SAMPLER_BUFFER
+	Sampler2dRect                        = C.GL_SAMPLER_2D_RECT
+	Sampler2dRectShadow                  = C.GL_SAMPLER_2D_RECT_SHADOW
+	IntSampler1d                         = C.GL_INT_SAMPLER_1D
+	IntSampler2d                         = C.GL_INT_SAMPLER_2D
+	IntSampler3d                         = C.GL_INT_SAMPLER_3D
+	IntSamplerCube                       = C.GL_INT_SAMPLER_CUBE
+	IntSampler1dArray                    = C.GL_INT_SAMPLER_1D_ARRAY
+	IntSampler2dArray                    = C.GL_INT_SAMPLER_2D_ARRAY
+	IntSampler2dMultisample              = C.GL_INT_SAMPLER_2D_MULTISAMPLE
+	IntSampler2dMultisampleArray         = C.GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
+	IntSamplerBuffer                     = C.GL_INT_SAMPLER_BUFFER
+	IntSampler2dRect                     = C.GL_INT_SAMPLER_2D_RECT
+	UnsignedIntSampler1d                 = C.GL_UNSIGNED_INT_SAMPLER_1D
+	UnsignedIntSampler2d                 = C.GL_UNSIGNED_INT_SAMPLER_2D
+	UnsignedIntSampler3d                 = C.GL_UNSIGNED_INT_SAMPLER_3D
+	UnsignedIntSamplerCube               = C.GL_UNSIGNED_INT_SAMPLER_CUBE
+	UnsignedIntSampler1dArray            = C.GL_UNSIGNED_INT_SAMPLER_1D_ARRAY
+	UnsignedIntSampler2dArray            = C.GL_UNSIGNED_INT_SAMPLER_2D_ARRAY
+	UnsignedIntSampler2dMultisample      = C.GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE
+	UnsignedIntSampler2dMultisampleArray = C.GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
+	UnsignedIntSamplerBuffer             = C.GL_UNSIGNED_INT_SAMPLER_BUFFER
+	UnsignedIntSampler2dRect             = C.GL_UNSIGNED_INT_SAMPLER_2D_RECT
+
+	// GetActiveUniformBlock, etc
+	UniformBlockBinding                    = C.GL_UNIFORM_BLOCK_BINDING
+	UniformBlockDataSize                   = C.GL_UNIFORM_BLOCK_DATA_SIZE
+	UniformBlockNameLength                 = C.GL_UNIFORM_BLOCK_NAME_LENGTH
+	UniformBlockActiveUniforms             = C.GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS
+	UniformBlockActiveUniformIndices       = C.GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES
+	UniformBlockReferencedByVertexShader   = C.GL_UNIFORM_BLOCK_REFERENCED_BY_VERTEX_SHADER
+	UniformBlockReferencedByGeometryShader = C.GL_UNIFORM_BLOCK_REFERENCED_BY_GEOMETRY_SHADER
+	UniformBlockReferencedByFragmentShader = C.GL_UNIFORM_BLOCK_REFERENCED_BY_FRAGMENT_SHADER
 )
 
 type GLbitfield int

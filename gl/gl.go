@@ -1526,6 +1526,61 @@ func GetInteger64i(pname GLenum, index uint32) []int64 {
 	return values
 }
 
+/*
+Returns information about an active attribute variable for the specified program object
+
+Parameters
+    program - Specifies the program object to be queried.
+    index - Specifies the index of the attribute variable to be queried.
+*/
+func GetActiveAttrib(program, index uint32) (GLenum, string) {
+	cStr := make([]C.GLchar, 256)
+	var size C.GLint
+	var enumType C.GLenum
+
+	C.glGetActiveAttrib(C.GLuint(program), C.GLuint(index), 256, nil, &size, &enumType, &cStr[0])
+
+	return GLenum(enumType), C.GoString((*C.char)(&cStr[0]))
+}
+
+/*
+Returns information about an active uniform variable for the specified program object
+
+Parameters
+    program - Specifies the program object to be queried.
+    index - Specifies the index of the uniform variable to be queried.
+*/
+func GetActiveUniform(program, index uint32) (GLenum, string) {
+	cStr := make([]C.GLchar, 256)
+	var size C.GLint
+	var enumType C.GLenum
+
+	C.glGetActiveUniform(C.GLuint(program), C.GLuint(index), 256, nil, &size, &enumType, &cStr[0])
+
+	return GLenum(enumType), C.GoString((*C.char)(&cStr[0]))
+}
+
+/*
+Query information about an active uniform block
+
+Parameters
+    program - Specifies the name of a program containing the uniform block.
+    uniformBlockIndex - Specifies the index of the uniform block within program.
+    pname - Specifies the name of the parameter to query.
+*/
+func GetActiveUniformBlock(program, uniformBlockIndex uint32, pname GLenum) []int {
+	cValues := make([]C.GLint, 1, 32)
+	values := make([]int, 1, 32)
+
+	C.glGetActiveUniformBlock(C.GLuint(program), C.GLuint(uniformBlockIndex), C.GLenum(pname), &cValues[0])
+
+	for key, _ := range cValues {
+		values[key] = int(cValues[key])
+	}
+
+	return values
+}
+
 // <-------- THIS FAR --------->
 
 /*
