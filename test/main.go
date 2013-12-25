@@ -32,6 +32,9 @@ func main() {
 	gl.DepthFunc(gl.LEqual)
 	gl.Viewport(0, 0, screenWidth, screenHeight)
 
+	tmp := gl.GetBoolean(gl.DepthTest)
+	fmt.Println(tmp)
+
 	for !window.ShouldClose() {
 		gl.Clear(gl.ColorBufferBit | gl.DepthBufferBit)
 

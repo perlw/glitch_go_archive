@@ -1188,6 +1188,344 @@ func FrontFace(mode GLenum) {
 	C.glFrontFace(C.GLenum(mode))
 }
 
+/*
+Generate buffer object names
+
+Parameters
+    num - Specifies the number of buffer object names to be generated.
+*/
+func GenBuffers(num int) []uint32 {
+	cBuffers := make([]C.GLuint, num)
+	buffers := make([]uint32, num)
+
+	C.glGenBuffers(C.GLsizei(num), (*C.GLuint)(&cBuffers[0]))
+
+	for key, _ := range cBuffers {
+		buffers[key] = uint32(cBuffers[key])
+	}
+
+	return buffers
+}
+
+/*
+Generate framebuffer object names
+
+Parameters
+    num - Specifies the number of framebuffer object names to be generated.
+*/
+func GenFramebuffers(num int) []uint32 {
+	cBuffers := make([]C.GLuint, num)
+	buffers := make([]uint32, num)
+
+	C.glGenFramebuffers(C.GLsizei(num), (*C.GLuint)(&cBuffers[0]))
+
+	for key, _ := range cBuffers {
+		buffers[key] = uint32(cBuffers[key])
+	}
+
+	return buffers
+}
+
+/*
+Generate query object names
+
+Parameters
+    num - Specifies the number of query object names to be generated.
+*/
+func GenQueries(num int) []uint32 {
+	cQueries := make([]C.GLuint, num)
+	queries := make([]uint32, num)
+
+	C.glGenQueries(C.GLsizei(num), (*C.GLuint)(&cQueries[0]))
+
+	for key, _ := range cQueries {
+		queries[key] = uint32(cQueries[key])
+	}
+
+	return queries
+}
+
+/*
+Generate renderbuffer object names
+
+Parameters
+    num - Specifies the number of renderbuffer object names to be generated.
+*/
+func GenRenderbuffers(num int) []uint32 {
+	cBuffers := make([]C.GLuint, num)
+	buffers := make([]uint32, num)
+
+	C.glGenRenderbuffers(C.GLsizei(num), (*C.GLuint)(&cBuffers[0]))
+
+	for key, _ := range cBuffers {
+		buffers[key] = uint32(cBuffers[key])
+	}
+
+	return buffers
+}
+
+/*
+Generate sampler object names
+
+Parameters
+    num - Specifies the number of sampler object names to be generated.
+*/
+func GenSamplers(num int) []uint32 {
+	cSamplers := make([]C.GLuint, num)
+	samplers := make([]uint32, num)
+
+	C.glGenSamplers(C.GLsizei(num), (*C.GLuint)(&cSamplers[0]))
+
+	for key, _ := range cSamplers {
+		samplers[key] = uint32(cSamplers[key])
+	}
+
+	return samplers
+}
+
+/*
+Generate texture names
+
+Parameters
+    num - Specifies the number of texture names to be generated.
+*/
+func GenTextures(num int) []uint32 {
+	cTextures := make([]C.GLuint, num)
+	textures := make([]uint32, num)
+
+	C.glGenTextures(C.GLsizei(num), (*C.GLuint)(&cTextures[0]))
+
+	for key, _ := range cTextures {
+		textures[key] = uint32(cTextures[key])
+	}
+
+	return textures
+}
+
+/*
+Generate vertex array object names
+
+Parameters
+    num - Specifies the number of vertex array object names to be generated.
+*/
+func GenVertexArrays(num int) []uint32 {
+	cVertexArrays := make([]C.GLuint, num)
+	vertexArrays := make([]uint32, num)
+
+	C.glGenVertexArrays(C.GLsizei(num), (*C.GLuint)(&cVertexArrays[0]))
+
+	for key, _ := range cVertexArrays {
+		vertexArrays[key] = uint32(cVertexArrays[key])
+	}
+
+	return vertexArrays
+}
+
+/*
+Generate mipmaps for a specified texture target
+
+Parameters
+    target - Specifies the target to which the texture whose mimaps to generate is bound. target must be Texture1d, Texture2d, Texture3d, Texture1dArray, Texture2dArray or TextureCubeMap.
+*/
+func GenerateMipmap(target GLenum) {
+	C.glGenerateMipmap(C.GLenum(target))
+}
+
+/*
+Return the value or values of a selected parameter
+
+Parameters
+    pname - Specifies the parameter value to be returned.
+*/
+func GetBoolean(pname GLenum) []bool {
+	cValues := make([]C.GLboolean, 1, 32)
+	values := make([]bool, 1, 32)
+
+	C.glGetBooleanv(C.GLenum(pname), (*C.GLboolean)(&cValues[0]))
+
+	for key, _ := range cValues {
+		values[key] = glBoolToBool(cValues[key])
+	}
+
+	return values
+}
+
+/*
+Return the value or values of a selected parameter
+
+Parameters
+    pname - Specifies the parameter value to be returned.
+*/
+func GetDouble(pname GLenum) []float64 {
+	cValues := make([]C.GLdouble, 1, 32)
+	values := make([]float64, 1, 32)
+
+	C.glGetDoublev(C.GLenum(pname), (*C.GLdouble)(&cValues[0]))
+
+	for key, _ := range cValues {
+		values[key] = float64(cValues[key])
+	}
+
+	return values
+}
+
+/*
+Return the value or values of a selected parameter
+
+Parameters
+    pname - Specifies the parameter value to be returned.
+*/
+func GetFloat(pname GLenum) []float32 {
+	cValues := make([]C.GLfloat, 1, 32)
+	values := make([]float32, 1, 32)
+
+	C.glGetFloatv(C.GLenum(pname), (*C.GLfloat)(&cValues[0]))
+
+	for key, _ := range cValues {
+		values[key] = float32(cValues[key])
+	}
+
+	return values
+}
+
+/*
+Return the value or values of a selected parameter
+
+Parameters
+    pname - Specifies the parameter value to be returned.
+*/
+func GetInteger(pname GLenum) []int {
+	cValues := make([]C.GLint, 1, 32)
+	values := make([]int, 1, 32)
+
+	C.glGetIntegerv(C.GLenum(pname), (*C.GLint)(&cValues[0]))
+
+	for key, _ := range cValues {
+		values[key] = int(cValues[key])
+	}
+
+	return values
+}
+
+/*
+Return the value or values of a selected parameter
+
+Parameters
+    pname - Specifies the parameter value to be returned.
+*/
+func GetInteger64(pname GLenum) []int64 {
+	cValues := make([]C.GLint64, 1, 32)
+	values := make([]int64, 1, 32)
+
+	C.glGetInteger64v(C.GLenum(pname), (*C.GLint64)(&cValues[0]))
+
+	for key, _ := range cValues {
+		values[key] = int64(cValues[key])
+	}
+
+	return values
+}
+
+/*
+Return the value or values of a selected parameter
+
+Parameters
+    pname - Specifies the parameter value to be returned.
+    index - Specifies the index of the particular element being queried.
+*/
+func GetBooleani(pname GLenum, index uint32) []bool {
+	cValues := make([]C.GLboolean, 1, 32)
+	values := make([]bool, 1, 32)
+
+	C.glGetBooleani_v(C.GLenum(pname), C.GLuint(index), (*C.GLboolean)(&cValues[0]))
+
+	for key, _ := range cValues {
+		values[key] = glBoolToBool(cValues[key])
+	}
+
+	return values
+}
+
+/*
+Return the value or values of a selected parameter
+
+Parameters
+    pname - Specifies the parameter value to be returned.
+    index - Specifies the index of the particular element being queried.
+*/
+func GetDoublei(pname GLenum, index uint32) []float64 {
+	cValues := make([]C.GLdouble, 1, 32)
+	values := make([]float64, 1, 32)
+
+	C.glGetDoublei_v(C.GLenum(pname), C.GLuint(index), (*C.GLdouble)(&cValues[0]))
+
+	for key, _ := range cValues {
+		values[key] = float64(cValues[key])
+	}
+
+	return values
+}
+
+/*
+Return the value or values of a selected parameter
+
+Parameters
+    pname - Specifies the parameter value to be returned.
+    index - Specifies the index of the particular element being queried.
+*/
+func GetFloati(pname GLenum, index uint32) []float32 {
+	cValues := make([]C.GLfloat, 1, 32)
+	values := make([]float32, 1, 32)
+
+	C.glGetFloati_v(C.GLenum(pname), C.GLuint(index), (*C.GLfloat)(&cValues[0]))
+
+	for key, _ := range cValues {
+		values[key] = float32(cValues[key])
+	}
+
+	return values
+}
+
+/*
+Return the value or values of a selected parameter
+
+Parameters
+    pname - Specifies the parameter value to be returned.
+    index - Specifies the index of the particular element being queried.
+*/
+func GetIntegeri(pname GLenum, index uint32) []int {
+	cValues := make([]C.GLint, 1, 32)
+	values := make([]int, 1, 32)
+
+	C.glGetIntegeri_v(C.GLenum(pname), C.GLuint(index), (*C.GLint)(&cValues[0]))
+
+	for key, _ := range cValues {
+		values[key] = int(cValues[key])
+	}
+
+	return values
+}
+
+/*
+Return the value or values of a selected parameter
+
+Parameters
+    pname - Specifies the parameter value to be returned.
+    index - Specifies the index of the particular element being queried.
+*/
+func GetInteger64i(pname GLenum, index uint32) []int64 {
+	cValues := make([]C.GLint64, 1, 32)
+	values := make([]int64, 1, 32)
+
+	C.glGetInteger64i_v(C.GLenum(pname), C.GLuint(index), (*C.GLint64)(&cValues[0]))
+
+	for key, _ := range cValues {
+		values[key] = int64(cValues[key])
+	}
+
+	return values
+}
+
 // <-------- THIS FAR --------->
 
 /*
