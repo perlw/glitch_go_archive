@@ -4,6 +4,7 @@ package gl
 import "C"
 
 type GLenum int
+type GLbitfield int
 
 const (
 	// ActiveTexture
@@ -518,9 +519,52 @@ const (
 	UniformBlockReferencedByVertexShader   = C.GL_UNIFORM_BLOCK_REFERENCED_BY_VERTEX_SHADER
 	UniformBlockReferencedByGeometryShader = C.GL_UNIFORM_BLOCK_REFERENCED_BY_GEOMETRY_SHADER
 	UniformBlockReferencedByFragmentShader = C.GL_UNIFORM_BLOCK_REFERENCED_BY_FRAGMENT_SHADER
-)
 
-type GLbitfield int
+	// GetBufferParameter, GetBufferPointer, etc
+	BufferAccess = C.GL_BUFFER_ACCESS
+	BufferMapped = C.GL_BUFFER_MAPPED
+	BufferSize   = C.GL_BUFFER_SIZE
+	BufferUsage  = C.GL_BUFFER_USAGE
+
+	// GetError
+	NoError                     = C.GL_NO_ERROR
+	InvalidEnum                 = C.GL_INVALID_ENUM
+	InvalidValue                = C.GL_INVALID_VALUE
+	InvalidOperation            = C.GL_INVALID_OPERATION
+	InvalidFramebufferOperation = C.GL_INVALID_FRAMEBUFFER_OPERATION
+	OutOfMemory                 = C.GL_OUT_OF_MEMORY
+
+	// GetMultisample
+	SamplePosition = C.GL_SAMPLE_POSITION
+
+	// GetProgram
+	DeleteStatus                      = C.GL_DELETE_STATUS
+	LinkStatus                        = C.GL_LINK_STATUS
+	ValidateStatus                    = C.GL_VALIDATE_STATUS
+	InfoLogLength                     = C.GL_INFO_LOG_LENGTH
+	AttachedShaders                   = C.GL_ATTACHED_SHADERS
+	ActiveAttributes                  = C.GL_ACTIVE_ATTRIBUTES
+	ActiveAttributeMaxLength          = C.GL_ACTIVE_ATTRIBUTE_MAX_LENGTH
+	ActiveUniforms                    = C.GL_ACTIVE_UNIFORMS
+	ActiveUniformBlocks               = C.GL_ACTIVE_UNIFORM_BLOCKS
+	ActiveUniformBlockMaxNameLength   = C.GL_ACTIVE_UNIFORM_BLOCK_MAX_NAME_LENGTH
+	ActiveUniformMaxLength            = C.GL_ACTIVE_UNIFORM_MAX_LENGTH
+	TransformFeedbackBufferMode       = C.GL_TRANSFORM_FEEDBACK_BUFFER_MODE
+	TransformFeedbackVaryings         = C.GL_TRANSFORM_FEEDBACK_VARYINGS
+	TransformFeedbackVaryingMaxLength = C.GL_TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH
+	GeometryVerticesOut               = C.GL_GEOMETRY_VERTICES_OUT
+	GeometryInputType                 = C.GL_GEOMETRY_INPUT_TYPE
+	GeometryOutputType                = C.GL_GEOMETRY_OUTPUT_TYPE
+
+	// GetQueryObject
+	QueryResult          = C.GL_QUERY_RESULT
+	QueryResultAvailable = C.GL_QUERY_RESULT_AVAILABLE
+
+	// GetQuery
+	PrimitivesGenerated = C.GL_PRIMITIVES_GENERATED
+	CurrentQuery        = C.GL_CURRENT_QUERY
+	QueryCounterBits    = C.GL_QUERY_COUNTER_BITS
+)
 
 const (
 	ColorBufferBit   GLbitfield = C.GL_COLOR_BUFFER_BIT

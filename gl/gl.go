@@ -1534,7 +1534,7 @@ Parameters
     index - Specifies the index of the attribute variable to be queried.
 */
 func GetActiveAttrib(program, index uint32) (GLenum, string) {
-	cStr := make([]C.GLchar, 256)
+	var cStr [256]C.GLchar
 	var size C.GLint
 	var enumType C.GLenum
 
@@ -1551,7 +1551,7 @@ Parameters
     index - Specifies the index of the uniform variable to be queried.
 */
 func GetActiveUniform(program, index uint32) (GLenum, string) {
-	cStr := make([]C.GLchar, 256)
+	var cStr [256]C.GLchar
 	var size C.GLint
 	var enumType C.GLenum
 
@@ -1561,24 +1561,352 @@ func GetActiveUniform(program, index uint32) (GLenum, string) {
 }
 
 /*
-Query information about an active uniform block
+Retrieve the name of an active uniform block
+
+Parameters
+    program - Specifies the program containing the active uniform index uniformIndex.
+    uniformBlockIndex - Specifies the index of the active uniform whose name to query.
+*/
+func GetActiveUniformName(program, uniformBlockIndex uint32) string {
+	var cStr [256]C.GLchar
+	var size C.GLsizei
+
+	C.glGetActiveUniformName(C.GLuint(program), C.GLuint(uniformBlockIndex), 256, &size, &cStr[0])
+
+	return C.GoString((*C.char)(&cStr[0]))
+}
+
+/*
+Query the name of an active uniform
 
 Parameters
     program - Specifies the name of a program containing the uniform block.
     uniformBlockIndex - Specifies the index of the uniform block within program.
-    pname - Specifies the name of the parameter to query.
 */
-func GetActiveUniformBlock(program, uniformBlockIndex uint32, pname GLenum) []int {
-	cValues := make([]C.GLint, 1, 32)
-	values := make([]int, 1, 32)
+func GetActiveUniformBlockName(program, uniformBlockIndex uint32) string {
+	var cStr [256]C.GLchar
+	var size C.GLsizei
 
-	C.glGetActiveUniformBlock(C.GLuint(program), C.GLuint(uniformBlockIndex), C.GLenum(pname), &cValues[0])
+	C.glGetActiveUniformBlockName(C.GLuint(program), C.GLuint(uniformBlockIndex), 256, &size, &cStr[0])
 
-	for key, _ := range cValues {
-		values[key] = int(cValues[key])
+	return C.GoString((*C.char)(&cStr[0]))
+}
+
+/*
+Returns information about several active uniform variables for the specified program object
+
+Parameters
+    program - Specifies the program object to be queried.
+    uniformIndices - Specifies the address of an array of uniformCount integers containing the indices of uniforms within program whose parameter pname should be queried.
+    pname - Specifies the property of each uniform in uniformIndices that should be returned.
+*/
+func GetActiveUniforms(program uint32, uniformIndices []uint32, pname GLenum) []int {
+	count := len(uniformIndices)
+	cParams := make([]C.GLint, count)
+	params := make([]int, count)
+
+	C.glGetActiveUniformsiv(C.GLuint(program), C.GLsizei(count), (*C.GLuint)(&uniformIndices[0]), C.GLenum(pname), (*C.GLint)(&cParams[0]))
+
+	for key, _ := range cParams {
+		params[key] = int(cParams[key])
 	}
 
-	return values
+	return params
+}
+
+/*
+Returns the handles of the shader objects attached to a program object
+
+Parameters
+    program - Specifies the program object to be queried.
+*/
+func GetAttachedShaders(program uint32) []uint32 {
+	var count C.GLsizei
+	cShaders := make([]C.GLuint, 64)
+	shaders := make([]uint32, 64)
+
+	C.glGetAttachedShaders(C.GLuint(program), 64, &count, (*C.GLuint)(&shaders[0]))
+
+	for key, _ := range cShaders {
+		shaders[key] = uint32(cShaders[key])
+	}
+
+	return shaders
+}
+
+/*
+Returns the location of an attribute variable
+
+Parameters
+    program - Specifies the program object to be queried.
+    name - Points to a null terminated string containing the name of the attribute variable whose location is to be queried.
+*/
+func GetAttribLocation(program uint32, name string) int {
+	cName := C.CString(name)
+	defer C.free(unsafe.Pointer(cName))
+
+	return int(C.glGetAttribLocation(C.GLuint(program), (*C.GLchar)(cName)))
+}
+
+/*
+Return parameters of a buffer object
+
+Parameters
+    target - Specifies the target buffer object. The symbolic constant must be ArrayBuffer, CopyReadBuffer, CopyWriteBuffer, ElementArrayBuffer, PixelPackBuffer, PixelUnpackBuffer, TextureBuffer, TransformFeedbackBuffer, or UniformBuffer.
+    value - Specifies the symbolic name of a buffer object parameter. Accepted values are BufferAccess, BufferMapped, BufferSize, or BufferUsage.
+*/
+func GetBufferParameter(target, value GLenum) int {
+	var data C.GLint
+
+	C.glGetBufferParameteriv(C.GLenum(target), C.GLenum(value), &data)
+
+	return int(data)
+}
+
+/*
+Return parameters of a buffer object
+
+Parameters
+    target - Specifies the target buffer object. The symbolic constant must be ArrayBuffer, CopyReadBuffer, CopyWriteBuffer, ElementArrayBuffer, PixelPackBuffer, PixelUnpackBuffer, TextureBuffer, TransformFeedbackBuffer, or UniformBuffer.
+    value - Specifies the symbolic name of a buffer object parameter. Accepted values are BufferAccess, BufferMapped, BufferSize, or BufferUsage.
+*/
+func GetBufferParameter64(target, value GLenum) int64 {
+	var data C.GLint64
+
+	C.glGetBufferParameteri64v(C.GLenum(target), C.GLenum(value), &data)
+
+	return int64(data)
+}
+
+/*
+Return the pointer to a mapped buffer object's data store
+
+Parameters
+    target - Specifies the target buffer object. The symbolic constant must be ArrayBuffer, CopyReadBuffer, CopyWriteBuffer, ElementArrayBuffer, PixelPackBuffer, PixelUnpackBuffer, TextureBuffer, TransformFeedbackBuffer, or UniformBuffer.
+    pname - Specifies the pointer to be returned. The symbolic constant must be BufferMapPointer.
+*/
+func GetBufferPointer(target, pname GLenum) unsafe.Pointer {
+	var params unsafe.Pointer
+
+	C.glGetBufferPointerv(C.GLenum(target), C.GLenum(pname), &params)
+
+	return params
+}
+
+/*
+Returns a subset of a buffer object's data store
+
+Parameters
+    target - Specifies the target buffer object. The symbolic constant must be ArrayBuffer, CopyReadBuffer, CopyWriteBuffer, ElementArrayBuffer, PixelPackBuffer, PixelUnpackBuffer, TextureBuffer, TransformFeedbackBuffer, or UniformBuffer.
+    offset - Specifies the offset into the buffer object's data store from which data will be returned, measured in bytes.
+    size - Specifies the size in bytes of the data store region being returned.
+*/
+func GetBufferSubData(target GLenum, offset, size int) []byte {
+	data := make([]byte, size)
+
+	C.glGetBufferSubData(C.GLenum(target), C.GLintptr(offset), C.GLsizeiptr(size), unsafe.Pointer(&data[0]))
+
+	return data
+}
+
+/*
+Return a compressed texture image
+
+Parameters
+    target - Specifies which texture is to be obtained. Texture1d, Texture2d, Texture3d, TextureCubeMapPositiveX, TextureCubeMapNegativeX, TextureCubeMapPositiveY, TextureCubeMapNegativeY, TextureCubeMapPositiveZ, and TextureCubeMapNegativeZ are accepted.
+    lod - Specifies the level-of-detail number of the desired image. Level 0 is the base image level. Level n is the nth mipmap reduction image.
+*/
+func GetCompressedTexImage(target GLenum, lod int) []byte {
+	img := make([]byte, C.GL_TEXTURE_COMPRESSED_IMAGE_SIZE)
+
+	C.glGetCompressedTexImage(C.GLenum(target), C.GLint(lod), unsafe.Pointer(&img[0]))
+
+	return img
+}
+
+/*
+Return error information
+*/
+func GetError() GLenum {
+	return GLenum(C.glGetError())
+}
+
+/*
+Query the bindings of color indices to user-defined varying out variables
+
+Parameters
+    program - The name of the program containing varying out variable whose binding to query.
+    name - The name of the user-defined varying out variable whose index to query.
+*/
+func GetFragDataIndex(program uint32, name string) int {
+	cName := C.CString(name)
+	defer C.free(unsafe.Pointer(cName))
+
+	return int(C.glGetFragDataIndex(C.GLuint(program), (*C.GLchar)(cName)))
+}
+
+/*
+Query the bindings of color numbers to user-defined varying out variables
+
+Parameters
+    program - The name of the program containing varying out variable whose binding to query.
+    name - The name of the user-defined varying out variable whose index to query.
+*/
+func GetFragDataLocation(program uint32, name string) int {
+	cName := C.CString(name)
+	defer C.free(unsafe.Pointer(cName))
+
+	return int(C.glGetFragDataLocation(C.GLuint(program), (*C.GLchar)(cName)))
+}
+
+/*
+Retrieve information about attachments of a bound framebuffer object
+
+Parameters
+    target - Specifies the target of the query operation.
+    attachment - Specifies the attachment within target
+    pname - Specifies the parameter of attachment to query.
+*/
+func GetFramebufferAttachmentParameter(target, attachment, pname GLenum) int {
+	var params C.GLint
+
+	C.glGetFramebufferAttachmentParameteriv(C.GLenum(target), C.GLenum(attachment), C.GLenum(pname), &params)
+
+	return int(params)
+}
+
+/*
+Retrieve the location of a sample
+
+Parameters
+    pname - Specifies the sample parameter name. pname must be SamplePosition.
+    index - Specifies the index of the sample whose position to query.
+*/
+func GetMultisample(pname GLenum, index uint32) (float32, float32) {
+	val := [2]C.GLfloat{}
+
+	C.glGetMultisamplefv(C.GLenum(pname), C.GLuint(index), (*C.GLfloat)(unsafe.Pointer(&val[0])))
+
+	return float32(val[0]), float32(val[1])
+}
+
+/*
+Returns a parameter from a program object
+
+Parameters
+    program - Specifies the program object to be queried.
+    pname - Specifies the object parameter. Accepted symbolic names are DeleteStatus, LinkStatus, ValidateStatus, InfoLogLength, AttachedShaders, ActiveAttributes, ActiveAttributeMaxLength, ActiveUniforms, ActiveUniformBlocks, ActiveUniformBlockMaxNameLength, ActiveUniformMaxLength, TransformFeedbackBufferMode, TransformFeedbackVaryings, TransformFeedbackVaryingMaxLength, GeometryVerticesOut, GeometryInputType, and GeometryOutputType.
+*/
+func GetProgram(program uint32, pname GLenum) int {
+	var params C.GLint
+
+	C.glGetProgramiv(C.GLuint(program), C.GLenum(pname), &params)
+
+	return int(params)
+}
+
+/*
+Returns the information log for a program object
+
+Parameter
+    program - Specifies the program object whose information log is to be queried.
+*/
+func GetProgramInfoLog(program uint32) string {
+	var infoLog [256]C.GLchar
+
+	C.glGetProgramInfoLog(C.GLuint(program), 256, nil, &infoLog[0])
+
+	return C.GoString((*C.char)(unsafe.Pointer(&infoLog[0])))
+}
+
+/*
+Return parameters of a query object
+
+Parameters
+    id - Specifies the name of a query object.
+    pname - Specifies the symbolic name of a query object parameter. Accepted values are QueryResult or QueryResultAvailable.
+*/
+func GetQueryObject(id uint32, pname GLenum) int {
+	var params C.GLint
+
+	C.glGetQueryObjectiv(C.GLuint(id), C.GLenum(pname), &params)
+
+	return int(params)
+}
+
+/*
+Return parameters of a query object
+
+Parameters
+    id - Specifies the name of a query object.
+    pname - Specifies the symbolic name of a query object parameter. Accepted values are QueryResult or QueryResultAvailable.
+*/
+func GetQueryObjectu(id uint32, pname GLenum) uint32 {
+	var params C.GLuint
+
+	C.glGetQueryObjectuiv(C.GLuint(id), C.GLenum(pname), &params)
+
+	return uint32(params)
+}
+
+/*
+Return parameters of a query object
+
+Parameters
+    id - Specifies the name of a query object.
+    pname - Specifies the symbolic name of a query object parameter. Accepted values are QueryResult or QueryResultAvailable.
+*/
+func GetQueryObject64(id uint32, pname GLenum) int64 {
+	var params C.GLint64
+
+	C.glGetQueryObjecti64v(C.GLuint(id), C.GLenum(pname), &params)
+
+	return int64(params)
+}
+
+/*
+Return parameters of a query object
+
+Parameters
+    id - Specifies the name of a query object.
+    pname - Specifies the symbolic name of a query object parameter. Accepted values are QueryResult or QueryResultAvailable.
+*/
+func GetQueryObjectu64(id uint32, pname GLenum) uint64 {
+	var params C.GLuint64
+
+	C.glGetQueryObjectui64v(C.GLuint(id), C.GLenum(pname), &params)
+
+	return uint64(params)
+}
+
+/*
+Return parameters of a query object target
+
+Parameters
+    target - Specifies a query object target. Must be SamplesPassed, AnySamplesPassed, PrimitivesGenerated, TransformFeedbackPrimitivesWritten, TimeElapsed, or Timestamp.
+    pname - Specifies the symbolic name of a query object target parameter. Accepted values are CurrentQuery or QueryCounterBits.
+*/
+func GetQuery(target, pname GLenum) int {
+	var params C.GLint
+
+	C.glGetQueryiv(C.GLenum(target), C.GLenum(pname), &params)
+
+	return int(params)
+}
+
+/*
+Retrieve information about a bound renderbuffer object
+
+Parameters
+    target - Specifies the target of the query operation. target must be Renderbuffer.
+    pname - Specifies the parameter whose value to retrieve from the renderbuffer bound to target.
+*/
+func GetRenderbufferParameter(target, pname GLenum) int {
+	var params C.GLint
+
+	C.glGetRenderbufferParameteriv(C.GLenum(target), C.GLenum(pname), &params)
+
+	return int(params)
 }
 
 // <-------- THIS FAR --------->
