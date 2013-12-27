@@ -83,6 +83,9 @@ const (
 	ReadFramebuffer = C.GL_READ_FRAMEBUFFER
 	Framebuffer     = C.GL_FRAMEBUFFER
 
+	// BindRenderbuffer
+	Renderbuffer = C.GL_RENDERBUFFER
+
 	// BindTexture, CompressedTexImage
 	Texture1d                 = C.GL_TEXTURE_1D
 	Texture2d                 = C.GL_TEXTURE_2D
@@ -159,6 +162,9 @@ const (
 	FramebufferUnsupported                 = C.GL_FRAMEBUFFER_UNSUPPORTED
 	FramebufferIncompleteMultisample       = C.GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE
 	FramebufferIncompleteLayerTargets      = C.GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS
+
+	// ClampColor
+	ClampReadColor = C.GL_CLAMP_READ_COLOR
 
 	// CopyTexImage
 	CompressedRed       = C.GL_COMPRESSED_RED
@@ -564,10 +570,36 @@ const (
 	PrimitivesGenerated = C.GL_PRIMITIVES_GENERATED
 	CurrentQuery        = C.GL_CURRENT_QUERY
 	QueryCounterBits    = C.GL_QUERY_COUNTER_BITS
+
+	// GetSamplerParameter
+	TextureMagFilter   = C.GL_TEXTURE_MAG_FILTER
+	TextureMinFilter   = C.GL_TEXTURE_MIN_FILTER
+	TextureMinLod      = C.GL_TEXTURE_MIN_LOD
+	TextureMaxLod      = C.GL_TEXTURE_MAX_LOD
+	TextureLodBias     = C.GL_TEXTURE_LOD_BIAS
+	TextureWrapS       = C.GL_TEXTURE_WRAP_S
+	TextureWrapT       = C.GL_TEXTURE_WRAP_T
+	TextureWrapR       = C.GL_TEXTURE_WRAP_R
+	TextureBorderColor = C.GL_TEXTURE_BORDER_COLOR
+	TextureCompareMode = C.GL_TEXTURE_COMPARE_MODE
+	TextureCompareFunc = C.GL_TEXTURE_COMPARE_FUNC
+
+	// GetShader
+	ShaderType         = C.GL_SHADER_TYPE
+	CompileStatus      = C.GL_COMPILE_STATUS
+	ShaderSourceLength = C.GL_SHADER_SOURCE_LENGTH
+
+	// GetString
+	Vendor                 = C.GL_VENDOR
+	Renderer               = C.GL_RENDERER
+	Version                = C.GL_VERSION
+	ShadingLanguageVersion = C.GL_SHADING_LANGUAGE_VERSION
+	Extensions             = C.GL_EXTENSIONS
 )
 
 const (
-	ColorBufferBit   GLbitfield = C.GL_COLOR_BUFFER_BIT
-	DepthBufferBit              = C.GL_DEPTH_BUFFER_BIT
-	StencilBufferBit            = C.GL_STENCIL_BUFFER_BIT
+	ColorBufferBit       GLbitfield = C.GL_COLOR_BUFFER_BIT
+	DepthBufferBit                  = C.GL_DEPTH_BUFFER_BIT
+	StencilBufferBit                = C.GL_STENCIL_BUFFER_BIT
+	SyncFlushCommandsBit            = C.GL_SYNC_FLUSH_COMMANDS_BIT
 )

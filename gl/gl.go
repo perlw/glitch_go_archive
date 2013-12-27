@@ -164,10 +164,11 @@ func BindFramebuffer(target GLenum, framebuffer uint32) {
 Bind a renderbuffer to a renderbuffer target
 
 Parameters
+    target - Specifies the renderbuffer target of the binding operation. target must be Renderbuffer.
     renderbuffer - Specifies the name of the renderbuffer object to bind.
 */
-func BindRenderbuffer(renderbuffer uint32) {
-	C.glBindRenderbuffer(C.GL_RENDERBUFFER, C.GLuint(renderbuffer))
+func BindRenderbuffer(target GLenum, renderbuffer uint32) {
+	C.glBindRenderbuffer(C.GLenum(target), C.GLuint(renderbuffer))
 }
 
 /*
@@ -326,10 +327,11 @@ func CheckFramebufferStatus(target GLenum) GLenum {
 Specify whether data read via ReadPixels should be clamped
 
 Parameters
+    target - arget for color clamping. target must be ClampReadColor.
     clamp - Specifies whether to apply color clamping. clamp must be True or False.
 */
-func ClampColor(clamp GLenum) {
-	C.glClampColor(C.GL_CLAMP_READ_COLOR, C.GLenum(clamp))
+func ClampColor(target, clamp GLenum) {
+	C.glClampColor(C.GLenum(target), C.GLenum(clamp))
 }
 
 /*
@@ -377,10 +379,11 @@ Block and wait for a sync object to become signaled
 
 Parameters
     sync - The sync object whose status to wait on.
+    flags - A bitfield controlling the command flushing behavior. flags may be SyncFlushCommandsBit.
     timeout - The timeout, specified in nanoseconds, for which the implementation should wait for sync to become signaled.
 */
-func ClientWaitSync(sync GLsync, timeout uint64) GLenum {
-	return GLenum(C.glClientWaitSync(C.GLsync(sync), C.GL_SYNC_FLUSH_COMMANDS_BIT, C.GLuint64(timeout)))
+func ClientWaitSync(sync GLsync, flags GLbitfield, timeout uint64) GLenum {
+	return GLenum(C.glClientWaitSync(C.GLsync(sync), C.GLbitfield(flags), C.GLuint64(timeout)))
 }
 
 /*
@@ -1907,6 +1910,145 @@ func GetRenderbufferParameter(target, pname GLenum) int {
 	C.glGetRenderbufferParameteriv(C.GLenum(target), C.GLenum(pname), &params)
 
 	return int(params)
+}
+
+/*
+Return sampler parameter values
+
+Parameters
+    sampler - Specifies name of the sampler object from which to retrieve parameters.
+    pname - Specifies the symbolic name of a sampler parameter. TextureMagFilter, TextureMinFilter, TextureMinLod, TextureMaxLod, TextureLodBias, TextureWrapS, TextureWrapT, TextureWrapR, TextureBorderColor, TextureCompareMode, and TextureCompareFunc are accepted.
+*/
+func GetSamplerParameterf(sampler uint32, pname GLenum) []float32 {
+	params := make([]float32, 4)
+
+	C.glGetSamplerParameterfv(C.GLuint(sampler), C.GLenum(pname), (*C.GLfloat)(unsafe.Pointer(&params[0])))
+
+	return params
+}
+
+/*
+Return sampler parameter values
+
+Parameters
+    sampler - Specifies name of the sampler object from which to retrieve parameters.
+    pname - Specifies the symbolic name of a sampler parameter. TextureMagFilter, TextureMinFilter, TextureMinLod, TextureMaxLod, TextureLodBias, TextureWrapS, TextureWrapT, TextureWrapR, TextureBorderColor, TextureCompareMode, and TextureCompareFunc are accepted.
+*/
+func GetSamplerParameteri(sampler uint32, pname GLenum) []int {
+	params := make([]int, 4)
+
+	C.glGetSamplerParameteriv(C.GLuint(sampler), C.GLenum(pname), (*C.GLint)(unsafe.Pointer(&params[0])))
+
+	return params
+}
+
+/*
+Return sampler parameter values
+
+Parameters
+    sampler - Specifies name of the sampler object from which to retrieve parameters.
+    pname - Specifies the symbolic name of a sampler parameter. TextureMagFilter, TextureMinFilter, TextureMinLod, TextureMaxLod, TextureLodBias, TextureWrapS, TextureWrapT, TextureWrapR, TextureBorderColor, TextureCompareMode, and TextureCompareFunc are accepted.
+*/
+func GetSamplerParameterIi(sampler uint32, pname GLenum) []int {
+	params := make([]int, 4)
+
+	C.glGetSamplerParameterIiv(C.GLuint(sampler), C.GLenum(pname), (*C.GLint)(unsafe.Pointer(&params[0])))
+
+	return params
+}
+
+/*
+Return sampler parameter values
+
+Parameters
+    sampler - Specifies name of the sampler object from which to retrieve parameters.
+    pname - Specifies the symbolic name of a sampler parameter. TextureMagFilter, TextureMinFilter, TextureMinLod, TextureMaxLod, TextureLodBias, TextureWrapS, TextureWrapT, TextureWrapR, TextureBorderColor, TextureCompareMode, and TextureCompareFunc are accepted.
+*/
+func GetSamplerParameterIui(sampler uint32, pname GLenum) []uint32 {
+	params := make([]uint32, 4)
+
+	C.glGetSamplerParameterIuiv(C.GLuint(sampler), C.GLenum(pname), (*C.GLuint)(unsafe.Pointer(&params[0])))
+
+	return params
+}
+
+/*
+Returns a parameter from a shader object
+
+Parameters
+    shader - Specifies the shader object to be queried.
+    pname - Specifies the object parameter. Accepted symbolic names are ShaderType, DeleteStatus, CompileStatus, InfoLogLength, ShaderSourceLength.
+*/
+func GetShader(shader uint32, pname GLenum) int {
+	var params C.GLint
+
+	C.glGetShaderiv(C.GLuint(shader), C.GLenum(pname), &params)
+
+	return int(params)
+}
+
+/*
+Returns the information log for a shader object
+
+Parameter
+    shader - Specifies the shader object whose information log is to be queried.
+*/
+func GetShaderInfoLog(shader uint32) string {
+	var infoLog [256]C.GLchar
+
+	C.glGetShaderInfoLog(C.GLuint(shader), 256, nil, &infoLog[0])
+
+	return C.GoString((*C.char)(unsafe.Pointer(&infoLog[0])))
+}
+
+/*
+Returns the information log for a shader object
+
+Parameter
+    shader - Specifies the shader object whose information log is to be queried.
+*/
+func GetShaderSource(shader uint32) string {
+	var source [1024]C.GLchar
+
+	C.glGetShaderSource(C.GLuint(shader), 1024, nil, &source[0])
+
+	return C.GoString((*C.char)(unsafe.Pointer(&source[0])))
+}
+
+/*
+Return a string describing the current GL connection
+
+Parameters
+    name - Specifies a symbolic constant, one of Vendor, Renderer, Version, or ShadingLanguageVersion.
+*/
+func GetString(name GLenum) string {
+	return C.GoString((*C.char)(unsafe.Pointer(C.glGetString(C.GLenum(name)))))
+}
+
+/*
+Return a string describing the current GL connection
+
+Parameters
+    name - Specifies a symbolic constant, one of Vendor, Renderer, Version, ShadingLanguageVersion, or Extensions.
+    index - Specifies the index of the string to return.
+*/
+func GetStringi(name GLenum, index uint32) string {
+	return C.GoString((*C.char)(unsafe.Pointer(C.glGetStringi(C.GLenum(name), C.GLuint(index)))))
+}
+
+/*
+Query the properties of a sync object
+
+Parameters
+    sync - Specifies the sync object whose properties to query.
+    pname - Specifies the parameter whose value to retrieve from the sync object specified in sync.
+*/
+func GetSync(sync GLsync, pname GLenum) []int {
+	values := make([]int, 32)
+
+	C.glGetSynciv(C.GLsync(sync), C.GLenum(pname), 32, nil, (*C.GLint)(unsafe.Pointer(&values[0])))
+
+	return values
 }
 
 // <-------- THIS FAR --------->
