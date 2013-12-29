@@ -686,11 +686,22 @@ const (
 	AndInverted  = C.GL_AND_INVERTED
 	OrReverse    = C.GL_OR_REVERSE
 	OrInverted   = C.GL_OR_INVERTED
+
+	// MapBuffer
+	ReadOnly  = C.GL_READ_ONLY
+	WriteOnly = C.GL_WRITE_ONLY
+	ReadWrite = C.GL_READ_WRITE
 )
 
 const (
-	ColorBufferBit       GLbitfield = C.GL_COLOR_BUFFER_BIT
-	DepthBufferBit                  = C.GL_DEPTH_BUFFER_BIT
-	StencilBufferBit                = C.GL_STENCIL_BUFFER_BIT
-	SyncFlushCommandsBit            = C.GL_SYNC_FLUSH_COMMANDS_BIT
+	ColorBufferBit         GLbitfield = C.GL_COLOR_BUFFER_BIT
+	DepthBufferBit                    = C.GL_DEPTH_BUFFER_BIT
+	StencilBufferBit                  = C.GL_STENCIL_BUFFER_BIT
+	SyncFlushCommandsBit              = C.GL_SYNC_FLUSH_COMMANDS_BIT
+	MapReadBit                        = C.GL_MAP_READ_BIT
+	MapWriteBit                       = C.GL_MAP_WRITE_BIT
+	MapInvalidateRangeBit             = C.GL_MAP_INVALIDATE_RANGE_BIT
+	MapInvalidateBufferBit            = C.GL_MAP_INVALIDATE_BUFFER_BIT
+	MapFlushExplicitBit               = C.GL_MAP_FLUSH_EXPLICIT_BIT
+	MapUnsynchronizedBit              = C.GL_MAP_UNSYNCHRONIZED_BIT
 )

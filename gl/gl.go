@@ -2528,7 +2528,94 @@ func LogicOp(opcode GLenum) {
 	C.glLogicOp(C.GLenum(opcode))
 }
 
+/*
+Map a buffer object's data store
+
+Parameters
+    target - Specifies the target buffer object being mapped. The symbolic constant must be ArrayBuffer, CopyReadBuffer, CopyWriteBuffer, ElementArrayBuffer, PixelPackBuffer, PixelUnpackBuffer, TextureBuffer, TransformFeedbackBuffer or UniformBuffer.
+    access - Specifies the access policy, indicating whether it will be possible to read from, write to, or both read from and write to the buffer object's mapped data store. The symbolic constant must be ReadOnly, WriteOnly, or ReadWrite.
+*/
+func MapBuffer(target, access GLenum) unsafe.Pointer {
+	return C.glMapBuffer(C.GLenum(target), C.GLenum(access))
+}
+
+/*
+Map a section of a buffer object's data store
+
+Parameters
+    target - Specifies the target buffer object being mapped. The symbolic constant must be ArrayBuffer, CopyReadBuffer, CopyWriteBuffer, ElementArrayBuffer, PixelPackBuffer, PixelUnpackBuffer, TextureBuffer, TransformFeedbackBuffer or UniformBuffer.
+    offset - Specifies a the starting offset within the buffer of the range to be mapped.
+    length - Specifies a length of the range to be mapped.
+    access - Specifies the access policy, indicating whether it will be possible to read from, write to, or both read from and write to the buffer object's mapped data store. The symbolic constant must be ReadOnly, WriteOnly, or ReadWrite.
+*/
+func MapBufferRange(target GLenum, offset, length int, access GLbitfield) unsafe.Pointer {
+	return C.glMapBufferRange(C.GLenum(target), C.GLintptr(offset), C.GLsizeiptr(length), C.GLbitfield(access))
+}
+
+/*
+Render multiple sets of primitives from array data
+
+Parameters
+    mode - Specifies what kind of primitives to render. Symbolic constants Points, LineStrip, LineLoop, Lines, LineStripAdjacency, LinesAdjacency, TriangleStrip, TriangleFan, Triangles, TriangleStripAdjacency and TrianglesAdjacency are accepted.
+    first - An array of starting indices in the enabled arrays.
+    count - An array of the number of indices to be rendered.
+*/
+func MultiDrawArrays(mode GLenum, first, count []int) {
+	C.glMultiDrawArrays(C.GLenum(mode), (*C.GLint)(unsafe.Pointer(&first[0])), (*C.GLsizei)(unsafe.Pointer(&count[0])), C.GLsizei(len(first)))
+}
+
+/*
+Render multiple sets of primitives by specifying indices of array data elements
+
+Parameters
+    mode - Specifies what kind of primitives to render. Symbolic constants Points, LineStrip, LineLoop, Lines, LineStripAdjacency, LinesAdjacency, TriangleStrip, TriangleFan, Triangles, TriangleStripAdjacency and TrianglesAdjacency are accepted.
+    count - An array of the elements counts.
+    indices - An array of where the indices are stored.
+*/
+func MultiDrawElements(mode GLenum, count []int, indices []interface{}) error {
+	_, size, sliceType, _, err := sliceToGLData(indices[0])
+	if err != nil {
+		return err
+	}
+	ptr := unsafe.Pointer(&indices[0])
+
+	C.glMultiDrawElements(C.GLenum(mode), (*C.GLsizei)(unsafe.Pointer(&count[0])), sliceType, &ptr, size)
+
+	return nil
+}
+
+/*
+Render multiple sets of primitives by specifying indices of array data elements and an index to apply to each index
+
+Parameters
+    mode - Specifies what kind of primitives to render. Symbolic constants Points, LineStrip, LineLoop, Lines, LineStripAdjacency, LinesAdjacency, TriangleStrip, TriangleFan, Triangles, TriangleStripAdjacency and TrianglesAdjacency are accepted.
+    count - An array of the elements counts.
+    indices - An array of where the indices are stored.
+    basevertex - An array of where the base vertices are stored.
+*/
+func MultiDrawElementsBaseVertex(mode GLenum, count []int, indices []interface{}, basevertex []int) error {
+	_, size, sliceType, _, err := sliceToGLData(indices[0])
+	if err != nil {
+		return err
+	}
+	ptr := unsafe.Pointer(&indices[0])
+
+	C.glMultiDrawElementsBaseVertex(C.GLenum(mode), (*C.GLsizei)(unsafe.Pointer(&count[0])), sliceType, &ptr, size, (*C.GLint)(unsafe.Pointer(&basevertex[0])))
+
+	return nil
+}
+
 // <-------- THIS FAR --------->
+
+/*
+Unmap a buffer object's data store
+
+Parameters
+    target - Specifies the target buffer object being unmapped. The symbolic constant must be ArrayBuffer, CopyReadBuffer, CopyWriteBuffer, ElementArrayBuffer, PixelPackBuffer, PixelUnpackBuffer, TextureBuffer, TransformFeedbackBuffer or UniformBuffer.
+*/
+func UnmapBuffer(target GLenum) bool {
+	return glBoolToBool(C.glUnmapBuffer(C.GLenum(target)))
+}
 
 /*
 Set the viewport
