@@ -2366,6 +2366,17 @@ func GetVertexAttribPointer(index uint32, pname GLenum) unsafe.Pointer {
 	return pointer
 }
 
+/*
+Specify implementation-specific hints
+
+Parameters
+    target - Specifies a symbolic constant indicating the behavior to be controlled. LineSmoothHint, PolygonSmoothHint, TextureCompressionHint, and FragmentShaderDerivativeHint are accepted.
+    mode - Specifies a symbolic constant indicating the desired behavior. Fastest, Nicest, and DontCare are accepted.
+*/
+func Hint(target, mode GLenum) {
+	C.glHint(C.GLenum(target), C.GLenum(mode))
+}
+
 // <-------- THIS FAR --------->
 
 /*
