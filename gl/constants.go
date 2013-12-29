@@ -331,7 +331,7 @@ const (
 	RenderbufferBinding                  = C.GL_RENDERBUFFER_BINDING
 	FragmentShaderDerivativeHint         = C.GL_FRAGMENT_SHADER_DERIVATIVE_HINT
 	LineSmoothHint                       = C.GL_LINE_SMOOTH_HINT
-	LineWidth                            = C.GL_LINE_WIDTH
+	LineWidthConst                       = C.GL_LINE_WIDTH
 	LogicOpMode                          = C.GL_LOGIC_OP_MODE
 	Max3dTextureSize                     = C.GL_MAX_3D_TEXTURE_SIZE
 	MaxClipDistances                     = C.GL_MAX_CLIP_DISTANCES
@@ -668,6 +668,24 @@ const (
 
 	// GetVertexAttribPointer
 	VertexAttribArrayPointer = C.GL_VERTEX_ATTRIB_ARRAY_POINTER
+
+	// LogicOp
+	ClearConst   = C.GL_CLEAR
+	Set          = C.GL_SET
+	Copy         = C.GL_COPY
+	CopyInverted = C.GL_COPY_INVERTED
+	Noop         = C.GL_NOOP
+	Invert       = C.GL_INVERT
+	And          = C.GL_AND
+	Nand         = C.GL_NAND
+	Or           = C.GL_OR
+	Nor          = C.GL_NOR
+	Xor          = C.GL_XOR
+	Equiv        = C.GL_EQUIV
+	AndReverse   = C.GL_AND_REVERSE
+	AndInverted  = C.GL_AND_INVERTED
+	OrReverse    = C.GL_OR_REVERSE
+	OrInverted   = C.GL_OR_INVERTED
 )
 
 const (

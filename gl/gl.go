@@ -2498,6 +2498,36 @@ func IsVertexArray(array uint32) bool {
 	return glBoolToBool(C.glIsVertexArray(C.GLuint(array)))
 }
 
+/*
+Specify the width of rasterized lines
+
+Parameters
+    width - Specifies the width of rasterized lines. The initial value is 1.
+*/
+func LineWidth(width float32) {
+	C.glLineWidth(C.GLfloat(width))
+}
+
+/*
+Links a program object
+
+Parameters
+    program - Specifies the handle of the program object to be linked.
+*/
+func LinkProgram(program uint32) {
+	C.glLinkProgram(C.GLuint(program))
+}
+
+/*
+Specify a logical pixel operation for rendering
+
+Parameters
+    opcode - Specifies a symbolic constant that selects a logical operation. The following symbols are accepted: Clear, Set, Copy, CopyInverted, Noop, Invert, And, Nand, Or, Nor, Xor, Equiv, AndReverse, AndInverted, OrReverse, and OrInverted. The initial value is Copy.
+*/
+func LogicOp(opcode GLenum) {
+	C.glLogicOp(C.GLenum(opcode))
+}
+
 // <-------- THIS FAR --------->
 
 /*
