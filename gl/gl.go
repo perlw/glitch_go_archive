@@ -2377,6 +2377,127 @@ func Hint(target, mode GLenum) {
 	C.glHint(C.GLenum(target), C.GLenum(mode))
 }
 
+/*
+Determine if a name corresponds to a buffer object
+
+Parameters
+    buffer - Specifies a value that may be the name of a buffer object.
+*/
+func IsBuffer(buffer uint32) bool {
+	return glBoolToBool(C.glIsBuffer(C.GLuint(buffer)))
+}
+
+/*
+Test whether a capability is enabled
+
+Parameters
+    capacity - Specifies a symbolic constant indicating a GL capability.
+*/
+func IsEnabled(capacity GLenum) bool {
+	return glBoolToBool(C.glIsEnabled(C.GLenum(capacity)))
+}
+
+/*
+Test whether a capability is enabled
+
+Parameters
+    capacity - Specifies a symbolic constant indicating a GL capability.
+    index - Specifies the index of the capability.
+*/
+func IsEnabledi(capacity GLenum, index uint32) bool {
+	return glBoolToBool(C.glIsEnabledi(C.GLenum(capacity), C.GLuint(index)))
+}
+
+/*
+Determine if a name corresponds to a framebuffer object
+
+Parameters
+    framebuffer - Specifies a value that may be the name of a framebuffer object.
+*/
+func IsFramebuffer(framebuffer uint32) bool {
+	return glBoolToBool(C.glIsFramebuffer(C.GLuint(framebuffer)))
+}
+
+/*
+Determine if a name corresponds to a program object
+
+Parameters
+    program - Specifies a value that may be the name of a program object.
+*/
+func IsProgram(program uint32) bool {
+	return glBoolToBool(C.glIsProgram(C.GLuint(program)))
+}
+
+/*
+Determine if a name corresponds to a query object
+
+Parameters
+    id - Specifies a value that may be the name of a query object.
+*/
+func IsQuery(id uint32) bool {
+	return glBoolToBool(C.glIsQuery(C.GLuint(id)))
+}
+
+/*
+Determine if a name corresponds to a renderbuffer object
+
+Parameters
+    renderbuffer - Specifies a value that may be the name of a renderbuffer object.
+*/
+func IsRenderbuffer(renderbuffer uint32) bool {
+	return glBoolToBool(C.glIsRenderbuffer(C.GLuint(renderbuffer)))
+}
+
+/*
+Determine if a name corresponds to a sampler object
+
+Parameters
+    id - Specifies a value that may be the name of a sampler object.
+*/
+func IsSampler(id uint32) bool {
+	return glBoolToBool(C.glIsSampler(C.GLuint(id)))
+}
+
+/*
+Determine if a name corresponds to a shader object
+
+Parameters
+    shader - Specifies a value that may be the name of a shader object.
+*/
+func IsShader(shader uint32) bool {
+	return glBoolToBool(C.glIsShader(C.GLuint(shader)))
+}
+
+/*
+Determine if a name corresponds to a sync object
+
+Parameters
+    sync - Specifies a value that may be the name of a sync object.
+*/
+func IsSync(sync GLsync) bool {
+	return glBoolToBool(C.glIsSync(C.GLsync(sync)))
+}
+
+/*
+Determine if a name corresponds to a texture object
+
+Parameters
+    texture - Specifies a value that may be the name of a texture object.
+*/
+func IsTexture(texture uint32) bool {
+	return glBoolToBool(C.glIsTexture(C.GLuint(texture)))
+}
+
+/*
+Determine if a name corresponds to a vertex array object
+
+Parameters
+    array - Specifies a value that may be the name of a vertex array object.
+*/
+func IsVertexArray(array uint32) bool {
+	return glBoolToBool(C.glIsVertexArray(C.GLuint(array)))
+}
+
 // <-------- THIS FAR --------->
 
 /*
