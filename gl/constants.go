@@ -595,6 +595,79 @@ const (
 	Version                = C.GL_VERSION
 	ShadingLanguageVersion = C.GL_SHADING_LANGUAGE_VERSION
 	Extensions             = C.GL_EXTENSIONS
+
+	// GetTexImage
+	StencilIndex             = C.GL_STENCIL_INDEX
+	DepthStencil             = C.GL_DEPTH_STENCIL
+	Green                    = C.GL_GREEN
+	Blue                     = C.GL_BLUE
+	Bgr                      = C.GL_BGR
+	Bgra                     = C.GL_BGRA
+	RedInteger               = C.GL_RED_INTEGER
+	GreenInteger             = C.GL_GREEN_INTEGER
+	BlueInteger              = C.GL_BLUE_INTEGER
+	RgInteger                = C.GL_RG_INTEGER
+	RgbInteger               = C.GL_RGB_INTEGER
+	RgbaInteger              = C.GL_RGBA_INTEGER
+	BgrInteger               = C.GL_BGR_INTEGER
+	BgraInteger              = C.GL_BGRA_INTEGER
+	UnsignedByte             = C.GL_UNSIGNED_BYTE
+	Byte                     = C.GL_BYTE
+	UnsignedShort            = C.GL_UNSIGNED_SHORT
+	Short                    = C.GL_SHORT
+	HalfFloat                = C.GL_HALF_FLOAT
+	UnsignedByte332          = C.GL_UNSIGNED_BYTE_3_3_2
+	UnsignedByte233Rev       = C.GL_UNSIGNED_BYTE_2_3_3_REV
+	UnsignedShort565         = C.GL_UNSIGNED_SHORT_5_6_5
+	UnsignedShort565Rev      = C.GL_UNSIGNED_SHORT_5_6_5_REV
+	UnsignedShort4444        = C.GL_UNSIGNED_SHORT_4_4_4_4
+	UnsignedShort4444Rev     = C.GL_UNSIGNED_SHORT_4_4_4_4_REV
+	UnsignedShort5551        = C.GL_UNSIGNED_SHORT_5_5_5_1
+	UnsignedShort1555Rev     = C.GL_UNSIGNED_SHORT_1_5_5_5_REV
+	UnsignedInt8888          = C.GL_UNSIGNED_INT_8_8_8_8
+	UnsignedInt8888Rev       = C.GL_UNSIGNED_INT_8_8_8_8_REV
+	UnsignedInt1010102       = C.GL_UNSIGNED_INT_10_10_10_2
+	UnsignedInt2101010Rev    = C.GL_UNSIGNED_INT_2_10_10_10_REV
+	UnsignedInt248           = C.GL_UNSIGNED_INT_24_8
+	UnsignedInt10f11f11fRev  = C.GL_UNSIGNED_INT_10F_11F_11F_REV
+	UnsignedInt5999Rev       = C.GL_UNSIGNED_INT_5_9_9_9_REV
+	Float32UnsignedInt248Rev = C.GL_FLOAT_32_UNSIGNED_INT_24_8_REV
+
+	// GetTexLevelParameter
+	TextureWidth               = C.GL_TEXTURE_WIDTH
+	TextureHeight              = C.GL_TEXTURE_HEIGHT
+	TextureDepth               = C.GL_TEXTURE_DEPTH
+	TextureInternalFormat      = C.GL_TEXTURE_INTERNAL_FORMAT
+	TextureRedSize             = C.GL_TEXTURE_RED_SIZE
+	TextureGreenSize           = C.GL_TEXTURE_GREEN_SIZE
+	TextureBlueSize            = C.GL_TEXTURE_BLUE_SIZE
+	TextureAlphaSize           = C.GL_TEXTURE_ALPHA_SIZE
+	TextureDepthSize           = C.GL_TEXTURE_DEPTH_SIZE
+	TextureCompressed          = C.GL_TEXTURE_COMPRESSED
+	TextureCompressedImageSize = C.GL_TEXTURE_COMPRESSED_IMAGE_SIZE
+
+	// GetTexParameter
+	TextureBaseLevel   = C.GL_TEXTURE_BASE_LEVEL
+	TextureMaxLevel    = C.GL_TEXTURE_MAX_LEVEL
+	TextureSwizzleR    = C.GL_TEXTURE_SWIZZLE_R
+	TextureSwizzleG    = C.GL_TEXTURE_SWIZZLE_G
+	TextureSwizzleB    = C.GL_TEXTURE_SWIZZLE_B
+	TextureSwizzleA    = C.GL_TEXTURE_SWIZZLE_A
+	TextureSwizzleRgba = C.GL_TEXTURE_SWIZZLE_RGBA
+
+	// GetVertexAttrib
+	VertexAttribArrayBufferBinding = C.GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING
+	VertexAttribArrayEnabled       = C.GL_VERTEX_ATTRIB_ARRAY_ENABLED
+	VertexAttribArraySize          = C.GL_VERTEX_ATTRIB_ARRAY_SIZE
+	VertexAttribArrayStride        = C.GL_VERTEX_ATTRIB_ARRAY_STRIDE
+	VertexAttribArrayType          = C.GL_VERTEX_ATTRIB_ARRAY_TYPE
+	VertexAttribArrayNormalized    = C.GL_VERTEX_ATTRIB_ARRAY_NORMALIZED
+	VertexAttribArrayInteger       = C.GL_VERTEX_ATTRIB_ARRAY_INTEGER
+	VertexAttribArrayDivisor       = C.GL_VERTEX_ATTRIB_ARRAY_DIVISOR
+	CurrentVertexAttrib            = C.GL_CURRENT_VERTEX_ATTRIB
+
+	// GetVertexAttribPointer
+	VertexAttribArrayPointer = C.GL_VERTEX_ATTRIB_ARRAY_POINTER
 )
 
 const (

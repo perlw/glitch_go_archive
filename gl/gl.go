@@ -1536,14 +1536,14 @@ Parameters
     program - Specifies the program object to be queried.
     index - Specifies the index of the attribute variable to be queried.
 */
-func GetActiveAttrib(program, index uint32) (GLenum, string) {
+func GetActiveAttrib(program, index uint32) (int, GLenum, string) {
 	var cStr [256]C.GLchar
 	var size C.GLint
 	var enumType C.GLenum
 
 	C.glGetActiveAttrib(C.GLuint(program), C.GLuint(index), 256, nil, &size, &enumType, &cStr[0])
 
-	return GLenum(enumType), C.GoString((*C.char)(&cStr[0]))
+	return int(size), GLenum(enumType), C.GoString((*C.char)(&cStr[0]))
 }
 
 /*
@@ -1553,14 +1553,14 @@ Parameters
     program - Specifies the program object to be queried.
     index - Specifies the index of the uniform variable to be queried.
 */
-func GetActiveUniform(program, index uint32) (GLenum, string) {
+func GetActiveUniform(program, index uint32) (int, GLenum, string) {
 	var cStr [256]C.GLchar
 	var size C.GLint
 	var enumType C.GLenum
 
 	C.glGetActiveUniform(C.GLuint(program), C.GLuint(index), 256, nil, &size, &enumType, &cStr[0])
 
-	return GLenum(enumType), C.GoString((*C.char)(&cStr[0]))
+	return int(size), GLenum(enumType), C.GoString((*C.char)(&cStr[0]))
 }
 
 /*
@@ -2049,6 +2049,321 @@ func GetSync(sync GLsync, pname GLenum) []int {
 	C.glGetSynciv(C.GLsync(sync), C.GLenum(pname), 32, nil, (*C.GLint)(unsafe.Pointer(&values[0])))
 
 	return values
+}
+
+/*
+Return a texture image
+
+Parameters
+    target - Specifies which texture is to be obtained. Texture1d, Texture2d, Texture3d, Texture1dArray, Texture2dArray, TextureRectangle, TextureCubeMapPositiveX, TextureCubeMapNegativeX, TextureCubeMapPositiveY, TextureCubeMapNegativeY, TextureCubeMapPositiveZ, and TextureCubeMapNegativeZ are accepted.
+    level - Specifies the level-of-detail number of the desired image. Level 0 is the base image level. Level n is the nth mipmap reduction image.
+    format - Specifies a pixel format for the returned data. The supported formats are StencilIndex, DepthComponent, DepthStencil, Red, Green, Blue, Rg, Rgb, Rgba, Bgr, Bgra, RedInteger, GreenInteger, BlueInteger, RgInteger, RgbInteger, RgbaInteger, BgrInteger, BgraInteger.
+    enumType - Specifies a pixel type for the returned data. The supported types are UnsignedByte, Byte, UnsignedShort, Short, UnsignedInt, Int, HalfFloat, Float, UnsignedByte332, UnsignedByte233Rev, UnsignedShort565, UnsignedShort565Rev, UnsignedShort4444, UnsignedShort4444Rev, UnsignedShort5551, UnsignedShort1555Rev, UnsignedInt8888, UnsignedInt8888Rev, UnsignedInt1010102, UnsignedInt2101010Rev, UnsignedInt248, UnsignedInt10f11f11fRev, UnsignedInt5999Rev, and Float32UnsignedInt248Rev.
+*/
+func GetTexImage(target GLenum, level int, format, enumType GLenum) unsafe.Pointer {
+	var img unsafe.Pointer
+
+	C.glGetTexImage(C.GLenum(target), C.GLint(level), C.GLenum(format), C.GLenum(enumType), img)
+
+	return img
+}
+
+/*
+Return texture parameter values for a specific level of detail
+
+Parameters
+    target - Specifies the symbolic name of the target texture, one of Texture1d, Texture2d, Texture3d, Texture1dArray, Texture2dArray, TextureRectangle, Texture2dMultisample, Texture2dMultisampleArray, TextureCubeMapPositiveX, TextureCubeMapNegativeX, TextureCubeMapPositiveY, TextureCubeMapNegativeY, TextureCubeMapPositiveZ, TextureCubeMapNegativeZ, ProxyTexture1d, ProxyTexture2d, ProxyTexture3d, ProxyTexture1dArray, ProxyTexture2dArray, ProxyTextureRectangle, ProxyTexture2dMultisample, ProxyTexture2dMultisampleArray, ProxyTextureCubeMap, or TextureBuffer.
+    level - Specifies the level-of-detail number of the desired image. Level 0 is the base image level. Level n is the nth mipmap reduction image.
+    pname - Specifies the symbolic name of a texture parameter. TextureWidth, TextureHeight, TextureDepth, TextureInternalFormat, TextureRedSize, TextureGreenSize, TextureBlueSize, TextureAlphaSize, TextureDepthSize, TextureCompressed, and TextureCompressedImageSize are accepted.
+*/
+func GetTexLevelParameterf(target GLenum, level int, pname GLenum) float32 {
+	var params C.GLfloat
+
+	C.glGetTexLevelParameterfv(C.GLenum(target), C.GLint(level), C.GLenum(pname), &params)
+
+	return float32(params)
+}
+
+/*
+Return texture parameter values for a specific level of detail
+
+Parameters
+    target - Specifies the symbolic name of the target texture, one of Texture1d, Texture2d, Texture3d, Texture1dArray, Texture2dArray, TextureRectangle, Texture2dMultisample, Texture2dMultisampleArray, TextureCubeMapPositiveX, TextureCubeMapNegativeX, TextureCubeMapPositiveY, TextureCubeMapNegativeY, TextureCubeMapPositiveZ, TextureCubeMapNegativeZ, ProxyTexture1d, ProxyTexture2d, ProxyTexture3d, ProxyTexture1dArray, ProxyTexture2dArray, ProxyTextureRectangle, ProxyTexture2dMultisample, ProxyTexture2dMultisampleArray, ProxyTextureCubeMap, or TextureBuffer.
+    level - Specifies the level-of-detail number of the desired image. Level 0 is the base image level. Level n is the nth mipmap reduction image.
+    pname - Specifies the symbolic name of a texture parameter. TextureWidth, TextureHeight, TextureDepth, TextureInternalFormat, TextureRedSize, TextureGreenSize, TextureBlueSize, TextureAlphaSize, TextureDepthSize, TextureCompressed, and TextureCompressedImageSize are accepted.
+*/
+func GetTexLevelParameteri(target GLenum, level int, pname GLenum) int {
+	var params C.GLint
+
+	C.glGetTexLevelParameteriv(C.GLenum(target), C.GLint(level), C.GLenum(pname), &params)
+
+	return int(params)
+}
+
+/*
+Return texture parameter values
+
+Parameters
+    target - Specifies the symbolic name of the target texture. Texture1d, Texture2d, Texture1dArray, Texture2dArray, Texture3d, TextureRectangle, and TextureCubeMap are accepted.
+    pname - Specifies the symbolic name of a texture parameter. TextureBaseLevel, TextureBorderColor, TextureCompareMode, TextureCompareFunc, TextureLodBias, TextureMagFilter, TextureMaxLevel, TextureMaxLod, TextureMinFilter, TextureMinLod, TextureSwizzleR, TextureSwizzleG, TextureSwizzleB, TextureSwizzleA, TextureSwizzleRgba, TextureWrapS, TextureWrapT, and TextureWrapR are accepted.
+*/
+func GetTexParameterf(target, pname GLenum) []float32 {
+	params := make([]float32, 4)
+
+	C.glGetTexParameterfv(C.GLenum(target), C.GLenum(pname), (*C.GLfloat)(unsafe.Pointer(&params[0])))
+
+	return params
+}
+
+/*
+Return texture parameter values
+
+Parameters
+    target - Specifies the symbolic name of the target texture. Texture1d, Texture2d, Texture1dArray, Texture2dArray, Texture3d, TextureRectangle, and TextureCubeMap are accepted.
+    pname - Specifies the symbolic name of a texture parameter. TextureBaseLevel, TextureBorderColor, TextureCompareMode, TextureCompareFunc, TextureLodBias, TextureMagFilter, TextureMaxLevel, TextureMaxLod, TextureMinFilter, TextureMinLod, TextureSwizzleR, TextureSwizzleG, TextureSwizzleB, TextureSwizzleA, TextureSwizzleRgba, TextureWrapS, TextureWrapT, and TextureWrapR are accepted.
+*/
+func GetTexParameteri(target, pname GLenum) []int {
+	params := make([]int, 4)
+
+	C.glGetTexParameteriv(C.GLenum(target), C.GLenum(pname), (*C.GLint)(unsafe.Pointer(&params[0])))
+
+	return params
+}
+
+/*
+Return texture parameter values
+
+Parameters
+    target - Specifies the symbolic name of the target texture. Texture1d, Texture2d, Texture1dArray, Texture2dArray, Texture3d, TextureRectangle, and TextureCubeMap are accepted.
+    pname - Specifies the symbolic name of a texture parameter. TextureBaseLevel, TextureBorderColor, TextureCompareMode, TextureCompareFunc, TextureLodBias, TextureMagFilter, TextureMaxLevel, TextureMaxLod, TextureMinFilter, TextureMinLod, TextureSwizzleR, TextureSwizzleG, TextureSwizzleB, TextureSwizzleA, TextureSwizzleRgba, TextureWrapS, TextureWrapT, and TextureWrapR are accepted.
+*/
+func GetTexParameterIi(target, pname GLenum) []int {
+	params := make([]int, 4)
+
+	C.glGetTexParameterIiv(C.GLenum(target), C.GLenum(pname), (*C.GLint)(unsafe.Pointer(&params[0])))
+
+	return params
+}
+
+/*
+Return texture parameter values
+
+Parameters
+    target - Specifies the symbolic name of the target texture. Texture1d, Texture2d, Texture1dArray, Texture2dArray, Texture3d, TextureRectangle, and TextureCubeMap are accepted.
+    pname - Specifies the symbolic name of a texture parameter. TextureBaseLevel, TextureBorderColor, TextureCompareMode, TextureCompareFunc, TextureLodBias, TextureMagFilter, TextureMaxLevel, TextureMaxLod, TextureMinFilter, TextureMinLod, TextureSwizzleR, TextureSwizzleG, TextureSwizzleB, TextureSwizzleA, TextureSwizzleRgba, TextureWrapS, TextureWrapT, and TextureWrapR are accepted.
+*/
+func GetTexParameterIui(target, pname GLenum) []uint32 {
+	params := make([]uint32, 4)
+
+	C.glGetTexParameterIuiv(C.GLenum(target), C.GLenum(pname), (*C.GLuint)(unsafe.Pointer(&params[0])))
+
+	return params
+}
+
+/*
+Retrieve information about varying variables selected for transform feedback
+
+Parameters
+    program - The name of the target program object.
+    index - The index of the varying variable whose information to retrieve.
+*/
+func GetTransformFeedbackVarying(program, index uint32) (int, GLenum, string) {
+	var cStr [256]C.GLchar
+	var size C.GLsizei
+	var enumType C.GLenum
+
+	C.glGetTransformFeedbackVarying(C.GLuint(program), C.GLuint(index), 256, nil, &size, &enumType, &cStr[0])
+
+	return int(size), GLenum(enumType), C.GoString((*C.char)(&cStr[0]))
+}
+
+/*
+Returns the value of a uniform variable
+
+Parameters
+    program - Specifies the program object to be queried.
+    location - Specifies the location of the uniform variable to be queried.
+*/
+func GetUniformf(program uint32, location int) []float32 {
+	params := make([]float32, 16)
+
+	C.glGetUniformfv(C.GLuint(program), C.GLint(location), (*C.GLfloat)(unsafe.Pointer(&params[0])))
+
+	return params
+}
+
+/*
+Returns the value of a uniform variable
+
+Parameters
+    program - Specifies the program object to be queried.
+    location - Specifies the location of the uniform variable to be queried.
+*/
+func GetUniformi(program uint32, location int) []int {
+	params := make([]int, 16)
+
+	C.glGetUniformiv(C.GLuint(program), C.GLint(location), (*C.GLint)(unsafe.Pointer(&params[0])))
+
+	return params
+}
+
+/*
+Returns the value of a uniform variable
+
+Parameters
+    program - Specifies the program object to be queried.
+    location - Specifies the location of the uniform variable to be queried.
+*/
+func GetUniformui(program uint32, location int) []uint32 {
+	params := make([]uint32, 16)
+
+	C.glGetUniformuiv(C.GLuint(program), C.GLint(location), (*C.GLuint)(unsafe.Pointer(&params[0])))
+
+	return params
+}
+
+/*
+Retrieve the index of a named uniform block
+
+Parameters
+    program - Specifies the name of a program containing the uniform block.
+    uniformBlockName - Specifies the name of the uniform block whose index to retrieve.
+*/
+func GetUniformBlockIndex(program uint32, uniformBlockName string) uint32 {
+	cName := C.CString(uniformBlockName)
+	defer C.free(unsafe.Pointer(cName))
+
+	return uint32(C.glGetUniformBlockIndex(C.GLuint(program), (*C.GLchar)(cName)))
+}
+
+/*
+Retrieve the index of a named uniform block
+
+Parameters
+    program - Specifies the name of a program containing uniforms whose indices to query.
+    uniformCount - Specifies the number of uniforms whose indices to query.
+    uniformNames - Specifies the address of an array of pointers to buffers containing the names of the queried uniforms.
+*/
+func GetUniformIndices(program uint32, uniformCount int, uniformNames []string) []uint32 {
+	count := len(uniformNames)
+	cNames := make([]*C.char, count)
+	uniformIndices := make([]uint32, count)
+
+	for key, _ := range uniformNames {
+		cNames[key] = C.CString(uniformNames[key])
+	}
+
+	C.glGetUniformIndices(C.GLuint(program), C.GLsizei(uniformCount), (**C.GLchar)(unsafe.Pointer(&cNames[0])), (*C.GLuint)(unsafe.Pointer(&uniformIndices[0])))
+
+	for key, _ := range uniformNames {
+		C.free(unsafe.Pointer(cNames[key]))
+	}
+
+	return uniformIndices
+}
+
+/*
+Returns the location of a uniform variable
+
+Parameters
+    program - Specifies the name of a program containing the uniform block.
+    name - Specifies the name of the uniform variable whose location is to be queried.
+*/
+func GetUniformLocation(program uint32, name string) int {
+	cName := C.CString(name)
+	defer C.free(unsafe.Pointer(cName))
+
+	return int(C.glGetUniformLocation(C.GLuint(program), (*C.GLchar)(cName)))
+}
+
+/*
+Return a generic vertex attribute parameter
+
+Parameters
+    index - Specifies the generic vertex attribute parameter to be queried.
+    pname - Specifies the symbolic name of the vertex attribute parameter to be queried. Accepted values are VertexAttribArrayBufferBinding, VertexAttribArrayEnabled, VertexAttribArraySize, VertexAttribArrayStride, VertexAttribArrayType, VertexAttribArrayNormalized, VertexAttribArrayInteger, VertexAttribArrayDivisor, or CurrentVertexAttrib.
+*/
+func GetVertexAttribd(index uint32, pname GLenum) []float64 {
+	params := make([]float64, 4)
+
+	C.glGetVertexAttribdv(C.GLuint(index), C.GLenum(pname), (*C.GLdouble)(unsafe.Pointer(&params[0])))
+
+	return params
+}
+
+/*
+Return a generic vertex attribute parameter
+
+Parameters
+    index - Specifies the generic vertex attribute parameter to be queried.
+    pname - Specifies the symbolic name of the vertex attribute parameter to be queried. Accepted values are VertexAttribArrayBufferBinding, VertexAttribArrayEnabled, VertexAttribArraySize, VertexAttribArrayStride, VertexAttribArrayType, VertexAttribArrayNormalized, VertexAttribArrayInteger, VertexAttribArrayDivisor, or CurrentVertexAttrib.
+*/
+func GetVertexAttribf(index uint32, pname GLenum) []float32 {
+	params := make([]float32, 4)
+
+	C.glGetVertexAttribfv(C.GLuint(index), C.GLenum(pname), (*C.GLfloat)(unsafe.Pointer(&params[0])))
+
+	return params
+}
+
+/*
+Return a generic vertex attribute parameter
+
+Parameters
+    index - Specifies the generic vertex attribute parameter to be queried.
+    pname - Specifies the symbolic name of the vertex attribute parameter to be queried. Accepted values are VertexAttribArrayBufferBinding, VertexAttribArrayEnabled, VertexAttribArraySize, VertexAttribArrayStride, VertexAttribArrayType, VertexAttribArrayNormalized, VertexAttribArrayInteger, VertexAttribArrayDivisor, or CurrentVertexAttrib.
+*/
+func GetVertexAttribi(index uint32, pname GLenum) []int {
+	params := make([]int, 4)
+
+	C.glGetVertexAttribiv(C.GLuint(index), C.GLenum(pname), (*C.GLint)(unsafe.Pointer(&params[0])))
+
+	return params
+}
+
+/*
+Return a generic vertex attribute parameter
+
+Parameters
+    index - Specifies the generic vertex attribute parameter to be queried.
+    pname - Specifies the symbolic name of the vertex attribute parameter to be queried. Accepted values are VertexAttribArrayBufferBinding, VertexAttribArrayEnabled, VertexAttribArraySize, VertexAttribArrayStride, VertexAttribArrayType, VertexAttribArrayNormalized, VertexAttribArrayInteger, VertexAttribArrayDivisor, or CurrentVertexAttrib.
+*/
+func GetVertexAttribIi(index uint32, pname GLenum) []int {
+	params := make([]int, 4)
+
+	C.glGetVertexAttribIiv(C.GLuint(index), C.GLenum(pname), (*C.GLint)(unsafe.Pointer(&params[0])))
+
+	return params
+}
+
+/*
+Return a generic vertex attribute parameter
+
+Parameters
+    index - Specifies the generic vertex attribute parameter to be queried.
+    pname - Specifies the symbolic name of the vertex attribute parameter to be queried. Accepted values are VertexAttribArrayBufferBinding, VertexAttribArrayEnabled, VertexAttribArraySize, VertexAttribArrayStride, VertexAttribArrayType, VertexAttribArrayNormalized, VertexAttribArrayInteger, VertexAttribArrayDivisor, or CurrentVertexAttrib.
+*/
+func GetVertexAttribIui(index uint32, pname GLenum) []uint32 {
+	params := make([]uint32, 4)
+
+	C.glGetVertexAttribIuiv(C.GLuint(index), C.GLenum(pname), (*C.GLuint)(unsafe.Pointer(&params[0])))
+
+	return params
+}
+
+/*
+Return the address of the specified generic vertex attribute pointer
+
+Parameters
+    index - Specifies the generic vertex attribute parameter to be returned.
+    pname - Specifies the symbolic name of the generic vertex attribute parameter to be returned. Must be VertexAttribArrayPointer.
+*/
+func GetVertexAttribPointer(index uint32, pname GLenum) unsafe.Pointer {
+	var pointer unsafe.Pointer
+
+	C.glGetVertexAttribPointerv(C.GLuint(index), C.GLenum(pname), &pointer)
+
+	return pointer
 }
 
 // <-------- THIS FAR --------->
