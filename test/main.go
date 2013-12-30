@@ -26,13 +26,13 @@ func main() {
 
 	gl.Init()
 	gl.Enable(gl.CullFaceConst)
-	gl.Enable(gl.DepthTest)
+	gl.Enable(gl.DepthTestConst)
 	gl.ClearColor(0.5, 0.5, 0.5, 1.0)
 	gl.ClearDepth(1)
-	gl.DepthFunc(gl.LEqual)
+	gl.DepthFunc(gl.LEqualConst)
 	gl.Viewport(0, 0, screenWidth, screenHeight)
 
-	tmp := gl.GetBoolean(gl.DepthTest)
+	tmp := gl.GetBoolean(gl.DepthTestConst)
 	fmt.Println(tmp)
 
 	for !window.ShouldClose() {
