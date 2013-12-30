@@ -2701,6 +2701,17 @@ func ProvokingVertex(provokeMode GLenum) {
 	C.glProvokingVertex(C.GLenum(provokeMode))
 }
 
+/*
+Record the GL time into a query object after all previous commands have reached the GL server but have not yet necessarily executed.
+
+Parameter
+    id - Specify the name of a query object into which to record the GL time.
+    target - Specify the counter to query. target must be Timestamp.
+*/
+func QueryCounter(id uint32, target GLenum) {
+	C.glQueryCounter(C.GLuint(id), C.GLenum(target))
+}
+
 // <-------- THIS FAR --------->
 
 /*
