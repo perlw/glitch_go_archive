@@ -2605,6 +2605,102 @@ func MultiDrawElementsBaseVertex(mode GLenum, count []int, indices []interface{}
 	return nil
 }
 
+/*
+Set pixel storage modes
+
+Parameters
+    pname - Specifies the symbolic name of the parameter to be set. Six values affect the packing of pixel data into memory: PackSwapBytes, PackLsbFirst, PackRowLength, PackImageHeight, PackSkipPixels, PackSkipRows, PackSkipImages, and PackAlignment. Six more affect the unpacking of pixel data from memory: UnpackSwapBytes, UnpackLsbFirst, UnpackRowLength, UnpackImageHeight, UnpackSkipPixels, UnpackSkipRows, UnpackSkipImages, and UnpackAlignment.
+    param - Specifies the value that pname is set to.
+*/
+func PixelStoref(pname GLenum, param float32) {
+	C.glPixelStoref(C.GLenum(pname), C.GLfloat(param))
+}
+
+/*
+Set pixel storage modes
+
+Parameters
+    pname - Specifies the symbolic name of the parameter to be set. Six values affect the packing of pixel data into memory: PackSwapBytes, PackLsbFirst, PackRowLength, PackImageHeight, PackSkipPixels, PackSkipRows, PackSkipImages, and PackAlignment. Six more affect the unpacking of pixel data from memory: UnpackSwapBytes, UnpackLsbFirst, UnpackRowLength, UnpackImageHeight, UnpackSkipPixels, UnpackSkipRows, UnpackSkipImages, and UnpackAlignment.
+    param - Specifies the value that pname is set to.
+*/
+func PixelStorei(pname GLenum, param int) {
+	C.glPixelStorei(C.GLenum(pname), C.GLint(param))
+}
+
+/*
+Specify point parameters
+
+Parameters
+    pname - Specifies a single-valued point parameter. PointFadeThresholdSize, and PointSpriteCoordOrigin are accepted.
+    param - Specifies the value that pname is set to.
+*/
+func PointParameterf(pname GLenum, param float32) {
+	C.glPointParameterf(C.GLenum(pname), C.GLfloat(param))
+}
+
+/*
+Specify point parameters
+
+Parameters
+    pname - Specifies a single-valued point parameter. PointFadeThresholdSize, and PointSpriteCoordOrigin are accepted.
+    param - Specifies the value that pname is set to.
+*/
+func PointParameteri(pname GLenum, param int) {
+	C.glPointParameteri(C.GLenum(pname), C.GLint(param))
+}
+
+/*
+Specify the diameter of rasterized points
+
+Parameters
+    size - Specifies the diameter of rasterized points. The initial value is 1.
+*/
+func PointSize(size float32) {
+	C.glPointSize(C.GLfloat(size))
+}
+
+/*
+Select a polygon rasterization mode
+
+Parameters
+    face - Specifies the polygons that mode applies to. Must be FrontAndBack for front- and back-facing polygons.
+    mode - Specifies how polygons will be rasterized. Accepted values are Point, Line, and Fill. The initial value is Fill for both front- and back-facing polygons.
+*/
+func PolygonMode(face, mode GLenum) {
+	C.glPolygonMode(C.GLenum(face), C.GLenum(mode))
+}
+
+/*
+Set the scale and units used to calculate depth values
+
+Parameters
+    factor - Specifies a scale factor that is used to create a variable depth offset for each polygon. The initial value is 0.
+    units - Is multiplied by an implementation-specific value to create a constant depth offset. The initial value is 0.
+*/
+func PolygonOffset(factor, units float32) {
+	C.glPolygonOffset(C.GLfloat(factor), C.GLfloat(units))
+}
+
+/*
+Specify the primitive restart index
+
+Parameters
+    index - Specifies the value to be interpreted as the primitive restart index.
+*/
+func PrimitiveRestartIndex(index uint32) {
+	C.glPrimitiveRestartIndex(C.GLuint(index))
+}
+
+/*
+Specifiy the vertex to be used as the source of data for flat shaded varyings
+
+Parameters
+    provokeMode - Specifies the vertex to be used as the source of data for flat shaded varyings.
+*/
+func ProvokingVertex(provokeMode GLenum) {
+	C.glProvokingVertex(C.GLenum(provokeMode))
+}
+
 // <-------- THIS FAR --------->
 
 /*

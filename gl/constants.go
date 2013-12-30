@@ -389,9 +389,9 @@ const (
 	PixelPackBufferBinding               = C.GL_PIXEL_PACK_BUFFER_BINDING
 	PixelUnpackBufferBinding             = C.GL_PIXEL_UNPACK_BUFFER_BINDING
 	PointFadeThresholdSize               = C.GL_POINT_FADE_THRESHOLD_SIZE
-	PrimitiveRestartIndex                = C.GL_PRIMITIVE_RESTART_INDEX
-	ProvokingVertex                      = C.GL_PROVOKING_VERTEX
-	PointSize                            = C.GL_POINT_SIZE
+	PrimitiveRestartIndexConst           = C.GL_PRIMITIVE_RESTART_INDEX
+	ProvokingVertexConst                 = C.GL_PROVOKING_VERTEX
+	PointSizeConst                       = C.GL_POINT_SIZE
 	PointSizeGranularity                 = C.GL_POINT_SIZE_GRANULARITY
 	PointSizeRange                       = C.GL_POINT_SIZE_RANGE
 	PolygonOffsetFactor                  = C.GL_POLYGON_OFFSET_FACTOR
@@ -691,6 +691,9 @@ const (
 	ReadOnly  = C.GL_READ_ONLY
 	WriteOnly = C.GL_WRITE_ONLY
 	ReadWrite = C.GL_READ_WRITE
+
+	// PointParameter
+	PointSpriteCoordOrigin = C.GL_POINT_SPRITE_COORD_ORIGIN
 )
 
 const (
