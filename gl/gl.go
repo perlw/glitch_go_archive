@@ -2712,6 +2712,60 @@ func QueryCounter(id uint32, target GLenum) {
 	C.glQueryCounter(C.GLuint(id), C.GLenum(target))
 }
 
+/*
+Select a color buffer source for pixels
+
+Parameters
+    mode - Specifies a color buffer. Accepted values are FrontLeft, FrontRight, BackLeft, BackRight, Front, Back, Left, and the constants ColorAttachmenti.
+*/
+func ReadBuffer(mode GLenum) {
+	C.glReadBuffer(C.GLenum(mode))
+}
+
+/*
+Read a block of pixels from the frame buffer
+
+Parameters
+    x, y - Specify the window coordinates of the first pixel that is read from the frame buffer. This location is the lower left corner of a rectangular block of pixels.
+    width, height - Specify the dimensions of the pixel rectangle. width and height of one correspond to a single pixel.
+    format - Specifies the format of the pixel data. The following symbolic values are accepted: StencilIndex, DepthComponent, DepthStencil, Red, Green, Blue, Rgb, Bgr, Rgba, and Bgra.
+    enumType - Specifies the data type of the pixel data. Must be one of UnsignedByte, Byte, UnsignedShort, Short, UnsignedInt, Int, HalfFloat, Float, UnsignedByte332, UnsignedByte233Rev, UnsignedShort565, UnsignedShort565Rev, UnsignedShort4444, UnsignedShort4444Rev, UnsignedShort5551, UnsignedShort1555Rev, UnsignedInt8888, UnsignedInt8888Rev, UnsignedInt1010102, UnsignedInt2101010Rev, UnsignedInt248, UnsignedInt10f11f11fRev, UnsignedInt5999Rev, or Float32UnsignedInt248Rev.
+*/
+func ReadPixels(x, y, width, height int, format, enumType GLenum) unsafe.Pointer {
+	var data unsafe.Pointer
+
+	C.glReadPixels(C.GLint(x), C.GLint(y), C.GLsizei(width), C.GLsizei(height), C.GLenum(format), C.GLenum(enumType), data)
+
+	return data
+}
+
+/*
+Establish data storage, format and dimensions of a renderbuffer object's image
+
+Parameters
+    target - Specifies a binding to which the target of the allocation and must be Renderbuffer.
+    internalFormat - Specifies the internal format to use for the renderbuffer object's image.
+    width - Specifies the width of the renderbuffer, in pixels.
+    height - Specifies the height of the renderbuffer, in pixels.
+*/
+func RenderbufferStorage(target, internalFormat GLenum, width, height int) {
+	C.glRenderbufferStorage(C.GLenum(target), C.GLenum(internalFormat), C.GLsizei(width), C.GLsizei(height))
+}
+
+/*
+Establish data storage, format, dimensions and sample count of a renderbuffer object's image
+
+Parameters
+    target - Specifies a binding to which the target of the allocation and must be Renderbuffer.
+    samples - Specifies the number of samples to be used for the renderbuffer object's storage.
+    internalFormat - Specifies the internal format to use for the renderbuffer object's image.
+    width - Specifies the width of the renderbuffer, in pixels.
+    height - Specifies the height of the renderbuffer, in pixels.
+*/
+func RenderbufferStorageMultisample(target GLenum, samples int, internalFormat GLenum, width, height int) {
+	C.glRenderbufferStorageMultisample(C.GLenum(target), C.GLsizei(samples), C.GLenum(internalFormat), C.GLsizei(width), C.GLsizei(height))
+}
+
 // <-------- THIS FAR --------->
 
 /*
