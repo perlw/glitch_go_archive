@@ -702,6 +702,40 @@ const (
 	IncrWrapConst = C.GL_INCR_WRAP
 	DecrConst     = C.GL_DECR
 	DecrWrapConst = C.GL_DECR_WRAP
+
+	// TexBuffer
+	R8Const       = C.GL_R8
+	R16Const      = C.GL_R16
+	R16fConst     = C.GL_R16F
+	R32fConst     = C.GL_R32F
+	R8iConst      = C.GL_R8I
+	R16iConst     = C.GL_R16I
+	R32iConst     = C.GL_R32I
+	R8uiConst     = C.GL_R8UI
+	R16uiConst    = C.GL_R16UI
+	R32uiConst    = C.GL_R32UI
+	Rg8Const      = C.GL_RG8
+	Rg16Const     = C.GL_RG16
+	Rg16fConst    = C.GL_RG16F
+	Rg32fConst    = C.GL_RG32F
+	Rg8iConst     = C.GL_RG8I
+	Rg16iConst    = C.GL_RG16I
+	Rg32iConst    = C.GL_RG32I
+	Rg8uiConst    = C.GL_RG8UI
+	Rg16uiConst   = C.GL_RG16UI
+	Rg32uiConst   = C.GL_RG32UI
+	Rgba16fConst  = C.GL_RGBA16F
+	Rgba32fConst  = C.GL_RGBA32F
+	Rgba8iConst   = C.GL_RGBA8I
+	Rgba16iConst  = C.GL_RGBA16I
+	Rgba32iConst  = C.GL_RGBA32I
+	Rgba8uiConst  = C.GL_RGBA8UI
+	Rgba16uiConst = C.GL_RGBA16UI
+	Rgba32uiConst = C.GL_RGBA32UI
+
+	// TransformFeedbackVaryings
+	InterleavedAttribsConst = C.GL_INTERLEAVED_ATTRIBS
+	SeparateAttribsConst    = C.GL_SEPARATE_ATTRIBS
 )
 
 const (

@@ -2912,6 +2912,284 @@ func StencilOpSeparate(face, sfail, dpfail, dppass GLenum) {
 	C.glStencilOpSeparate(C.GLenum(face), C.GLenum(sfail), C.GLenum(dpfail), C.GLenum(dppass))
 }
 
+/*
+Attach the storage for a buffer object to the active buffer texture
+
+Parameters
+    target - Specifies the target of the operation and must be TextureBuffer.
+    internalFormat - Specifies the internal format of the data in the store belonging to buffer.
+    buffer - Specifies the name of the buffer object whose storage to attach to the active buffer texture.
+*/
+func TexBuffer(target, internalFormat GLenum, buffer uint32) {
+	C.glTexBuffer(C.GLenum(target), C.GLenum(internalFormat), C.GLuint(buffer))
+}
+
+/*
+Specify a one-dimensional texture image
+
+Parameters
+    target - Specifies the target texture. Must be Texture1d or ProxyTexture1d.
+    level - Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.
+    internalFormat - Specifies the number of color components in the texture. Must be one of the following symbolic constants: CompressedRed, CompressedRg, CompressedRgb, CompressedRgba, CompressedSrgb, CompressedSrgbAlpha, DepthComponent, DepthComponent16, DepthComponent24, DepthComponent32, R3G3B2, Red, Rg, Rgb, Rgb4, Rgb5, Rgb8, Rgb10, Rgb12, Rgb16, Rgba, Rgba2, Rgba4, Rgb5A1, Rgba8, Rgb10A2, Rgba12, Rgba16, Srgb, Srgb8, SrgbAlpha, or Srgb8Alpha8.
+    width - Specifies the width of the texture image. All implementations support texture images that are at least 1024 texels wide. The height of the 1D texture image is 1.
+    border - This value must be 0.
+    format - Specifies the format of the pixel data. The following symbolic values are accepted: Red, Rg, Rgb, Bgr, Rgba, and Bgra.
+    data - Specifies a slice with the image data in memory.
+*/
+func TexImage1D(target GLenum, level int, internalFormat GLenum, width int, border int, format GLenum, data interface{}) error {
+	_, _, enumType, ptr, err := sliceToGLData(data)
+	if err != nil {
+		return err
+	}
+
+	C.glTexImage1D(C.GLenum(target), C.GLint(level), C.GLint(internalFormat), C.GLsizei(width), C.GLint(border), C.GLenum(format), enumType, ptr)
+
+	return nil
+}
+
+/*
+Specify a two-dimensional texture image
+
+Parameters
+    target - Specifies the target texture. Must be Texture2d, ProxyTexture2d, Texture1dArray, ProxyTexture1dArray, TextureRectangle, ProxyTextureRectangle, TextureCubeMapPositiveX, TextureCubeMapNegativeX, TextureCubeMapPositiveY, TextureCubeMapNegativeY, TextureCubeMapPositiveZ, TextureCubeMapNegativeZ, or ProxyTextureCubeMap.
+    level - Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image. If target is TextureRectangle or ProxyTextureRectangle, level must be 0.
+    internalFormat - Specifies the number of color components in the texture. Must be one of the following symbolic constants: CompressedRed, CompressedRg, CompressedRgb, CompressedRgba, CompressedSrgb, CompressedSrgbAlpha, DepthComponent, DepthComponent16, DepthComponent24, DepthComponent32, R3G3B2, Red, Rg, Rgb, Rgb4, Rgb5, Rgb8, Rgb10, Rgb12, Rgb16, Rgba, Rgba2, Rgba4, Rgb5A1, Rgba8, Rgb10A2, Rgba12, Rgba16, Srgb, Srgb8, SrgbAlpha, or Srgb8Alpha8.
+    width - Specifies the width of the texture image. All implementations support texture images that are at least 1024 texels wide.
+    height - Specifies the height of the texture image, or the number of layers in a texture array, in the case of the Texture1dArray and ProxyTexture1dArray targets. All implementations support 2D texture images that are at least 1024 texels high, and texture arrays that are at least 256 layers deep.
+    border - This value must be 0.
+    format - Specifies the format of the pixel data. The following symbolic values are accepted: Red, Rg, Rgb, Bgr, Rgba, and Bgra.
+    data - Specifies a slice with the image data in memory.
+*/
+func TexImage2D(target GLenum, level int, internalFormat GLenum, width, height int, border int, format GLenum, data interface{}) error {
+	_, _, enumType, ptr, err := sliceToGLData(data)
+	if err != nil {
+		return err
+	}
+
+	C.glTexImage2D(C.GLenum(target), C.GLint(level), C.GLint(internalFormat), C.GLsizei(width), C.GLsizei(height), C.GLint(border), C.GLenum(format), enumType, ptr)
+
+	return nil
+}
+
+/*
+Establish the data storage, format, dimensions, and number of samples of a multisample texture's image
+
+Parameters
+    target - Specifies the target of the operation. target must be Texture2dMultisample or ProxyTexture2dMultisample.
+    samples - The number of samples in the multisample texture's image.
+    internalFormat - The internal format to be used to store the multisample texture's image. internalformat must specify a color-renderable, depth-renderable, or stencil-renderable format.
+    width - The width of the multisample texture's image, in texels.
+    height - The height of the multisample texture's image, in texels.
+    fixedsamplelocations - Specifies whether the image will use identical sample locations and the same number of samples for all texels in the image, and the sample locations will not depend on the internal format or size of the image.
+*/
+func TexImage2DMultisample(target GLenum, samples int, internalFormat GLenum, width, height int, fixedsamplelocations bool) {
+	C.glTexImage2DMultisample(C.GLenum(target), C.GLsizei(samples), C.GLint(internalFormat), C.GLsizei(width), C.GLsizei(height), boolToGLBool(fixedsamplelocations))
+}
+
+/*
+Specify a three-dimensional texture image
+
+Parameters
+    target - Specifies the target texture. Must be one of Texture3d, ProxyTexture3d, Texture2dArray or ProxyTexture2dArray.
+    level - Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image. If target is TextureRectangle or ProxyTextureRectangle, level must be 0.
+    internalFormat - Specifies the number of color components in the texture. Must be one of the following symbolic constants: Rgba32f, Rgba32i, Rgba32ui, Rgba16, Rgba16f, Rgba16i, Rgba16ui, Rgba8, Rgba8ui, Srgb8Alpha8, Rgb10A2, Rgb10A2ui, R11fG11fB10f, Rg32f, Rg32i, Rg32ui, Rg16, Rg16f, Rgb16i, Rgb16ui, Rg8, Rg8i, Rg8ui, R32f, R32i, R32ui, R16f, R16i, R16ui, R8, R8i, R8ui, Rgba16Snorm, Rgba8Snorm, Rgb32f, Rgb32i, Rgb32ui, Rgb16Snorm, Rgb16f, Rgb16i, Rgb16ui, Rgb16, Rgb8Snorm, Rgb8, Rgb8i, Rgb8ui, Srgb8, Rgb9E5, Rg16Snorm, Rg8Snorm, CompressedRgRgtc2, CompressedSignedRgRgtc2, R16Snorm, R8Snorm, CompressedRedRgtc1, CompressedSignedRedRgtc1, DepthComponent32f, DepthComponent24, DepthComponent16, Depth32fStencil8, Depth24Stencil8.
+    width - Specifies the width of the texture image. All implementations support 3D texture images that are at least 16 texels wide.
+    height - Specifies the height of the texture image. All implementations support 3D texture images that are at least 256 texels high.
+    depth - Specifies the depth of the texture image, or the number of layers in a texture array. All implementations support 3D texture images that are at least 256 texels deep, and texture arrays that are at least 256 layers deep.
+    border - This value must be 0.
+    format - Specifies the format of the pixel data. The following symbolic values are accepted: Red, Rg, Rgb, Bgr, Rgba, and Bgra.
+    data - Specifies a slice with the image data in memory.
+*/
+func TexImage3D(target GLenum, level int, internalFormat GLenum, width, height, depth int, border int, format GLenum, data interface{}) error {
+	_, _, enumType, ptr, err := sliceToGLData(data)
+	if err != nil {
+		return err
+	}
+
+	C.glTexImage3D(C.GLenum(target), C.GLint(level), C.GLint(internalFormat), C.GLsizei(width), C.GLsizei(height), C.GLsizei(depth), C.GLint(border), C.GLenum(format), enumType, ptr)
+
+	return nil
+}
+
+/*
+Establish the data storage, format, dimensions, and number of samples of a multisample texture's image
+
+Parameters
+    target - Specifies the target of the operation. target must be Texture2dMultisample or ProxyTexture2dMultisample.
+    samples - The number of samples in the multisample texture's image.
+    internalFormat - The internal format to be used to store the multisample texture's image. internalformat must specify a color-renderable, depth-renderable, or stencil-renderable format.
+    width - The width of the multisample texture's image, in texels.
+    height - The height of the multisample texture's image, in texels.
+    depth - The depth of the multisample texture's image, in texels.
+    fixedsamplelocations - Specifies whether the image will use identical sample locations and the same number of samples for all texels in the image, and the sample locations will not depend on the internal format or size of the image.
+*/
+func TexImage3DMultisample(target GLenum, samples int, internalFormat GLenum, width, height, depth int, fixedsamplelocations bool) {
+	C.glTexImage3DMultisample(C.GLenum(target), C.GLsizei(samples), C.GLint(internalFormat), C.GLsizei(width), C.GLsizei(height), C.GLsizei(depth), boolToGLBool(fixedsamplelocations))
+}
+
+/*
+Set texture parameters
+
+Parameters
+    target - Specifies the target texture, which must be either Texture1d, Texture2d, Texture3d, Texture1dArray, Texture2dArray, TextureRectangle, or TextureCubeMap.
+    pname - Specifies the symbolic name of a single-valued texture parameter. pname can be one of the following: TextureBaseLevel, TextureCompareFunc, TextureCompareMode, TextureLodBias, TextureMinFilter, TextureMagFilter, TextureMinLod, TextureMaxLod, TextureMaxLevel, TextureSwizzleR, TextureSwizzleG, TextureSwizzleB, TextureSwizzleA, TextureWrapS, TextureWrapT, or TextureWrapR.
+    param - Specifies the value of pname.
+*/
+func TexParameterf(target, pname GLenum, param float32) {
+	C.glTexParameterf(C.GLenum(target), C.GLenum(pname), C.GLfloat(param))
+}
+
+/*
+Set texture parameters
+
+Parameters
+    target - Specifies the target texture, which must be either Texture1d, Texture2d, Texture3d, Texture1dArray, Texture2dArray, TextureRectangle, or TextureCubeMap.
+    pname - Specifies the symbolic name of a single-valued texture parameter. pname can be one of the following: TextureBaseLevel, TextureCompareFunc, TextureCompareMode, TextureLodBias, TextureMinFilter, TextureMagFilter, TextureMinLod, TextureMaxLod, TextureMaxLevel, TextureSwizzleR, TextureSwizzleG, TextureSwizzleB, TextureSwizzleA, TextureWrapS, TextureWrapT, or TextureWrapR.
+    param - Specifies the value of pname.
+*/
+func TexParameteri(target, pname GLenum, param int) {
+	C.glTexParameteri(C.GLenum(target), C.GLenum(pname), C.GLint(param))
+}
+
+/*
+Set texture parameters
+
+Parameters
+    target - Specifies the target texture, which must be either Texture1d, Texture2d, Texture3d, Texture1dArray, Texture2dArray, TextureRectangle, or TextureCubeMap.
+    pname - Specifies the symbolic name of a single-valued texture parameter. pname can be one of the following: TextureBaseLevel, TextureCompareFunc, TextureCompareMode, TextureLodBias, TextureMinFilter, TextureMagFilter, TextureMinLod, TextureMaxLod, TextureMaxLevel, TextureSwizzleR, TextureSwizzleG, TextureSwizzleB, TextureSwizzleA, TextureWrapS, TextureWrapT, or TextureWrapR.
+    param - Specifies a slice where the value or values of pname are stored.
+*/
+func TexParametersf(target, pname GLenum, param []float32) {
+	C.glTexParameterfv(C.GLenum(target), C.GLenum(pname), (*C.GLfloat)(unsafe.Pointer(&param[0])))
+}
+
+/*
+Set texture parameters
+
+Parameters
+    target - Specifies the target texture, which must be either Texture1d, Texture2d, Texture3d, Texture1dArray, Texture2dArray, TextureRectangle, or TextureCubeMap.
+    pname - Specifies the symbolic name of a single-valued texture parameter. pname can be one of the following: TextureBaseLevel, TextureCompareFunc, TextureCompareMode, TextureLodBias, TextureMinFilter, TextureMagFilter, TextureMinLod, TextureMaxLod, TextureMaxLevel, TextureSwizzleR, TextureSwizzleG, TextureSwizzleB, TextureSwizzleA, TextureWrapS, TextureWrapT, or TextureWrapR.
+    param - Specifies a slice where the value or values of pname are stored.
+*/
+func TexParametersi(target, pname GLenum, param []int) {
+	C.glTexParameteriv(C.GLenum(target), C.GLenum(pname), (*C.GLint)(unsafe.Pointer(&param[0])))
+}
+
+/*
+Set texture parameters
+
+Parameters
+    target - Specifies the target texture, which must be either Texture1d, Texture2d, Texture3d, Texture1dArray, Texture2dArray, TextureRectangle, or TextureCubeMap.
+    pname - Specifies the symbolic name of a single-valued texture parameter. pname can be one of the following: TextureBaseLevel, TextureCompareFunc, TextureCompareMode, TextureLodBias, TextureMinFilter, TextureMagFilter, TextureMinLod, TextureMaxLod, TextureMaxLevel, TextureSwizzleR, TextureSwizzleG, TextureSwizzleB, TextureSwizzleA, TextureWrapS, TextureWrapT, or TextureWrapR.
+    param - Specifies a slice where the value or values of pname are stored.
+*/
+func TexParametersIi(target, pname GLenum, param []int) {
+	C.glTexParameterIiv(C.GLenum(target), C.GLenum(pname), (*C.GLint)(unsafe.Pointer(&param[0])))
+}
+
+/*
+Set texture parameters
+
+Parameters
+    target - Specifies the target texture, which must be either Texture1d, Texture2d, Texture3d, Texture1dArray, Texture2dArray, TextureRectangle, or TextureCubeMap.
+    pname - Specifies the symbolic name of a single-valued texture parameter. pname can be one of the following: TextureBaseLevel, TextureCompareFunc, TextureCompareMode, TextureLodBias, TextureMinFilter, TextureMagFilter, TextureMinLod, TextureMaxLod, TextureMaxLevel, TextureSwizzleR, TextureSwizzleG, TextureSwizzleB, TextureSwizzleA, TextureWrapS, TextureWrapT, or TextureWrapR.
+    param - Specifies a slice where the value or values of pname are stored.
+*/
+func TexParametersIui(target, pname GLenum, param []uint32) {
+	C.glTexParameterIuiv(C.GLenum(target), C.GLenum(pname), (*C.GLuint)(unsafe.Pointer(&param[0])))
+}
+
+/*
+Specify a one-dimensional texture subimage
+
+Parameters
+    target - Specifies the target texture. Must be Texture1d.
+    level - Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.
+    xoffset - Specifies a texel offset in the x direction within the texture array.
+    width - Specifies the width of the texture subimage.
+    format - Specifies the format of the pixel data. The following symbolic values are accepted: Red, Rg, Rgb, Bgr, Rgba, and Bgra.
+    data - Specifies a slice with the image data in memory.
+*/
+func TexSubImage1D(target GLenum, level, xoffset, width int, format GLenum, data interface{}) error {
+	_, _, enumType, ptr, err := sliceToGLData(data)
+	if err != nil {
+		return err
+	}
+
+	C.glTexSubImage1D(C.GLenum(target), C.GLint(level), C.GLint(xoffset), C.GLsizei(width), C.GLenum(format), enumType, ptr)
+
+	return nil
+}
+
+/*
+Specify a two-dimensional texture subimage
+
+Parameters
+    target - Specifies the target texture. Must be Texture2d, TextureCubeMapPositiveX, TextureCubeMapNegativeX, TextureCubeMapPositiveY, TextureCubeMapNegativeY, TextureCubeMapPositiveZ, TextureCubeMapNegativeZ, or Texture1dArray.
+    level - Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.
+    xoffset - Specifies a texel offset in the x direction within the texture array.
+    yoffset - Specifies a texel offset in the y direction within the texture array.
+    width - Specifies the width of the texture subimage.
+    height - Specifies the height of the texture subimage.
+    format - Specifies the format of the pixel data. The following symbolic values are accepted: Red, Rg, Rgb, Bgr, Rgba, and Bgra.
+    data - Specifies a slice with the image data in memory.
+*/
+func TexSubImage2D(target GLenum, level, xoffset, yoffset, width, height int, format GLenum, data interface{}) error {
+	_, _, enumType, ptr, err := sliceToGLData(data)
+	if err != nil {
+		return err
+	}
+
+	C.glTexSubImage2D(C.GLenum(target), C.GLint(level), C.GLint(xoffset), C.GLint(yoffset), C.GLsizei(width), C.GLsizei(height), C.GLenum(format), enumType, ptr)
+
+	return nil
+}
+
+/*
+Specify a three-dimensional texture subimage
+
+Parameters
+    target - Specifies the target texture. Must be Texture3d or Texture2dArray.
+    level - Specifies the level-of-detail number. Level 0 is the base image level. Level n is the nth mipmap reduction image.
+    xoffset - Specifies a texel offset in the x direction within the texture array.
+    yoffset - Specifies a texel offset in the y direction within the texture array.
+    zoffset - Specifies a texel offset in the z direction within the texture array.
+    width - Specifies the width of the texture subimage.
+    height - Specifies the height of the texture subimage.
+    depth - Specifies the depth of the texture subimage.
+    format - Specifies the format of the pixel data. The following symbolic values are accepted: Red, Rg, Rgb, Bgr, Rgba, and Bgra.
+    data - Specifies a slice with the image data in memory.
+*/
+func TexSubImage3D(target GLenum, level, xoffset, yoffset, zoffset, width, height, depth int, format GLenum, data interface{}) error {
+	_, _, enumType, ptr, err := sliceToGLData(data)
+	if err != nil {
+		return err
+	}
+
+	C.glTexSubImage3D(C.GLenum(target), C.GLint(level), C.GLint(xoffset), C.GLint(yoffset), C.GLint(zoffset), C.GLsizei(width), C.GLsizei(height), C.GLsizei(depth), C.GLenum(format), enumType, ptr)
+
+	return nil
+}
+
+/*
+Specify values to record in transform feedback buffers
+
+Parameters
+    program - The name of the target program object.
+    varyings - A slice of strings specifying the names of the varying variables to use for transform feedback.
+    bufferMode - Identifies the mode used to capture the varying variables when transform feedback is active. bufferMode must be InterleavedAttribs or SeparateAttribs.
+*/
+func TransformFeedbackVaryings(program uint, varyings []string, bufferMode GLenum) {
+	count := len(varyings)
+	str := make([]*C.char, count)
+
+	for key, _ := range varyings {
+		str[key] = C.CString(varyings[key])
+	}
+
+	C.glTransformFeedbackVaryings(C.GLuint(program), C.GLsizei(count), (**C.GLchar)(unsafe.Pointer(&str[0])), C.GLenum(bufferMode))
+}
+
 // <-------- THIS FAR --------->
 
 /*
