@@ -2839,6 +2839,10 @@ func ShaderSource(shader uint32, source []string) {
 	}
 
 	C.glShaderSource(C.GLuint(shader), C.GLsizei(count), (**C.GLchar)(unsafe.Pointer(&str[0])), nil)
+
+	for key, _ := range str {
+		C.free(unsafe.Pointer(str[key]))
+	}
 }
 
 /*
@@ -3188,6 +3192,10 @@ func TransformFeedbackVaryings(program uint, varyings []string, bufferMode GLenu
 	}
 
 	C.glTransformFeedbackVaryings(C.GLuint(program), C.GLsizei(count), (**C.GLchar)(unsafe.Pointer(&str[0])), C.GLenum(bufferMode))
+
+	for key, _ := range str {
+		C.free(unsafe.Pointer(str[key]))
+	}
 }
 
 // <-------- THIS FAR --------->
