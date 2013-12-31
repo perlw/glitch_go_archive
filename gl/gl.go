@@ -3198,7 +3198,410 @@ func TransformFeedbackVaryings(program uint, varyings []string, bufferMode GLenu
 	}
 }
 
-// <-------- THIS FAR --------->
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    v0, v1, v2, v3 - Specifies the new values to be used for the specified uniform variable.
+*/
+func Uniform1f(location int, v0 float32) {
+	C.glUniform1f(C.GLint(location), C.GLfloat(v0))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    v0, v1, v2, v3 - Specifies the new values to be used for the specified uniform variable.
+*/
+func Uniform2f(location int, v0, v1 float32) {
+	C.glUniform2f(C.GLint(location), C.GLfloat(v0), C.GLfloat(v1))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    v0, v1, v2, v3 - Specifies the new values to be used for the specified uniform variable.
+*/
+func Uniform3f(location int, v0, v1, v2 float32) {
+	C.glUniform3f(C.GLint(location), C.GLfloat(v0), C.GLfloat(v1), C.GLfloat(v2))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    v0, v1, v2, v3 - Specifies the new values to be used for the specified uniform variable.
+*/
+func Uniform4f(location int, v0, v1, v2, v3 float32) {
+	C.glUniform4f(C.GLint(location), C.GLfloat(v0), C.GLfloat(v1), C.GLfloat(v2), C.GLfloat(v3))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    v0, v1, v2, v3 - Specifies the new values to be used for the specified uniform variable.
+*/
+func Uniform1i(location int, v0 int) {
+	C.glUniform1i(C.GLint(location), C.GLint(v0))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    v0, v1, v2, v3 - Specifies the new values to be used for the specified uniform variable.
+*/
+func Uniform2i(location int, v0, v1 int) {
+	C.glUniform2i(C.GLint(location), C.GLint(v0), C.GLint(v1))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    v0, v1, v2, v3 - Specifies the new values to be used for the specified uniform variable.
+*/
+func Uniform3i(location int, v0, v1, v2 int) {
+	C.glUniform3i(C.GLint(location), C.GLint(v0), C.GLint(v1), C.GLint(v2))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    v0, v1, v2, v3 - Specifies the new values to be used for the specified uniform variable.
+*/
+func Uniform4i(location int, v0, v1, v2, v3 int) {
+	C.glUniform4i(C.GLint(location), C.GLint(v0), C.GLint(v1), C.GLint(v2), C.GLint(v3))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    v0, v1, v2, v3 - Specifies the new values to be used for the specified uniform variable.
+*/
+func Uniform1ui(location int, v0 uint32) {
+	C.glUniform1ui(C.GLint(location), C.GLuint(v0))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    v0, v1, v2, v3 - Specifies the new values to be used for the specified uniform variable.
+*/
+func Uniform2ui(location int, v0, v1 uint32) {
+	C.glUniform2ui(C.GLint(location), C.GLuint(v0), C.GLuint(v1))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    v0, v1, v2, v3 - Specifies the new values to be used for the specified uniform variable.
+*/
+func Uniform3ui(location int, v0, v1, v2 uint32) {
+	C.glUniform3ui(C.GLint(location), C.GLuint(v0), C.GLuint(v1), C.GLuint(v2))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    v0, v1, v2, v3 - Specifies the new values to be used for the specified uniform variable.
+*/
+func Uniform4ui(location int, v0, v1, v2, v3 uint32) {
+	C.glUniform4ui(C.GLint(location), C.GLuint(v0), C.GLuint(v1), C.GLuint(v2), C.GLuint(v3))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    count - Specifies the number of elements that are to be modified. This should be 1 if the targeted uniform variable is not an array, and 1 or more if it is an array.
+    values - Specifies a slice of count values that will be used to update the specified uniform variable.
+*/
+func Uniforms1f(location, count int, values []float32) {
+	C.glUniform1fv(C.GLint(location), C.GLsizei(count), (*C.GLfloat)(unsafe.Pointer(&values[0])))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    count - Specifies the number of elements that are to be modified. This should be 1 if the targeted uniform variable is not an array, and 1 or more if it is an array.
+    values - Specifies a slice of count values that will be used to update the specified uniform variable.
+*/
+func Uniforms2f(location, count int, values []float32) {
+	C.glUniform2fv(C.GLint(location), C.GLsizei(count), (*C.GLfloat)(unsafe.Pointer(&values[0])))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    count - Specifies the number of elements that are to be modified. This should be 1 if the targeted uniform variable is not an array, and 1 or more if it is an array.
+    values - Specifies a slice of count values that will be used to update the specified uniform variable.
+*/
+func Uniforms3f(location, count int, values []float32) {
+	C.glUniform3fv(C.GLint(location), C.GLsizei(count), (*C.GLfloat)(unsafe.Pointer(&values[0])))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    count - Specifies the number of elements that are to be modified. This should be 1 if the targeted uniform variable is not an array, and 1 or more if it is an array.
+    values - Specifies a slice of count values that will be used to update the specified uniform variable.
+*/
+func Uniforms4f(location, count int, values []float32) {
+	C.glUniform4fv(C.GLint(location), C.GLsizei(count), (*C.GLfloat)(unsafe.Pointer(&values[0])))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    count - Specifies the number of elements that are to be modified. This should be 1 if the targeted uniform variable is not an array, and 1 or more if it is an array.
+    values - Specifies a slice of count values that will be used to update the specified uniform variable.
+*/
+func Uniforms1i(location, count int, values []int) {
+	C.glUniform1iv(C.GLint(location), C.GLsizei(count), (*C.GLint)(unsafe.Pointer(&values[0])))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    count - Specifies the number of elements that are to be modified. This should be 1 if the targeted uniform variable is not an array, and 1 or more if it is an array.
+    values - Specifies a slice of count values that will be used to update the specified uniform variable.
+*/
+func Uniforms2i(location, count int, values []int) {
+	C.glUniform2iv(C.GLint(location), C.GLsizei(count), (*C.GLint)(unsafe.Pointer(&values[0])))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    count - Specifies the number of elements that are to be modified. This should be 1 if the targeted uniform variable is not an array, and 1 or more if it is an array.
+    values - Specifies a slice of count values that will be used to update the specified uniform variable.
+*/
+func Uniforms3i(location, count int, values []int) {
+	C.glUniform3iv(C.GLint(location), C.GLsizei(count), (*C.GLint)(unsafe.Pointer(&values[0])))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    count - Specifies the number of elements that are to be modified. This should be 1 if the targeted uniform variable is not an array, and 1 or more if it is an array.
+    values - Specifies a slice of count values that will be used to update the specified uniform variable.
+*/
+func Uniforms4i(location, count int, values []int) {
+	C.glUniform4iv(C.GLint(location), C.GLsizei(count), (*C.GLint)(unsafe.Pointer(&values[0])))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    count - Specifies the number of elements that are to be modified. This should be 1 if the targeted uniform variable is not an array, and 1 or more if it is an array.
+    values - Specifies a slice of count values that will be used to update the specified uniform variable.
+*/
+func Uniforms1ui(location, count int, values []uint32) {
+	C.glUniform1uiv(C.GLint(location), C.GLsizei(count), (*C.GLuint)(unsafe.Pointer(&values[0])))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    count - Specifies the number of elements that are to be modified. This should be 1 if the targeted uniform variable is not an array, and 1 or more if it is an array.
+    values - Specifies a slice of count values that will be used to update the specified uniform variable.
+*/
+func Uniforms2ui(location, count int, values []uint32) {
+	C.glUniform2uiv(C.GLint(location), C.GLsizei(count), (*C.GLuint)(unsafe.Pointer(&values[0])))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    count - Specifies the number of elements that are to be modified. This should be 1 if the targeted uniform variable is not an array, and 1 or more if it is an array.
+    values - Specifies a slice of count values that will be used to update the specified uniform variable.
+*/
+func Uniforms3ui(location, count int, values []uint32) {
+	C.glUniform3uiv(C.GLint(location), C.GLsizei(count), (*C.GLuint)(unsafe.Pointer(&values[0])))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    count - Specifies the number of elements that are to be modified. This should be 1 if the targeted uniform variable is not an array, and 1 or more if it is an array.
+    values - Specifies a slice of count values that will be used to update the specified uniform variable.
+*/
+func Uniforms4ui(location, count int, values []uint32) {
+	C.glUniform4uiv(C.GLint(location), C.GLsizei(count), (*C.GLuint)(unsafe.Pointer(&values[0])))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    count - Specifies the number of matrices that are to be modified. This should be 1 if the targeted uniform variable is not an array of matrices, and 1 or more if it is an array of matrices.
+    transpose - Specifies whether to transpose the matrix as the values are loaded into the uniform variable.
+    values - Specifies a slice of count values that will be used to update the specified uniform variable.
+*/
+func UniformMatrix2f(location, count int, transpose bool, values []float32) {
+	C.glUniformMatrix2fv(C.GLint(location), C.GLsizei(count), boolToGLBool(transpose), (*C.GLfloat)(unsafe.Pointer(&values[0])))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    count - Specifies the number of matrices that are to be modified. This should be 1 if the targeted uniform variable is not an array of matrices, and 1 or more if it is an array of matrices.
+    transpose - Specifies whether to transpose the matrix as the values are loaded into the uniform variable.
+    values - Specifies a slice of count values that will be used to update the specified uniform variable.
+*/
+func UniformMatrix3f(location, count int, transpose bool, values []float32) {
+	C.glUniformMatrix3fv(C.GLint(location), C.GLsizei(count), boolToGLBool(transpose), (*C.GLfloat)(unsafe.Pointer(&values[0])))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    count - Specifies the number of matrices that are to be modified. This should be 1 if the targeted uniform variable is not an array of matrices, and 1 or more if it is an array of matrices.
+    transpose - Specifies whether to transpose the matrix as the values are loaded into the uniform variable.
+    values - Specifies a slice of count values that will be used to update the specified uniform variable.
+*/
+func UniformMatrix4f(location, count int, transpose bool, values []float32) {
+	C.glUniformMatrix4fv(C.GLint(location), C.GLsizei(count), boolToGLBool(transpose), (*C.GLfloat)(unsafe.Pointer(&values[0])))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    count - Specifies the number of matrices that are to be modified. This should be 1 if the targeted uniform variable is not an array of matrices, and 1 or more if it is an array of matrices.
+    transpose - Specifies whether to transpose the matrix as the values are loaded into the uniform variable.
+    values - Specifies a slice of count values that will be used to update the specified uniform variable.
+*/
+func UniformMatrix2x3f(location, count int, transpose bool, values []float32) {
+	C.glUniformMatrix2x3fv(C.GLint(location), C.GLsizei(count), boolToGLBool(transpose), (*C.GLfloat)(unsafe.Pointer(&values[0])))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    count - Specifies the number of matrices that are to be modified. This should be 1 if the targeted uniform variable is not an array of matrices, and 1 or more if it is an array of matrices.
+    transpose - Specifies whether to transpose the matrix as the values are loaded into the uniform variable.
+    values - Specifies a slice of count values that will be used to update the specified uniform variable.
+*/
+func UniformMatrix3x2f(location, count int, transpose bool, values []float32) {
+	C.glUniformMatrix3x2fv(C.GLint(location), C.GLsizei(count), boolToGLBool(transpose), (*C.GLfloat)(unsafe.Pointer(&values[0])))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    count - Specifies the number of matrices that are to be modified. This should be 1 if the targeted uniform variable is not an array of matrices, and 1 or more if it is an array of matrices.
+    transpose - Specifies whether to transpose the matrix as the values are loaded into the uniform variable.
+    values - Specifies a slice of count values that will be used to update the specified uniform variable.
+*/
+func UniformMatrix2x4f(location, count int, transpose bool, values []float32) {
+	C.glUniformMatrix2x4fv(C.GLint(location), C.GLsizei(count), boolToGLBool(transpose), (*C.GLfloat)(unsafe.Pointer(&values[0])))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    count - Specifies the number of matrices that are to be modified. This should be 1 if the targeted uniform variable is not an array of matrices, and 1 or more if it is an array of matrices.
+    transpose - Specifies whether to transpose the matrix as the values are loaded into the uniform variable.
+    values - Specifies a slice of count values that will be used to update the specified uniform variable.
+*/
+func UniformMatrix4x2f(location, count int, transpose bool, values []float32) {
+	C.glUniformMatrix4x2fv(C.GLint(location), C.GLsizei(count), boolToGLBool(transpose), (*C.GLfloat)(unsafe.Pointer(&values[0])))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    count - Specifies the number of matrices that are to be modified. This should be 1 if the targeted uniform variable is not an array of matrices, and 1 or more if it is an array of matrices.
+    transpose - Specifies whether to transpose the matrix as the values are loaded into the uniform variable.
+    values - Specifies a slice of count values that will be used to update the specified uniform variable.
+*/
+func UniformMatrix3x4f(location, count int, transpose bool, values []float32) {
+	C.glUniformMatrix3x4fv(C.GLint(location), C.GLsizei(count), boolToGLBool(transpose), (*C.GLfloat)(unsafe.Pointer(&values[0])))
+}
+
+/*
+Specify the value of a or several uniform variable(s) for the current program object
+
+Parameters
+    location - Specifies the location of the uniform variable to be modified.
+    count - Specifies the number of matrices that are to be modified. This should be 1 if the targeted uniform variable is not an array of matrices, and 1 or more if it is an array of matrices.
+    transpose - Specifies whether to transpose the matrix as the values are loaded into the uniform variable.
+    values - Specifies a slice of count values that will be used to update the specified uniform variable.
+*/
+func UniformMatrix4x3f(location, count int, transpose bool, values []float32) {
+	C.glUniformMatrix4x3fv(C.GLint(location), C.GLsizei(count), boolToGLBool(transpose), (*C.GLfloat)(unsafe.Pointer(&values[0])))
+}
+
+/*
+Assign a binding point to an active uniform block
+
+Parameters
+    program - The name of a program object containing the active uniform block whose binding to assign.
+    uniformBlockIndex - The index of the active uniform block within program whose binding to assign.
+    uniformBlockBinding - Specifies the binding point to which to bind the uniform block with index uniformBlockIndex within program.
+*/
+func UniformBlockBinding(program, uniformBlockIndex, uniformBlockBinding uint32) {
+	C.glUniformBlockBinding(C.GLuint(program), C.GLuint(uniformBlockIndex), C.GLuint(uniformBlockBinding))
+}
 
 /*
 Unmap a buffer object's data store
@@ -3209,6 +3612,18 @@ Parameters
 func UnmapBuffer(target GLenum) bool {
 	return glBoolToBool(C.glUnmapBuffer(C.GLenum(target)))
 }
+
+/*
+Installs a program object as part of current rendering state
+
+Parameters
+    program - Specifies the handle of the program object whose executables are to be used as part of current rendering state.
+*/
+func UseProgram(program uint32) {
+	C.glUseProgram(C.GLuint(program))
+}
+
+// <-------- THIS FAR --------->
 
 /*
 Set the viewport
