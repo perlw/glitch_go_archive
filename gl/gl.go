@@ -2766,6 +2766,152 @@ func RenderbufferStorageMultisample(target GLenum, samples int, internalFormat G
 	C.glRenderbufferStorageMultisample(C.GLenum(target), C.GLsizei(samples), C.GLenum(internalFormat), C.GLsizei(width), C.GLsizei(height))
 }
 
+/*
+Specify multisample coverage parameters
+
+Parameters
+    value - Specify a single floating-point sample coverage value. The value is clamped to the range 0 1 . The initial value is 1.0.
+    invert - Specify a single boolean value representing if the coverage masks should be inverted. The initial value is false.
+*/
+func SampleCoverage(value float32, invert bool) {
+	C.glSampleCoverage(C.GLclampf(value), boolToGLBool(invert))
+}
+
+/*
+Set the value of a sub-word of the sample mask
+
+Parameters
+    maskNumber - Specifies which 32-bit sub-word of the sample mask to update.
+    mask - Specifies the new value of the mask sub-word.
+*/
+func SampleMask(maskNumber uint32, mask GLbitfield) {
+	C.glSampleMaski(C.GLuint(maskNumber), C.GLbitfield(mask))
+}
+
+/*
+Set sampler parameters
+
+Parameters
+    sampler - Specifies the sampler object whose parameter to modify.
+    pname - Specifies the symbolic name of a single-valued sampler parameter. pname can be one of the following: TextureWrapS, TextureWrapT, TextureWrapR, TextureMinFilter, TextureMagFilter, TextureMinLod, TextureMaxLod, TextureLodBias TextureCompareMode, or TextureCompareFunc.
+    param - Specifies the value of pname.
+*/
+func SamplerParameterf(sampler uint32, pname GLenum, param float32) {
+	C.glSamplerParameterf(C.GLuint(sampler), C.GLenum(pname), C.GLfloat(param))
+}
+
+/*
+Set sampler parameters
+
+Parameters
+    sampler - Specifies the sampler object whose parameter to modify.
+    pname - Specifies the symbolic name of a single-valued sampler parameter. pname can be one of the following: TextureWrapS, TextureWrapT, TextureWrapR, TextureMinFilter, TextureMagFilter, TextureMinLod, TextureMaxLod, TextureLodBias TextureCompareMode, or TextureCompareFunc.
+    param - Specifies the value of pname.
+*/
+func SamplerParameteri(sampler uint32, pname GLenum, param int) {
+	C.glSamplerParameteri(C.GLuint(sampler), C.GLenum(pname), C.GLint(param))
+}
+
+/*
+Define the scissor box
+
+Parameters
+    x, y - Specify the lower left corner of the scissor box. Initially (0, 0).
+    width, height - Specify the width and height of the scissor box. When a GL context is first attached to a window, width and height are set to the dimensions of that window.
+*/
+func Scissor(x, y, width, height int) {
+	C.glScissor(C.GLint(x), C.GLint(y), C.GLsizei(width), C.GLsizei(height))
+}
+
+/*
+Replaces the source code in a shader object
+
+Parameters
+    shader - Specifies the handle of the shader object whose source code is to be replaced.
+    source - Specifies an array of strings containing the source code to be loaded into the shader.
+*/
+func ShaderSource(shader uint32, source []string) {
+	count := len(source)
+	str := make([]*C.char, count)
+
+	for key, _ := range source {
+		str[key] = C.CString(source[key])
+	}
+
+	C.glShaderSource(C.GLuint(shader), C.GLsizei(count), (**C.GLchar)(unsafe.Pointer(&str[0])), nil)
+}
+
+/*
+Set front and back function and reference value for stencil testing
+
+Parameters
+    fun - Specifies the test function. Eight symbolic constants are valid: Never, Less, Lequal, Greater, Gequal, Equal, Notequal, and Always. The initial value is Always.
+    ref - Specifies the reference value for the stencil test. ref is clamped to the range 0 2 n - 1 , where n is the number of bitplanes in the stencil buffer. The initial value is 0.
+    mask - Specifies a mask that is ANDed with both the reference value and the stored stencil value when the test is done. The initial value is all 1's.
+*/
+func StencilFunc(fun GLenum, ref int, mask uint32) {
+	C.glStencilFunc(C.GLenum(fun), C.GLint(ref), C.GLuint(mask))
+}
+
+/*
+Set front and/or back function and reference value for stencil testing
+
+Parameters
+    face - Specifies whether front and/or back stencil state is updated. Three symbolic constants are valid: Front, Back, and FrontAndBack.
+    fun - Specifies the test function. Eight symbolic constants are valid: Never, Less, Lequal, Greater, Gequal, Equal, Notequal, and Always. The initial value is Always.
+    ref - Specifies the reference value for the stencil test. ref is clamped to the range 0 2 n - 1 , where n is the number of bitplanes in the stencil buffer. The initial value is 0.
+    mask - Specifies a mask that is ANDed with both the reference value and the stored stencil value when the test is done. The initial value is all 1's.
+*/
+func StencilFuncSeparate(face, fun GLenum, ref int, mask uint32) {
+	C.glStencilFuncSeparate(C.GLenum(face), C.GLenum(fun), C.GLint(ref), C.GLuint(mask))
+}
+
+/*
+Control the front and back writing of individual bits in the stencil planes
+
+Parameters
+    mask - Specifies a bit mask to enable and disable writing of individual bits in the stencil planes. Initially, the mask is all 1's.
+*/
+func StencilMask(mask uint32) {
+	C.glStencilMask(C.GLuint(mask))
+}
+
+/*
+Control the front and/or back writing of individual bits in the stencil planes
+
+Parameters
+    face - Specifies whether the front and/or back stencil writemask is updated. Three symbolic constants are valid: Front, Back, and FrontAndBack.
+    mask - Specifies a bit mask to enable and disable writing of individual bits in the stencil planes. Initially, the mask is all 1's.
+*/
+func StencilMaskSeparate(face GLenum, mask uint32) {
+	C.glStencilMaskSeparate(C.GLenum(face), C.GLuint(mask))
+}
+
+/*
+Set front and back stencil test actions
+
+Parameters
+    sfail - Specifies the action to take when the stencil test fails. Eight symbolic constants are accepted: Keep, Zero, Replace, Incr, IncrWrap, Decr, DecrWrap, and Invert. The initial value is Keep.
+    dpfail - Specifies the stencil action when the stencil test passes, but the depth test fails. dpfail accepts the same symbolic constants as sfail. The initial value is Keep.
+    dppass - Specifies the stencil action when both the stencil test and the depth test pass, or when the stencil test passes and either there is no depth buffer or depth testing is not enabled. dppass accepts the same symbolic constants as sfail. The initial value is Keep.
+*/
+func StencilOp(sfail, dpfail, dppass GLenum) {
+	C.glStencilOp(C.GLenum(sfail), C.GLenum(dpfail), C.GLenum(dppass))
+}
+
+/*
+Set front and/or back stencil test actions
+
+Parameters
+    face - Specifies whether front and/or back stencil state is updated. Three symbolic constants are valid: Front, Back, and FrontAndBack.
+    sfail - Specifies the action to take when the stencil test fails. Eight symbolic constants are accepted: Keep, Zero, Replace, Incr, IncrWrap, Decr, DecrWrap, and Invert. The initial value is Keep.
+    dpfail - Specifies the stencil action when the stencil test passes, but the depth test fails. dpfail accepts the same symbolic constants as sfail. The initial value is Keep.
+    dppass - Specifies the stencil action when both the stencil test and the depth test pass, or when the stencil test passes and either there is no depth buffer or depth testing is not enabled. dppass accepts the same symbolic constants as sfail. The initial value is Keep.
+*/
+func StencilOpSeparate(face, sfail, dpfail, dppass GLenum) {
+	C.glStencilOpSeparate(C.GLenum(face), C.GLenum(sfail), C.GLenum(dpfail), C.GLenum(dppass))
+}
+
 // <-------- THIS FAR --------->
 
 /*

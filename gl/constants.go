@@ -694,6 +694,14 @@ const (
 
 	// PointParameter
 	PointSpriteCoordOriginConst = C.GL_POINT_SPRITE_COORD_ORIGIN
+
+	// StencilOp, StencilOpSeparate
+	KeepConst     = C.GL_KEEP
+	ReplaceConst  = C.GL_REPLACE
+	IncrConst     = C.GL_INCR
+	IncrWrapConst = C.GL_INCR_WRAP
+	DecrConst     = C.GL_DECR
+	DecrWrapConst = C.GL_DECR_WRAP
 )
 
 const (
