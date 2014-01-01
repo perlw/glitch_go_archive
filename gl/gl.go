@@ -4337,3 +4337,15 @@ Parameters
 func Viewport(x, y, width, height int) {
 	C.glViewport(C.GLint(x), C.GLint(y), C.GLsizei(width), C.GLsizei(height))
 }
+
+/*
+Instruct the GL server to block until the specified sync object becomes signaled
+
+Parameters
+    sync - Specifies the sync object whose status to wait on.
+    flags - A bitfield controlling the command flushing behavior. flags may be zero.
+    timeout - Specifies the timeout that the server should wait before continuing. timeout must be TimeoutIgnored.
+*/
+func WaitSync(sync GLsync, flags GLbitfield, timeout uint64) {
+	C.glWaitSync(C.GLsync(sync), C.GLbitfield(flags), C.GLuint64(timeout))
+}

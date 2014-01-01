@@ -740,6 +740,9 @@ const (
 	// VertexAttribPointer
 	DoubleConst        = C.GL_DOUBLE
 	Int2101010RevConst = C.GL_INT_2_10_10_10_REV
+
+	// WaitSync
+	TimeoutIgnoredConst = C.GL_TIMEOUT_IGNORED
 )
 
 const (
