@@ -736,6 +736,10 @@ const (
 	// TransformFeedbackVaryings
 	InterleavedAttribsConst = C.GL_INTERLEAVED_ATTRIBS
 	SeparateAttribsConst    = C.GL_SEPARATE_ATTRIBS
+
+	// VertexAttribPointer
+	DoubleConst        = C.GL_DOUBLE
+	Int2101010RevConst = C.GL_INT_2_10_10_10_REV
 )
 
 const (

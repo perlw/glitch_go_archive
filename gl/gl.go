@@ -3623,7 +3623,709 @@ func UseProgram(program uint32) {
 	C.glUseProgram(C.GLuint(program))
 }
 
-// <-------- THIS FAR --------->
+/*
+Validates a program object
+
+Parameters
+    program - Specifies the handle of the program object to be validated.
+*/
+func ValidateProgram(program uint32) {
+	C.glValidateProgram(C.GLuint(program))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v0 - Specifies the new value to be used for the specified vertex attribute.
+*/
+func VertexAttrib1f(index uint32, v0 float32) {
+	C.glVertexAttrib1f(C.GLuint(index), C.GLfloat(v0))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v0 - Specifies the new value to be used for the specified vertex attribute.
+*/
+func VertexAttrib1s(index uint32, v0 float32) {
+	C.glVertexAttrib1s(C.GLuint(index), C.GLshort(v0))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v0 - Specifies the new value to be used for the specified vertex attribute.
+*/
+func VertexAttrib1d(index uint32, v0 float64) {
+	C.glVertexAttrib1d(C.GLuint(index), C.GLdouble(v0))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v0 - Specifies the new value to be used for the specified vertex attribute.
+*/
+func VertexAttribI1i(index uint32, v0 int) {
+	C.glVertexAttribI1i(C.GLuint(index), C.GLint(v0))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v0 - Specifies the new value to be used for the specified vertex attribute.
+*/
+func VertexAttribI1ui(index uint32, v0 uint32) {
+	C.glVertexAttribI1ui(C.GLuint(index), C.GLuint(v0))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v0, v1 - Specifies the new values to be used for the specified vertex attribute.
+*/
+func VertexAttrib2f(index uint32, v0, v1 float32) {
+	C.glVertexAttrib2f(C.GLuint(index), C.GLfloat(v0), C.GLfloat(v1))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v0, v1 - Specifies the new values to be used for the specified vertex attribute.
+*/
+func VertexAttrib2s(index uint32, v0, v1 float32) {
+	C.glVertexAttrib2s(C.GLuint(index), C.GLshort(v0), C.GLshort(v1))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v0, v1 - Specifies the new values to be used for the specified vertex attribute.
+*/
+func VertexAttrib2d(index uint32, v0, v1 float64) {
+	C.glVertexAttrib2d(C.GLuint(index), C.GLdouble(v0), C.GLdouble(v1))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v0, v1 - Specifies the new values to be used for the specified vertex attribute.
+*/
+func VertexAttribI2i(index uint32, v0, v1 int) {
+	C.glVertexAttribI2i(C.GLuint(index), C.GLint(v0), C.GLint(v1))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v0, v1 - Specifies the new values to be used for the specified vertex attribute.
+*/
+func VertexAttribI2ui(index uint32, v0, v1 uint32) {
+	C.glVertexAttribI2ui(C.GLuint(index), C.GLuint(v0), C.GLuint(v1))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v0, v1, v2 - Specifies the new values to be used for the specified vertex attribute.
+*/
+func VertexAttrib3f(index uint32, v0, v1, v2 float32) {
+	C.glVertexAttrib3f(C.GLuint(index), C.GLfloat(v0), C.GLfloat(v1), C.GLfloat(v2))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v0, v1, v2 - Specifies the new values to be used for the specified vertex attribute.
+*/
+func VertexAttrib3s(index uint32, v0, v1, v2 float32) {
+	C.glVertexAttrib3s(C.GLuint(index), C.GLshort(v0), C.GLshort(v1), C.GLshort(v2))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v0, v1, v2 - Specifies the new values to be used for the specified vertex attribute.
+*/
+func VertexAttrib3d(index uint32, v0, v1, v2 float64) {
+	C.glVertexAttrib3d(C.GLuint(index), C.GLdouble(v0), C.GLdouble(v1), C.GLdouble(v2))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v0, v1, v2 - Specifies the new values to be used for the specified vertex attribute.
+*/
+func VertexAttribI3i(index uint32, v0, v1, v2 int) {
+	C.glVertexAttribI3i(C.GLuint(index), C.GLint(v0), C.GLint(v1), C.GLint(v2))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v0, v1, v2 - Specifies the new values to be used for the specified vertex attribute.
+*/
+func VertexAttribI3ui(index uint32, v0, v1, v2 uint32) {
+	C.glVertexAttribI3ui(C.GLuint(index), C.GLuint(v0), C.GLuint(v1), C.GLuint(v2))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v0, v1, v2, v3 - Specifies the new values to be used for the specified vertex attribute.
+*/
+func VertexAttrib4f(index uint32, v0, v1, v2, v3 float32) {
+	C.glVertexAttrib4f(C.GLuint(index), C.GLfloat(v0), C.GLfloat(v1), C.GLfloat(v2), C.GLfloat(v3))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v0, v1, v2, v3 - Specifies the new values to be used for the specified vertex attribute.
+*/
+func VertexAttrib4s(index uint32, v0, v1, v2, v3 float32) {
+	C.glVertexAttrib4s(C.GLuint(index), C.GLshort(v0), C.GLshort(v1), C.GLshort(v2), C.GLshort(v3))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v0, v1, v2, v3 - Specifies the new values to be used for the specified vertex attribute.
+*/
+func VertexAttrib4d(index uint32, v0, v1, v2, v3 float64) {
+	C.glVertexAttrib4d(C.GLuint(index), C.GLdouble(v0), C.GLdouble(v1), C.GLdouble(v2), C.GLdouble(v3))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v0, v1, v2, v3 - Specifies the new values to be used for the specified vertex attribute.
+*/
+func VertexAttrib4Nub(index uint32, v0, v1, v2, v3 byte) {
+	C.glVertexAttrib4Nub(C.GLuint(index), C.GLubyte(v0), C.GLubyte(v1), C.GLubyte(v2), C.GLubyte(v3))
+}
+
+/*q
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v0, v1, v2, v3 - Specifies the new values to be used for the specified vertex attribute.
+*/
+func VertexAttribI4i(index uint32, v0, v1, v2, v3 int) {
+	C.glVertexAttribI4i(C.GLuint(index), C.GLint(v0), C.GLint(v1), C.GLint(v2), C.GLint(v3))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v0, v1, v2, v3 - Specifies the new values to be used for the specified vertex attribute.
+*/
+func VertexAttribI4ui(index uint32, v0, v1, v2, v3 uint32) {
+	C.glVertexAttribI4ui(C.GLuint(index), C.GLuint(v0), C.GLuint(v1), C.GLuint(v2), C.GLuint(v3))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribs1f(index uint32, v []float32) {
+	C.glVertexAttrib1fv(C.GLuint(index), (*C.GLfloat)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribs1s(index uint32, v []float32) {
+	C.glVertexAttrib1sv(C.GLuint(index), (*C.GLshort)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribs1d(index uint32, v []float64) {
+	C.glVertexAttrib1dv(C.GLuint(index), (*C.GLdouble)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribsI1i(index uint32, v []int) {
+	C.glVertexAttribI1iv(C.GLuint(index), (*C.GLint)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribsI1ui(index uint32, v []uint32) {
+	C.glVertexAttribI1uiv(C.GLuint(index), (*C.GLuint)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribs2f(index uint32, v []float32) {
+	C.glVertexAttrib2fv(C.GLuint(index), (*C.GLfloat)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribs2s(index uint32, v []float32) {
+	C.glVertexAttrib2sv(C.GLuint(index), (*C.GLshort)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribs2d(index uint32, v []float64) {
+	C.glVertexAttrib2dv(C.GLuint(index), (*C.GLdouble)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribsI2i(index uint32, v []int) {
+	C.glVertexAttribI2iv(C.GLuint(index), (*C.GLint)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribsI2ui(index uint32, v []uint32) {
+	C.glVertexAttribI2uiv(C.GLuint(index), (*C.GLuint)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribs3f(index uint32, v []float32) {
+	C.glVertexAttrib3fv(C.GLuint(index), (*C.GLfloat)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribs3s(index uint32, v []float32) {
+	C.glVertexAttrib3sv(C.GLuint(index), (*C.GLshort)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribs3d(index uint32, v []float64) {
+	C.glVertexAttrib3dv(C.GLuint(index), (*C.GLdouble)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribsI3i(index uint32, v []int) {
+	C.glVertexAttribI3iv(C.GLuint(index), (*C.GLint)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribsI3ui(index uint32, v []uint32) {
+	C.glVertexAttribI3uiv(C.GLuint(index), (*C.GLuint)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribs4f(index uint32, v []float32) {
+	C.glVertexAttrib4fv(C.GLuint(index), (*C.GLfloat)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribs4s(index uint32, v []float32) {
+	C.glVertexAttrib4sv(C.GLuint(index), (*C.GLshort)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribs4d(index uint32, v []float64) {
+	C.glVertexAttrib4dv(C.GLuint(index), (*C.GLdouble)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribs4i(index uint32, v []int) {
+	C.glVertexAttrib4iv(C.GLuint(index), (*C.GLint)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribs4b(index uint32, v []byte) {
+	C.glVertexAttrib4bv(C.GLuint(index), (*C.GLbyte)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribs4ub(index uint32, v []byte) {
+	C.glVertexAttrib4ubv(C.GLuint(index), (*C.GLubyte)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribs4us(index uint32, v []float32) {
+	C.glVertexAttrib4usv(C.GLuint(index), (*C.GLushort)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribs4ui(index uint32, v []uint32) {
+	C.glVertexAttrib4uiv(C.GLuint(index), (*C.GLuint)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribs4Nb(index uint32, v []byte) {
+	C.glVertexAttrib4Nbv(C.GLuint(index), (*C.GLbyte)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribs4Ns(index uint32, v []float32) {
+	C.glVertexAttrib4Nsv(C.GLuint(index), (*C.GLshort)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribs4Ni(index uint32, v []int) {
+	C.glVertexAttrib4Niv(C.GLuint(index), (*C.GLint)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribs4Nub(index uint32, v []byte) {
+	C.glVertexAttrib4Nubv(C.GLuint(index), (*C.GLubyte)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribs4Nus(index uint32, v []float32) {
+	C.glVertexAttrib4Nusv(C.GLuint(index), (*C.GLushort)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribs4Nui(index uint32, v []uint32) {
+	C.glVertexAttrib4Nuiv(C.GLuint(index), (*C.GLuint)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribsI4b(index uint32, v []byte) {
+	C.glVertexAttribI4bv(C.GLuint(index), (*C.GLbyte)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribsI4ub(index uint32, v []byte) {
+	C.glVertexAttribI4ubv(C.GLuint(index), (*C.GLubyte)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribsI4s(index uint32, v []float32) {
+	C.glVertexAttribI4sv(C.GLuint(index), (*C.GLshort)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribsI4us(index uint32, v []float32) {
+	C.glVertexAttribI4usv(C.GLuint(index), (*C.GLushort)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribsI4i(index uint32, v []int) {
+	C.glVertexAttribI4iv(C.GLuint(index), (*C.GLint)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    v - Specifies a slice of values to be used for the generic vertex attribute.
+*/
+func VertexAttribsI4ui(index uint32, v []uint32) {
+	C.glVertexAttribI4uiv(C.GLuint(index), (*C.GLuint)(unsafe.Pointer(&v[0])))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    enumType - Type of packing used on the data. This parameter must be Int2101010Rev or UnsignedInt2101010Rev to specify signed or unsigned data, respectively.
+    normalized - If true, then the values are to be converted to floating point values by normalizing. Otherwise, they are converted directly to floating point values.
+    value - Specifies the new packed value to be used for the specified vertex attribute.
+*/
+func VertexAttribP1ui(index uint32, enumType GLenum, normalized bool, value uint32) {
+	C.glVertexAttribP1ui(C.GLuint(index), C.GLenum(enumType), boolToGLBool(normalized), C.GLuint(value))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    enumType - Type of packing used on the data. This parameter must be Int2101010Rev or UnsignedInt2101010Rev to specify signed or unsigned data, respectively.
+    normalized - If true, then the values are to be converted to floating point values by normalizing. Otherwise, they are converted directly to floating point values.
+    value - Specifies the new packed value to be used for the specified vertex attribute.
+*/
+func VertexAttribP2ui(index uint32, enumType GLenum, normalized bool, value uint32) {
+	C.glVertexAttribP2ui(C.GLuint(index), C.GLenum(enumType), boolToGLBool(normalized), C.GLuint(value))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    enumType - Type of packing used on the data. This parameter must be Int2101010Rev or UnsignedInt2101010Rev to specify signed or unsigned data, respectively.
+    normalized - If true, then the values are to be converted to floating point values by normalizing. Otherwise, they are converted directly to floating point values.
+    value - Specifies the new packed value to be used for the specified vertex attribute.
+*/
+func VertexAttribP3ui(index uint32, enumType GLenum, normalized bool, value uint32) {
+	C.glVertexAttribP3ui(C.GLuint(index), C.GLenum(enumType), boolToGLBool(normalized), C.GLuint(value))
+}
+
+/*
+Specifies the value of a generic vertex attribute
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    enumType - Type of packing used on the data. This parameter must be Int2101010Rev or UnsignedInt2101010Rev to specify signed or unsigned data, respectively.
+    normalized - If true, then the values are to be converted to floating point values by normalizing. Otherwise, they are converted directly to floating point values.
+    value - Specifies the new packed value to be used for the specified vertex attribute.
+*/
+func VertexAttribP4ui(index uint32, enumType GLenum, normalized bool, value uint32) {
+	C.glVertexAttribP4ui(C.GLuint(index), C.GLenum(enumType), boolToGLBool(normalized), C.GLuint(value))
+}
+
+/*
+Modify the rate at which generic vertex attributes advance during instanced rendering
+
+Parameters
+    index - Specify the index of the generic vertex attribute.
+    divisor - Specify the number of instances that will pass between updates of the generic attribute at slot index.
+*/
+func VertexAttribDivisor(index, divisor uint32) {
+	C.glVertexAttribDivisor(C.GLuint(index), C.GLuint(divisor))
+}
+
+/*
+Define an array of generic vertex attribute data
+
+Parameters
+    index - Specifies the index of the generic vertex attribute to be modified.
+    size - Specifies the number of components per generic vertex attribute. Must be 1, 2, 3, 4. Additionally, the symbolic constant Bgra is accepted by glVertexAttribPointer. The initial value is 4.
+    enumType - Specifies the data type of each component in the array. The symbolic constants Byte, UnsignedByte, Short, UnsignedShort, Int, and UnsignedInt are accepted by both functions. Additionally HalfFloat, Float, Double, Int2101010Rev, and UnsignedInt2101010Rev are accepted by glVertexAttribPointer. The initial value is Float.
+    normalized - For glVertexAttribPointer, specifies whether fixed-point data values should be normalized (true) or converted directly as fixed-point values (false) when they are accessed.
+    stride - Specifies the byte offset between consecutive generic vertex attributes. If stride is 0, the generic vertex attributes are understood to be tightly packed in the array. The initial value is 0.
+    offset - Specifies a offset of the first component of the first generic vertex attribute in the array in the data store of the buffer currently bound to the ArrayBuffer target. The initial value is 0.
+*/
+func VertexAttribPointer(index uint32, size int, enumType GLenum, normalized bool, stride int, offset int) {
+	C.glVertexAttribPointer(C.GLuint(index), C.GLint(size), C.GLenum(enumType), boolToGLBool(normalized), C.GLsizei(stride), unsafe.Pointer(uintptr(offset)))
+}
 
 /*
 Set the viewport
