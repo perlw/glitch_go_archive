@@ -2,6 +2,7 @@ package gl
 
 // #cgo linux   LDFLAGS: -lGLEW -lGL
 // #cgo windows LDFLAGS: -lglew32 -lopengl32
+// #cgo darwin LDFLAGS: -framework OpenGL -lGLEW
 // #include "common.h"
 import "C"
 
