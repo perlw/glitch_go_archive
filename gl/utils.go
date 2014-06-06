@@ -82,6 +82,31 @@ func sliceToGLData(slice interface{}) (C.GLsizei, C.GLsizei, C.GLenum, unsafe.Po
 	return C.GLsizei(v.Len()), C.GLsizei(v.Len() * size), enum, unsafe.Pointer(v.Pointer()), nil
 }
 
+func glTypeSize(glType GLenum) int {
+	var size int
+
+	switch glType {
+	case ByteConst:
+		size = int(sizeOfInt8)
+	case UnsignedByteConst:
+		size = int(sizeOfUint8)
+	case ShortConst:
+		size = int(sizeOfInt16)
+	case UnsignedShortConst:
+		size = int(sizeOfUint16)
+	case IntConst:
+		size = int(sizeOfInt32)
+	case UnsignedIntConst:
+		size = int(sizeOfUint32)
+	case FloatConst:
+		size = int(sizeOfFloat32)
+	default:
+		size = 0
+	}
+
+	return size
+}
+
 func boolToGLBool(value bool) C.GLboolean {
 	if value {
 		return C.GL_TRUE

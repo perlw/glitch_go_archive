@@ -899,6 +899,18 @@ Render primitives from array data
 
 Parameters
     mode - Specifies what kind of primitives to render. Symbolic constants Points, LineStrip, LineLoop, Lines, LineStripAdjacency, LinesAdjacency, TriangleStrip, TriangleFan, Triangles, TriangleStripAdjacency and TrianglesAdjacency are accepted.
+    num - Amount of indices
+    sliceType - The type of data in the buffer
+*/
+func DrawElementsBuffer(mode GLenum, num int, sliceType GLenum) {
+	C.glDrawElements(C.GLenum(mode), C.GLsizei(num*glTypeSize(sliceType)), C.GLenum(sliceType), nil)
+}
+
+/*
+Render primitives from array data
+
+Parameters
+    mode - Specifies what kind of primitives to render. Symbolic constants Points, LineStrip, LineLoop, Lines, LineStripAdjacency, LinesAdjacency, TriangleStrip, TriangleFan, Triangles, TriangleStripAdjacency and TrianglesAdjacency are accepted.
     data - Specifies a slice containing the indices.
 */
 func DrawElements(mode GLenum, data interface{}) error {
@@ -1645,11 +1657,11 @@ Parameters
     program - Specifies the program object to be queried.
     name - Points to a null terminated string containing the name of the attribute variable whose location is to be queried.
 */
-func GetAttribLocation(program uint32, name string) int {
+func GetAttribLocation(program uint32, name string) uint32 {
 	cName := C.CString(name)
 	defer C.free(unsafe.Pointer(cName))
 
-	return int(C.glGetAttribLocation(C.GLuint(program), (*C.GLchar)(cName)))
+	return uint32(C.glGetAttribLocation(C.GLuint(program), (*C.GLchar)(cName)))
 }
 
 /*
