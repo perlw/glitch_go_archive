@@ -672,9 +672,9 @@ func CullFace(mode GLenum) {
 Delete named buffer objects
 
 Parameters
-    buffers - Specifies an array of buffer objects to be deleted.
+    buffers - Specifies one or several buffer objects to be deleted.
 */
-func DeleteBuffers(buffers []uint32) {
+func DeleteBuffers(buffers ...uint32) {
 	count := len(buffers)
 	C.glDeleteBuffers(C.GLsizei(count), (*C.GLuint)(&buffers[0]))
 }
@@ -683,9 +683,9 @@ func DeleteBuffers(buffers []uint32) {
 Delete framebuffer objects
 
 Parameters
-    framebuffers - Specifies an array of framebuffer objects to be deleted.
+    framebuffers - Specifies one or several framebuffer objects to be deleted.
 */
-func DeleteFramebuffers(framebuffers []uint32) {
+func DeleteFramebuffers(framebuffers ...uint32) {
 	count := len(framebuffers)
 	C.glDeleteFramebuffers(C.GLsizei(count), (*C.GLuint)(&framebuffers[0]))
 }
@@ -704,9 +704,9 @@ func DeleteProgram(program uint32) {
 Delete named query objects
 
 Parameters
-    ids - Specifies an array of query objects to be deleted.
+    ids - Specifies one or several query objects to be deleted.
 */
-func DeleteQeueries(ids []uint32) {
+func DeleteQeueries(ids ...uint32) {
 	count := len(ids)
 	C.glDeleteQueries(C.GLsizei(count), (*C.GLuint)(&ids[0]))
 }
@@ -715,9 +715,9 @@ func DeleteQeueries(ids []uint32) {
 Delete renderbuffer objects
 
 Parameters
-    renderbuffers - Specifies an array of renderbuffer objects to be deleted.
+    renderbuffers - Specifies one or several renderbuffer objects to be deleted.
 */
-func DeleteRenderbuffers(renderbuffers []uint32) {
+func DeleteRenderbuffers(renderbuffers ...uint32) {
 	count := len(renderbuffers)
 	C.glDeleteRenderbuffers(C.GLsizei(count), (*C.GLuint)(&renderbuffers[0]))
 }
@@ -726,9 +726,9 @@ func DeleteRenderbuffers(renderbuffers []uint32) {
 Delete named sampler objects
 
 Parameters
-    samplers - Specifies an array of sampler objects to be deleted.
+    samplers - Specifies one or several sampler objects to be deleted.
 */
-func DeleteSamplers(samplers []uint32) {
+func DeleteSamplers(samplers ...uint32) {
 	count := len(samplers)
 	C.glDeleteSamplers(C.GLsizei(count), (*C.GLuint)(&samplers[0]))
 }
@@ -757,9 +757,9 @@ func DeleteSync(sync GLsync) {
 Delete named textures
 
 Parameters
-    textures - Specifies an array of textures to be deleted.
+    textures - Specifies one or several textures to be deleted.
 */
-func DeleteTextures(textures []uint32) {
+func DeleteTextures(textures ...uint32) {
 	count := len(textures)
 	C.glDeleteTextures(C.GLsizei(count), (*C.GLuint)(&textures[0]))
 }
@@ -768,9 +768,9 @@ func DeleteTextures(textures []uint32) {
 Delete vertex array objects
 
 Parameters
-    arrays - Specifies an array of vertex arrays to be deleted.
+    arrays - Specifies one or several vertex arrays to be deleted.
 */
-func DeleteVertexArrays(arrays []uint32) {
+func DeleteVertexArrays(arrays ...uint32) {
 	count := len(arrays)
 	C.glDeleteVertexArrays(C.GLsizei(count), (*C.GLuint)(&arrays[0]))
 }
@@ -2829,9 +2829,9 @@ Replaces the source code in a shader object
 
 Parameters
     shader - Specifies the handle of the shader object whose source code is to be replaced.
-    source - Specifies an array of strings containing the source code to be loaded into the shader.
+    source - Specifies one or several strings containing the source code of the shader.
 */
-func ShaderSource(shader uint32, source []string) {
+func ShaderSource(shader uint32, source ...string) {
 	count := len(source)
 	str := make([]*C.char, count)
 
