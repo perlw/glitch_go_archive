@@ -18,6 +18,7 @@ var (
 	sliceOfInt32   = reflect.TypeOf([]int32(nil))
 	sliceOfUint32  = reflect.TypeOf([]uint32(nil))
 	sliceOfFloat32 = reflect.TypeOf([]float32(nil))
+	sliceOfFloat64 = reflect.TypeOf([]float64(nil))
 )
 
 var (
@@ -28,6 +29,7 @@ var (
 	sizeOfInt32   = unsafe.Sizeof([1]int32{})
 	sizeOfUint32  = unsafe.Sizeof([1]uint32{})
 	sizeOfFloat32 = unsafe.Sizeof([1]float32{})
+	sizeOfFloat64 = unsafe.Sizeof([1]float64{})
 )
 
 /*
@@ -75,6 +77,9 @@ func sliceToGLData(slice interface{}) (C.GLsizei, C.GLsizei, C.GLenum, unsafe.Po
 	case sliceOfFloat32:
 		enum = C.GL_FLOAT
 		size = int(sizeOfFloat32)
+	case sliceOfFloat64:
+		enum = C.GL_FLOAT
+		size = int(sizeOfFloat64)
 	default:
 		return 0, 0, 0, nil, errors.New("gl: Unrecognized type of slice")
 	}
