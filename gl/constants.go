@@ -48,10 +48,8 @@ const (
 
 	// BeginQuery
 	SamplesPassedConst                      = C.GL_SAMPLES_PASSED
-	AnySamplesPassedConst                   = C.GL_ANY_SAMPLES_PASSED
 	PrimiticesGeneratedConst                = C.GL_PRIMITIVES_GENERATED
 	TransformFeedbackPrimitivesWrittenConst = C.GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN
-	TimeElapsedConst                        = C.GL_TIME_ELAPSED
 
 	// BeginTransformFeedback, DrawArrays, DrawArraysInstanced
 	PointsConst                 = C.GL_POINTS
@@ -110,33 +108,18 @@ const (
 	TextureCubeMapNegativeZConst   = C.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
 	ProxyTextureCubeMapConst       = C.GL_PROXY_TEXTURE_CUBE_MAP
 
-	// BlendEquation, BlendEquationSeparate
-	FuncAddConst             = C.GL_FUNC_ADD
-	FuncSubtractConst        = C.GL_FUNC_SUBTRACT
-	FuncReverseSubtractConst = C.GL_FUNC_REVERSE_SUBTRACT
-	MinConst                 = C.GL_MIN
-	MaxConst                 = C.GL_MAX
-
 	// BlendFunc
-	ZeroConst                  = C.GL_ZERO
-	OneConst                   = C.GL_ONE
-	SrcColorConst              = C.GL_SRC_COLOR
-	OneMinusSrcColorConst      = C.GL_ONE_MINUS_SRC_COLOR
-	DstColorConst              = C.GL_DST_COLOR
-	OneMinusDstColorConst      = C.GL_ONE_MINUS_DST_COLOR
-	SrcAlphaConst              = C.GL_SRC_ALPHA
-	OneMinusSrcAlphaConst      = C.GL_ONE_MINUS_SRC_ALPHA
-	DstAlphaConst              = C.GL_DST_ALPHA
-	OneMinusDstAlphaConst      = C.GL_ONE_MINUS_DST_ALPHA
-	ConstantColorConst         = C.GL_CONSTANT_COLOR
-	OneMinusConstantColorConst = C.GL_ONE_MINUS_CONSTANT_COLOR
-	ConstantAlphaConst         = C.GL_CONSTANT_ALPHA
-	OneMinusConstantAlphaConst = C.GL_ONE_MINUS_CONSTANT_ALPHA
-	SrcAlphaSaturateConst      = C.GL_SRC_ALPHA_SATURATE
-	Src1ColorConst             = C.GL_SRC1_COLOR
-	OneMinusSrc1ColorConst     = C.GL_ONE_MINUS_SRC1_COLOR
-	Src1AlphaConst             = C.GL_SRC1_ALPHA
-	OneMinusSrc1AlphaConst     = C.GL_ONE_MINUS_SRC1_ALPHA
+	ZeroConst             = C.GL_ZERO
+	OneConst              = C.GL_ONE
+	SrcColorConst         = C.GL_SRC_COLOR
+	OneMinusSrcColorConst = C.GL_ONE_MINUS_SRC_COLOR
+	DstColorConst         = C.GL_DST_COLOR
+	OneMinusDstColorConst = C.GL_ONE_MINUS_DST_COLOR
+	SrcAlphaConst         = C.GL_SRC_ALPHA
+	OneMinusSrcAlphaConst = C.GL_ONE_MINUS_SRC_ALPHA
+	DstAlphaConst         = C.GL_DST_ALPHA
+	OneMinusDstAlphaConst = C.GL_ONE_MINUS_DST_ALPHA
+	SrcAlphaSaturateConst = C.GL_SRC_ALPHA_SATURATE
 
 	// BlitFramebuffer
 	NearestConst = C.GL_NEAREST
@@ -292,7 +275,6 @@ const (
 	SmoothLineWidthRangeConst                 = C.GL_SMOOTH_LINE_WIDTH_RANGE
 	SmoothLineWidthGranularityConst           = C.GL_SMOOTH_LINE_WIDTH_GRANULARITY
 	ArrayBufferBindingConst                   = C.GL_ARRAY_BUFFER_BINDING
-	BlendColorConst                           = C.GL_BLEND_COLOR
 	BlendDstAlphaConst                        = C.GL_BLEND_DST_ALPHA
 	BlendDstRgbConst                          = C.GL_BLEND_DST_RGB
 	BlendEquationRgbConst                     = C.GL_BLEND_EQUATION_RGB
@@ -337,12 +319,10 @@ const (
 	MaxClipDistancesConst                     = C.GL_MAX_CLIP_DISTANCES
 	MaxCombinedFragmentUniformComponentsConst = C.GL_MAX_COMBINED_FRAGMENT_UNIFORM_COMPONENTS
 	MaxCombinedVertexUniformComponentsConst   = C.GL_MAX_COMBINED_VERTEX_UNIFORM_COMPONENTS
-	MaxCombinedGeometryUniformComponentsConst = C.GL_MAX_COMBINED_GEOMETRY_UNIFORM_COMPONENTS
 	MaxVaryingComponentsConst                 = C.GL_MAX_VARYING_COMPONENTS
 	MaxCombinedUniformBlocksConst             = C.GL_MAX_COMBINED_UNIFORM_BLOCKS
 	MaxCubeMapTextureSizeConst                = C.GL_MAX_CUBE_MAP_TEXTURE_SIZE
 	MaxDrawBuffersConst                       = C.GL_MAX_DRAW_BUFFERS
-	MaxDualSourceDrawBuffersConst             = C.GL_MAX_DUAL_SOURCE_DRAW_BUFFERS
 	MaxElementsIndicesConst                   = C.GL_MAX_ELEMENTS_INDICES
 	MaxElementsVerticesConst                  = C.GL_MAX_ELEMENTS_VERTICES
 	MaxFragmentUniformComponentsConst         = C.GL_MAX_FRAGMENT_UNIFORM_COMPONENTS
@@ -364,7 +344,6 @@ const (
 	MaxGeometryTextureImageUnitsConst         = C.GL_MAX_GEOMETRY_TEXTURE_IMAGE_UNITS
 	MaxVertexUniformComponentsConst           = C.GL_MAX_VERTEX_UNIFORM_COMPONENTS
 	MaxVertexOutputComponentsConst            = C.GL_MAX_VERTEX_OUTPUT_COMPONENTS
-	MaxGeometryUniformComponentsConst         = C.GL_MAX_GEOMETRY_UNIFORM_COMPONENTS
 	MaxSampleMaskWordsConst                   = C.GL_MAX_SAMPLE_MASK_WORDS
 	MaxColorTextureSamplesConst               = C.GL_MAX_COLOR_TEXTURE_SAMPLES
 	MaxDepthTextureSamplesConst               = C.GL_MAX_DEPTH_TEXTURE_SAMPLES
@@ -373,7 +352,6 @@ const (
 	MaxUniformBufferBindingsConst             = C.GL_MAX_UNIFORM_BUFFER_BINDINGS
 	UniformBufferOffsetAlignmentConst         = C.GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT
 	MaxVertexUniformBlocksConst               = C.GL_MAX_VERTEX_UNIFORM_BLOCKS
-	MaxGeometryUniformBlocksConst             = C.GL_MAX_GEOMETRY_UNIFORM_BLOCKS
 	MaxGeometryInputComponentsConst           = C.GL_MAX_GEOMETRY_INPUT_COMPONENTS
 	MaxGeometryOutputComponentsConst          = C.GL_MAX_GEOMETRY_OUTPUT_COMPONENTS
 	MaxViewportDimsConst                      = C.GL_MAX_VIEWPORT_DIMS
@@ -401,7 +379,6 @@ const (
 	SampleBuffersConst                        = C.GL_SAMPLE_BUFFERS
 	SampleCoverageValueConst                  = C.GL_SAMPLE_COVERAGE_VALUE
 	SampleCoverageInvertConst                 = C.GL_SAMPLE_COVERAGE_INVERT
-	SamplerBindingConst                       = C.GL_SAMPLER_BINDING
 	SamplesConst                              = C.GL_SAMPLES
 	ScissorBoxConst                           = C.GL_SCISSOR_BOX
 	StencilBackFailConst                      = C.GL_STENCIL_BACK_FAIL
@@ -432,7 +409,6 @@ const (
 	TextureBindingCubeMapConst                = C.GL_TEXTURE_BINDING_CUBE_MAP
 	TextureBindingRectangleConst              = C.GL_TEXTURE_BINDING_RECTANGLE
 	TextureCompressionHintConst               = C.GL_TEXTURE_COMPRESSION_HINT
-	TimestampConst                            = C.GL_TIMESTAMP
 	TransformFeedbackBufferBindingConst       = C.GL_TRANSFORM_FEEDBACK_BUFFER_BINDING
 	TransformFeedbackBufferStartConst         = C.GL_TRANSFORM_FEEDBACK_BUFFER_START
 	TransformFeedbackBufferSizeConst          = C.GL_TRANSFORM_FEEDBACK_BUFFER_SIZE
@@ -523,7 +499,6 @@ const (
 	UniformBlockActiveUniformsConst             = C.GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS
 	UniformBlockActiveUniformIndicesConst       = C.GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES
 	UniformBlockReferencedByVertexShaderConst   = C.GL_UNIFORM_BLOCK_REFERENCED_BY_VERTEX_SHADER
-	UniformBlockReferencedByGeometryShaderConst = C.GL_UNIFORM_BLOCK_REFERENCED_BY_GEOMETRY_SHADER
 	UniformBlockReferencedByFragmentShaderConst = C.GL_UNIFORM_BLOCK_REFERENCED_BY_FRAGMENT_SHADER
 
 	// GetBufferParameter, GetBufferPointer, etc
@@ -627,7 +602,6 @@ const (
 	UnsignedInt8888Const          = C.GL_UNSIGNED_INT_8_8_8_8
 	UnsignedInt8888RevConst       = C.GL_UNSIGNED_INT_8_8_8_8_REV
 	UnsignedInt1010102Const       = C.GL_UNSIGNED_INT_10_10_10_2
-	UnsignedInt2101010RevConst    = C.GL_UNSIGNED_INT_2_10_10_10_REV
 	UnsignedInt248Const           = C.GL_UNSIGNED_INT_24_8
 	UnsignedInt10f11f11fRevConst  = C.GL_UNSIGNED_INT_10F_11F_11F_REV
 	UnsignedInt5999RevConst       = C.GL_UNSIGNED_INT_5_9_9_9_REV
@@ -647,13 +621,8 @@ const (
 	TextureCompressedImageSizeConst = C.GL_TEXTURE_COMPRESSED_IMAGE_SIZE
 
 	// GetTexParameter
-	TextureBaseLevelConst   = C.GL_TEXTURE_BASE_LEVEL
-	TextureMaxLevelConst    = C.GL_TEXTURE_MAX_LEVEL
-	TextureSwizzleRConst    = C.GL_TEXTURE_SWIZZLE_R
-	TextureSwizzleGConst    = C.GL_TEXTURE_SWIZZLE_G
-	TextureSwizzleBConst    = C.GL_TEXTURE_SWIZZLE_B
-	TextureSwizzleAConst    = C.GL_TEXTURE_SWIZZLE_A
-	TextureSwizzleRgbaConst = C.GL_TEXTURE_SWIZZLE_RGBA
+	TextureBaseLevelConst = C.GL_TEXTURE_BASE_LEVEL
+	TextureMaxLevelConst  = C.GL_TEXTURE_MAX_LEVEL
 
 	// GetVertexAttrib
 	VertexAttribArrayBufferBindingConst = C.GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING
@@ -663,7 +632,6 @@ const (
 	VertexAttribArrayTypeConst          = C.GL_VERTEX_ATTRIB_ARRAY_TYPE
 	VertexAttribArrayNormalizedConst    = C.GL_VERTEX_ATTRIB_ARRAY_NORMALIZED
 	VertexAttribArrayIntegerConst       = C.GL_VERTEX_ATTRIB_ARRAY_INTEGER
-	VertexAttribArrayDivisorConst       = C.GL_VERTEX_ATTRIB_ARRAY_DIVISOR
 	CurrentVertexAttribConst            = C.GL_CURRENT_VERTEX_ATTRIB
 
 	// GetVertexAttribPointer
@@ -738,8 +706,7 @@ const (
 	SeparateAttribsConst    = C.GL_SEPARATE_ATTRIBS
 
 	// VertexAttribPointer
-	DoubleConst        = C.GL_DOUBLE
-	Int2101010RevConst = C.GL_INT_2_10_10_10_REV
+	DoubleConst = C.GL_DOUBLE
 
 	// WaitSync
 	TimeoutIgnoredConst = C.GL_TIMEOUT_IGNORED

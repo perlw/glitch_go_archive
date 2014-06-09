@@ -122,35 +122,6 @@ func BindBufferRange(target GLenum, index, buffer, offset, size uint32) {
 }
 
 /*
-Bind a user-defined varying out variable to a fragment shader color number
-
-Parameters
-    program - The name of the program containing varying out variable whose binding to modify.
-    colorNumber - The color number to bind the user-defined varying out variable to.
-    name - The name of the user-defined varying out variable whose binding to modify.
-*/
-func BindFragDataLocation(program, colorNumber uint32, name string) {
-	cName := C.CString(name)
-	defer C.free(unsafe.Pointer(cName))
-	C.glBindFragDataLocation(C.GLuint(program), C.GLuint(colorNumber), (*C.GLchar)(cName))
-}
-
-/*
-Bind a user-defined varying out variable to a fragment shader color number and index
-
-Parameters
-    program - The name of the program containing varying out variable whose binding to modify.
-    colorNumber - The color number to bind the user-defined varying out variable to.
-    index - The index of the color input to bind the user-defined varying out variable to.
-    name - The name of the user-defined varying out variable whose binding to modify.
-*/
-func BindFragDataLocationIndexed(program, colorNumber, index uint32, name string) {
-	cName := C.CString(name)
-	defer C.free(unsafe.Pointer(cName))
-	C.glBindFragDataLocationIndexed(C.GLuint(program), C.GLuint(colorNumber), C.GLuint(index), (*C.GLchar)(cName))
-}
-
-/*
 Bind a framebuffer to a framebuffer target
 
 Parameters
@@ -170,17 +141,6 @@ Parameters
 */
 func BindRenderbuffer(target GLenum, renderbuffer uint32) {
 	C.glBindRenderbuffer(C.GLenum(target), C.GLuint(renderbuffer))
-}
-
-/*
-Bind a named sampler to a texturing target
-
-Parameters
-    unit - Specifies the index of the texture unit to which the sampler is bound.
-    sampler - Specifies the name of a sampler.
-*/
-func BindSampler(unit, sampler uint32) {
-	C.glBindSampler(C.GLuint(unit), C.GLuint(sampler))
 }
 
 /*
@@ -720,17 +680,6 @@ Parameters
 func DeleteRenderbuffers(renderbuffers ...uint32) {
 	count := len(renderbuffers)
 	C.glDeleteRenderbuffers(C.GLsizei(count), (*C.GLuint)(&renderbuffers[0]))
-}
-
-/*
-Delete named sampler objects
-
-Parameters
-    samplers - Specifies one or several sampler objects to be deleted.
-*/
-func DeleteSamplers(samplers ...uint32) {
-	count := len(samplers)
-	C.glDeleteSamplers(C.GLsizei(count), (*C.GLuint)(&samplers[0]))
 }
 
 /*
@@ -1281,25 +1230,6 @@ func GenRenderbuffers(num int) []uint32 {
 }
 
 /*
-Generate sampler object names
-
-Parameters
-    num - Specifies the number of sampler object names to be generated.
-*/
-func GenSamplers(num int) []uint32 {
-	cSamplers := make([]C.GLuint, num)
-	samplers := make([]uint32, num)
-
-	C.glGenSamplers(C.GLsizei(num), (*C.GLuint)(&cSamplers[0]))
-
-	for key, _ := range cSamplers {
-		samplers[key] = uint32(cSamplers[key])
-	}
-
-	return samplers
-}
-
-/*
 Generate texture names
 
 Parameters
@@ -1457,46 +1387,6 @@ func GetBooleani(pname GLenum, index uint32) []bool {
 
 	for key, _ := range cValues {
 		values[key] = glBoolToBool(cValues[key])
-	}
-
-	return values
-}
-
-/*
-Return the value or values of a selected parameter
-
-Parameters
-    pname - Specifies the parameter value to be returned.
-    index - Specifies the index of the particular element being queried.
-*/
-func GetDoublei(pname GLenum, index uint32) []float64 {
-	cValues := make([]C.GLdouble, 1, 32)
-	values := make([]float64, 1, 32)
-
-	C.glGetDoublei_v(C.GLenum(pname), C.GLuint(index), (*C.GLdouble)(&cValues[0]))
-
-	for key, _ := range cValues {
-		values[key] = float64(cValues[key])
-	}
-
-	return values
-}
-
-/*
-Return the value or values of a selected parameter
-
-Parameters
-    pname - Specifies the parameter value to be returned.
-    index - Specifies the index of the particular element being queried.
-*/
-func GetFloati(pname GLenum, index uint32) []float32 {
-	cValues := make([]C.GLfloat, 1, 32)
-	values := make([]float32, 1, 32)
-
-	C.glGetFloati_v(C.GLenum(pname), C.GLuint(index), (*C.GLfloat)(&cValues[0]))
-
-	for key, _ := range cValues {
-		values[key] = float32(cValues[key])
 	}
 
 	return values
@@ -1748,20 +1638,6 @@ func GetError() GLenum {
 }
 
 /*
-Query the bindings of color indices to user-defined varying out variables
-
-Parameters
-    program - The name of the program containing varying out variable whose binding to query.
-    name - The name of the user-defined varying out variable whose index to query.
-*/
-func GetFragDataIndex(program uint32, name string) int {
-	cName := C.CString(name)
-	defer C.free(unsafe.Pointer(cName))
-
-	return int(C.glGetFragDataIndex(C.GLuint(program), (*C.GLchar)(cName)))
-}
-
-/*
 Query the bindings of color numbers to user-defined varying out variables
 
 Parameters
@@ -1866,36 +1742,6 @@ func GetQueryObjectu(id uint32, pname GLenum) uint32 {
 }
 
 /*
-Return parameters of a query object
-
-Parameters
-    id - Specifies the name of a query object.
-    pname - Specifies the symbolic name of a query object parameter. Accepted values are QueryResult or QueryResultAvailable.
-*/
-func GetQueryObject64(id uint32, pname GLenum) int64 {
-	var params C.GLint64
-
-	C.glGetQueryObjecti64v(C.GLuint(id), C.GLenum(pname), &params)
-
-	return int64(params)
-}
-
-/*
-Return parameters of a query object
-
-Parameters
-    id - Specifies the name of a query object.
-    pname - Specifies the symbolic name of a query object parameter. Accepted values are QueryResult or QueryResultAvailable.
-*/
-func GetQueryObjectu64(id uint32, pname GLenum) uint64 {
-	var params C.GLuint64
-
-	C.glGetQueryObjectui64v(C.GLuint(id), C.GLenum(pname), &params)
-
-	return uint64(params)
-}
-
-/*
 Return parameters of a query object target
 
 Parameters
@@ -1923,66 +1769,6 @@ func GetRenderbufferParameter(target, pname GLenum) int {
 	C.glGetRenderbufferParameteriv(C.GLenum(target), C.GLenum(pname), &params)
 
 	return int(params)
-}
-
-/*
-Return sampler parameter values
-
-Parameters
-    sampler - Specifies name of the sampler object from which to retrieve parameters.
-    pname - Specifies the symbolic name of a sampler parameter. TextureMagFilter, TextureMinFilter, TextureMinLod, TextureMaxLod, TextureLodBias, TextureWrapS, TextureWrapT, TextureWrapR, TextureBorderColor, TextureCompareMode, and TextureCompareFunc are accepted.
-*/
-func GetSamplerParameterf(sampler uint32, pname GLenum) []float32 {
-	params := make([]float32, 4)
-
-	C.glGetSamplerParameterfv(C.GLuint(sampler), C.GLenum(pname), (*C.GLfloat)(unsafe.Pointer(&params[0])))
-
-	return params
-}
-
-/*
-Return sampler parameter values
-
-Parameters
-    sampler - Specifies name of the sampler object from which to retrieve parameters.
-    pname - Specifies the symbolic name of a sampler parameter. TextureMagFilter, TextureMinFilter, TextureMinLod, TextureMaxLod, TextureLodBias, TextureWrapS, TextureWrapT, TextureWrapR, TextureBorderColor, TextureCompareMode, and TextureCompareFunc are accepted.
-*/
-func GetSamplerParameteri(sampler uint32, pname GLenum) []int {
-	params := make([]int, 4)
-
-	C.glGetSamplerParameteriv(C.GLuint(sampler), C.GLenum(pname), (*C.GLint)(unsafe.Pointer(&params[0])))
-
-	return params
-}
-
-/*
-Return sampler parameter values
-
-Parameters
-    sampler - Specifies name of the sampler object from which to retrieve parameters.
-    pname - Specifies the symbolic name of a sampler parameter. TextureMagFilter, TextureMinFilter, TextureMinLod, TextureMaxLod, TextureLodBias, TextureWrapS, TextureWrapT, TextureWrapR, TextureBorderColor, TextureCompareMode, and TextureCompareFunc are accepted.
-*/
-func GetSamplerParameterIi(sampler uint32, pname GLenum) []int {
-	params := make([]int, 4)
-
-	C.glGetSamplerParameterIiv(C.GLuint(sampler), C.GLenum(pname), (*C.GLint)(unsafe.Pointer(&params[0])))
-
-	return params
-}
-
-/*
-Return sampler parameter values
-
-Parameters
-    sampler - Specifies name of the sampler object from which to retrieve parameters.
-    pname - Specifies the symbolic name of a sampler parameter. TextureMagFilter, TextureMinFilter, TextureMinLod, TextureMaxLod, TextureLodBias, TextureWrapS, TextureWrapT, TextureWrapR, TextureBorderColor, TextureCompareMode, and TextureCompareFunc are accepted.
-*/
-func GetSamplerParameterIui(sampler uint32, pname GLenum) []uint32 {
-	params := make([]uint32, 4)
-
-	C.glGetSamplerParameterIuiv(C.GLuint(sampler), C.GLenum(pname), (*C.GLuint)(unsafe.Pointer(&params[0])))
-
-	return params
 }
 
 /*
@@ -2462,16 +2248,6 @@ func IsRenderbuffer(renderbuffer uint32) bool {
 }
 
 /*
-Determine if a name corresponds to a sampler object
-
-Parameters
-    id - Specifies a value that may be the name of a sampler object.
-*/
-func IsSampler(id uint32) bool {
-	return glBoolToBool(C.glIsSampler(C.GLuint(id)))
-}
-
-/*
 Determine if a name corresponds to a shader object
 
 Parameters
@@ -2715,17 +2491,6 @@ func ProvokingVertex(provokeMode GLenum) {
 }
 
 /*
-Record the GL time into a query object after all previous commands have reached the GL server but have not yet necessarily executed.
-
-Parameter
-    id - Specify the name of a query object into which to record the GL time.
-    target - Specify the counter to query. target must be Timestamp.
-*/
-func QueryCounter(id uint32, target GLenum) {
-	C.glQueryCounter(C.GLuint(id), C.GLenum(target))
-}
-
-/*
 Select a color buffer source for pixels
 
 Parameters
@@ -2799,30 +2564,6 @@ Parameters
 */
 func SampleMask(maskNumber uint32, mask GLbitfield) {
 	C.glSampleMaski(C.GLuint(maskNumber), C.GLbitfield(mask))
-}
-
-/*
-Set sampler parameters
-
-Parameters
-    sampler - Specifies the sampler object whose parameter to modify.
-    pname - Specifies the symbolic name of a single-valued sampler parameter. pname can be one of the following: TextureWrapS, TextureWrapT, TextureWrapR, TextureMinFilter, TextureMagFilter, TextureMinLod, TextureMaxLod, TextureLodBias TextureCompareMode, or TextureCompareFunc.
-    param - Specifies the value of pname.
-*/
-func SamplerParameterf(sampler uint32, pname GLenum, param float32) {
-	C.glSamplerParameterf(C.GLuint(sampler), C.GLenum(pname), C.GLfloat(param))
-}
-
-/*
-Set sampler parameters
-
-Parameters
-    sampler - Specifies the sampler object whose parameter to modify.
-    pname - Specifies the symbolic name of a single-valued sampler parameter. pname can be one of the following: TextureWrapS, TextureWrapT, TextureWrapR, TextureMinFilter, TextureMagFilter, TextureMinLod, TextureMaxLod, TextureLodBias TextureCompareMode, or TextureCompareFunc.
-    param - Specifies the value of pname.
-*/
-func SamplerParameteri(sampler uint32, pname GLenum, param int) {
-	C.glSamplerParameteri(C.GLuint(sampler), C.GLenum(pname), C.GLint(param))
 }
 
 /*
@@ -3000,7 +2741,7 @@ Parameters
     fixedsamplelocations - Specifies whether the image will use identical sample locations and the same number of samples for all texels in the image, and the sample locations will not depend on the internal format or size of the image.
 */
 func TexImage2DMultisample(target GLenum, samples int, internalFormat GLenum, width, height int, fixedsamplelocations bool) {
-	C.glTexImage2DMultisample(C.GLenum(target), C.GLsizei(samples), C.GLint(internalFormat), C.GLsizei(width), C.GLsizei(height), boolToGLBool(fixedsamplelocations))
+	C.glTexImage2DMultisample(C.GLenum(target), C.GLsizei(samples), C.GLenum(internalFormat), C.GLsizei(width), C.GLsizei(height), boolToGLBool(fixedsamplelocations))
 }
 
 /*
@@ -3041,7 +2782,7 @@ Parameters
     fixedsamplelocations - Specifies whether the image will use identical sample locations and the same number of samples for all texels in the image, and the sample locations will not depend on the internal format or size of the image.
 */
 func TexImage3DMultisample(target GLenum, samples int, internalFormat GLenum, width, height, depth int, fixedsamplelocations bool) {
-	C.glTexImage3DMultisample(C.GLenum(target), C.GLsizei(samples), C.GLint(internalFormat), C.GLsizei(width), C.GLsizei(height), C.GLsizei(depth), boolToGLBool(fixedsamplelocations))
+	C.glTexImage3DMultisample(C.GLenum(target), C.GLsizei(samples), C.GLenum(internalFormat), C.GLsizei(width), C.GLsizei(height), C.GLsizei(depth), boolToGLBool(fixedsamplelocations))
 }
 
 /*
@@ -4260,69 +4001,6 @@ Parameters
 */
 func VertexAttribsI4ui(index uint32, v []uint32) {
 	C.glVertexAttribI4uiv(C.GLuint(index), (*C.GLuint)(unsafe.Pointer(&v[0])))
-}
-
-/*
-Specifies the value of a generic vertex attribute
-
-Parameters
-    index - Specifies the index of the generic vertex attribute to be modified.
-    enumType - Type of packing used on the data. This parameter must be Int2101010Rev or UnsignedInt2101010Rev to specify signed or unsigned data, respectively.
-    normalized - If true, then the values are to be converted to floating point values by normalizing. Otherwise, they are converted directly to floating point values.
-    value - Specifies the new packed value to be used for the specified vertex attribute.
-*/
-func VertexAttribP1ui(index uint32, enumType GLenum, normalized bool, value uint32) {
-	C.glVertexAttribP1ui(C.GLuint(index), C.GLenum(enumType), boolToGLBool(normalized), C.GLuint(value))
-}
-
-/*
-Specifies the value of a generic vertex attribute
-
-Parameters
-    index - Specifies the index of the generic vertex attribute to be modified.
-    enumType - Type of packing used on the data. This parameter must be Int2101010Rev or UnsignedInt2101010Rev to specify signed or unsigned data, respectively.
-    normalized - If true, then the values are to be converted to floating point values by normalizing. Otherwise, they are converted directly to floating point values.
-    value - Specifies the new packed value to be used for the specified vertex attribute.
-*/
-func VertexAttribP2ui(index uint32, enumType GLenum, normalized bool, value uint32) {
-	C.glVertexAttribP2ui(C.GLuint(index), C.GLenum(enumType), boolToGLBool(normalized), C.GLuint(value))
-}
-
-/*
-Specifies the value of a generic vertex attribute
-
-Parameters
-    index - Specifies the index of the generic vertex attribute to be modified.
-    enumType - Type of packing used on the data. This parameter must be Int2101010Rev or UnsignedInt2101010Rev to specify signed or unsigned data, respectively.
-    normalized - If true, then the values are to be converted to floating point values by normalizing. Otherwise, they are converted directly to floating point values.
-    value - Specifies the new packed value to be used for the specified vertex attribute.
-*/
-func VertexAttribP3ui(index uint32, enumType GLenum, normalized bool, value uint32) {
-	C.glVertexAttribP3ui(C.GLuint(index), C.GLenum(enumType), boolToGLBool(normalized), C.GLuint(value))
-}
-
-/*
-Specifies the value of a generic vertex attribute
-
-Parameters
-    index - Specifies the index of the generic vertex attribute to be modified.
-    enumType - Type of packing used on the data. This parameter must be Int2101010Rev or UnsignedInt2101010Rev to specify signed or unsigned data, respectively.
-    normalized - If true, then the values are to be converted to floating point values by normalizing. Otherwise, they are converted directly to floating point values.
-    value - Specifies the new packed value to be used for the specified vertex attribute.
-*/
-func VertexAttribP4ui(index uint32, enumType GLenum, normalized bool, value uint32) {
-	C.glVertexAttribP4ui(C.GLuint(index), C.GLenum(enumType), boolToGLBool(normalized), C.GLuint(value))
-}
-
-/*
-Modify the rate at which generic vertex attributes advance during instanced rendering
-
-Parameters
-    index - Specify the index of the generic vertex attribute.
-    divisor - Specify the number of instances that will pass between updates of the generic attribute at slot index.
-*/
-func VertexAttribDivisor(index, divisor uint32) {
-	C.glVertexAttribDivisor(C.GLuint(index), C.GLuint(divisor))
 }
 
 /*
