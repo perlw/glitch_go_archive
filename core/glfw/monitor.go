@@ -16,8 +16,8 @@ import (
 type MonitorEvent int
 
 const (
-	Connected    MonitorEvent = C.GLFW_CONNECTED
-	Disconnected              = C.GLFW_DISCONNECTED
+	ConnectedConst    MonitorEvent = C.GLFW_CONNECTED
+	DisconnectedConst              = C.GLFW_DISCONNECTED
 )
 
 // This describes a single video mode.

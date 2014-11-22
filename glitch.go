@@ -19,10 +19,10 @@ func Init() error {
 	}
 
 	if runtime.GOOS == "darwin" {
-		glfw.WindowHint(glfw.ContextVersionMajor, 3)
-		glfw.WindowHint(glfw.ContextVersionMinor, 2)
-		glfw.WindowHint(glfw.OpenGLProfile, glfw.OpenGLCoreProfile)
-		glfw.WindowHint(glfw.OpenGLForwardCompat, glfw.True)
+		glfw.WindowHint(glfw.ContextVersionMajorConst, 3)
+		glfw.WindowHint(glfw.ContextVersionMinorConst, 2)
+		glfw.WindowHint(glfw.OpenGLProfileConst, glfw.OpenGLCoreProfileConst)
+		glfw.WindowHint(glfw.OpenGLForwardCompatConst, glfw.TrueConst)
 	}
 
 	glfw.SwapInterval(0)

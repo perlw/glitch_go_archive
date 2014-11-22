@@ -1,3 +1,9 @@
+/*
+A straight GL 3.2 binding.
+
+Not idiomatic Go in any real stretch, wanted to keep it close to the original API.
+
+*/
 package gl
 
 // #cgo linux   LDFLAGS: -lGLEW -lGL

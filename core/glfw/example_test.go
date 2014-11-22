@@ -2,7 +2,7 @@ package glfw_test
 
 import (
 	"fmt"
-	"github.com/doxxan/glitch/glfw"
+	"github.com/doxxan/glitch/core/glfw"
 )
 
 func ExampleCreateWindow() {

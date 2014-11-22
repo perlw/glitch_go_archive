@@ -20,41 +20,41 @@ import (
 type Hint int
 
 const (
-	Resizable           Hint = C.GLFW_RESIZABLE
-	Visible                  = C.GLFW_VISIBLE
-	Decorated                = C.GLFW_DECORATED
-	RedBits                  = C.GLFW_RED_BITS
-	GreenBits                = C.GLFW_GREEN_BITS
-	BlueBits                 = C.GLFW_BLUE_BITS
-	AlphaBits                = C.GLFW_ALPHA_BITS
-	DepthBits                = C.GLFW_DEPTH_BITS
-	StencilBits              = C.GLFW_STENCIL_BITS
-	AccumRedBits             = C.GLFW_ACCUM_RED_BITS
-	AccumGreenBits           = C.GLFW_ACCUM_GREEN_BITS
-	AccumBlueBits            = C.GLFW_ACCUM_BLUE_BITS
-	AccumAlphaBits           = C.GLFW_ACCUM_ALPHA_BITS
-	AuxBuffers               = C.GLFW_AUX_BUFFERS
-	Samples                  = C.GLFW_SAMPLES
-	RefreshRate              = C.GLFW_REFRESH_RATE
-	Stereo                   = C.GLFW_STEREO
-	SRGBCapable              = C.GLFW_SRGB_CAPABLE
-	ClientApi                = C.GLFW_CLIENT_API
-	ContextVersionMajor      = C.GLFW_CONTEXT_VERSION_MAJOR
-	ContextVersionMinor      = C.GLFW_CONTEXT_VERSION_MINOR
-	ContextRobustness        = C.GLFW_CONTEXT_ROBUSTNESS
-	OpenGLForwardCompat      = C.GLFW_OPENGL_FORWARD_COMPAT
-	OpenGLDebugContext       = C.GLFW_OPENGL_DEBUG_CONTEXT
-	OpenGLProfile            = C.GLFW_OPENGL_PROFILE
-	True                     = C.GL_TRUE
-	False                    = C.GL_FALSE
-	OpenGLApi                = C.GLFW_OPENGL_API
-	OpenGLEsApi              = C.GLFW_OPENGL_ES_API
-	NoRobustness             = C.GLFW_NO_ROBUSTNESS
-	NoResetNotification      = C.GLFW_NO_RESET_NOTIFICATION
-	LoseContextOnReset       = C.GLFW_LOSE_CONTEXT_ON_RESET
-	OpenGLAnyProfile         = C.GLFW_OPENGL_ANY_PROFILE
-	OpenGLCompatProfile      = C.GLFW_OPENGL_COMPAT_PROFILE
-	OpenGLCoreProfile        = C.GLFW_OPENGL_CORE_PROFILE
+	ResizableConst           Hint = C.GLFW_RESIZABLE
+	VisibleConst                  = C.GLFW_VISIBLE
+	DecoratedConst                = C.GLFW_DECORATED
+	RedBitsConst                  = C.GLFW_RED_BITS
+	GreenBitsConst                = C.GLFW_GREEN_BITS
+	BlueBitsConst                 = C.GLFW_BLUE_BITS
+	AlphaBitsConst                = C.GLFW_ALPHA_BITS
+	DepthBitsConst                = C.GLFW_DEPTH_BITS
+	StencilBitsConst              = C.GLFW_STENCIL_BITS
+	AccumRedBitsConst             = C.GLFW_ACCUM_RED_BITS
+	AccumGreenBitsConst           = C.GLFW_ACCUM_GREEN_BITS
+	AccumBlueBitsConst            = C.GLFW_ACCUM_BLUE_BITS
+	AccumAlphaBitsConst           = C.GLFW_ACCUM_ALPHA_BITS
+	AuxBuffersConst               = C.GLFW_AUX_BUFFERS
+	SamplesConst                  = C.GLFW_SAMPLES
+	RefreshRateConst              = C.GLFW_REFRESH_RATE
+	StereoConst                   = C.GLFW_STEREO
+	SRGBCapableConst              = C.GLFW_SRGB_CAPABLE
+	ClientApiConst                = C.GLFW_CLIENT_API
+	ContextVersionMajorConst      = C.GLFW_CONTEXT_VERSION_MAJOR
+	ContextVersionMinorConst      = C.GLFW_CONTEXT_VERSION_MINOR
+	ContextRobustnessConst        = C.GLFW_CONTEXT_ROBUSTNESS
+	OpenGLForwardCompatConst      = C.GLFW_OPENGL_FORWARD_COMPAT
+	OpenGLDebugContextConst       = C.GLFW_OPENGL_DEBUG_CONTEXT
+	OpenGLProfileConst            = C.GLFW_OPENGL_PROFILE
+	TrueConst                     = C.GL_TRUE
+	FalseConst                    = C.GL_FALSE
+	OpenGLApiConst                = C.GLFW_OPENGL_API
+	OpenGLEsApiConst              = C.GLFW_OPENGL_ES_API
+	NoRobustnessConst             = C.GLFW_NO_ROBUSTNESS
+	NoResetNotificationConst      = C.GLFW_NO_RESET_NOTIFICATION
+	LoseContextOnResetConst       = C.GLFW_LOSE_CONTEXT_ON_RESET
+	OpenGLAnyProfileConst         = C.GLFW_OPENGL_ANY_PROFILE
+	OpenGLCompatProfileConst      = C.GLFW_OPENGL_COMPAT_PROFILE
+	OpenGLCoreProfileConst        = C.GLFW_OPENGL_CORE_PROFILE
 )
 
 // Opaque window object.
