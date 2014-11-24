@@ -125,3 +125,7 @@ func glBoolToBool(value C.GLboolean) bool {
 	}
 	return false
 }
+
+func IsTrue(value int) bool {
+	return (value == C.GL_TRUE)
+}
