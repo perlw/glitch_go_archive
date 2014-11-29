@@ -14,6 +14,7 @@ type MainFunc func()
 
 func Init() error {
 	runtime.LockOSThread()
+
 	if err := glfw.Init(); err != nil {
 		return err
 	}
@@ -51,6 +52,7 @@ func Terminate() {
 func Run(fn MainFunc) {
 	for !window.ShouldClose() {
 		fn()
+
 		window.SwapBuffers()
 		glfw.PollEvents()
 	}
