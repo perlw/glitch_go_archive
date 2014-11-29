@@ -1,5 +1,5 @@
 package eap
 
 type Processor interface {
-	Tick(int)
+	Tick(*EntityManager, int)
 }
