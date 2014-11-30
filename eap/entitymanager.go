@@ -99,7 +99,19 @@ func (em *EntityManager) AddAspect(entity Entity, aspect Aspect) error {
 }
 
 func (em EntityManager) GetAspect(entity Entity, aspectType string) (Aspect, error) {
-	return nil, nil
+	var aspect Aspect
+	var aspects map[string]Aspect
+	var ok bool
+
+	if aspects, ok = em.assemblages[entity-1]; !ok {
+		return nil, errors.New(fmt.Sprintf("Could not find assemblage for entity #%d", entity))
+	}
+
+	if aspect, ok = aspects[aspectType]; !ok {
+		return nil, errors.New(fmt.Sprintf("No aspect of type %s bound to entity #%d", aspectType, entity))
+	}
+
+	return aspect, nil
 }
 
 func (em EntityManager) GetAspectsFromType(aspectType string) ([]Aspect, error) {
@@ -107,5 +119,5 @@ func (em EntityManager) GetAspectsFromType(aspectType string) ([]Aspect, error) 
 		return aspects, nil
 	}
 
-	return nil, errors.New("Unknown aspect type " + aspectType)
+	return nil, errors.New(fmt.Sprintf("Unknown aspect type %s", aspectType))
 }
