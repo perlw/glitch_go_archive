@@ -100,6 +100,8 @@ func (em *EntityManager) AddAspect(entity Entity, aspect Aspect) error {
 	}
 	assemblage[aspectType] = aspect
 
+	aspect.SetEntity(entity)
+
 	return nil
 }
 
@@ -128,7 +130,7 @@ func (em EntityManager) GetAspectsFromType(aspectType string) ([]Aspect, error) 
 }
 
 // TODO: Add in prebuilding templates, ids, etc
-// TODO: Dirtychecking to rebuild list
+// TODO: Dirtychecking to rebuild list, need template struct
 func (em *EntityManager) GetEntitiesFromAspects(aspectTypes []string) []Entity {
 	var entities []Entity
 	var ok bool
@@ -136,19 +138,30 @@ func (em *EntityManager) GetEntitiesFromAspects(aspectTypes []string) []Entity {
 	sort.Strings(aspectTypes)
 	name := strings.Join(aspectTypes, "#")
 
-	// FIXME: Terribly slow, get all aspect lists instead, merge
 	if entities, ok = em.entityTemplates[name]; !ok {
 		entities = []Entity{}
 
-		numAspects := len(aspectTypes)
-		for _, entity := range em.entities {
-			count := 0
-			for _, aspectType := range aspectTypes {
-				if _, err := em.GetAspect(entity, aspectType); err != nil {
-					break
-				}
-				count++
+		allAspects := []Aspect{}
+
+		for _, aspectType := range aspectTypes {
+			if aspects, err := em.GetAspectsFromType(aspectType); err == nil {
+				allAspects = append(allAspects, aspects...)
 			}
+		}
+
+		numAspects := len(aspectTypes)
+		entityCount := make(map[Entity]int)
+		for _, aspect := range allAspects {
+			var count int
+			var ok bool
+
+			entity := aspect.GetEntity()
+			if count, ok = entityCount[entity]; !ok {
+				count = 0
+			}
+			count++
+			entityCount[entity] = count
+
 			if count == numAspects {
 				entities = append(entities, entity)
 			}
