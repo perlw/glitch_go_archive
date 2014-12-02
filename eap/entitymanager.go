@@ -3,6 +3,8 @@ package eap
 import (
 	"errors"
 	"fmt"
+	"sort"
+	"strings"
 )
 
 type EntityManager struct {
@@ -12,6 +14,8 @@ type EntityManager struct {
 	assemblages map[Entity]map[string]Aspect
 
 	aspects map[string][]Aspect
+
+	entityTemplates map[string][]Entity
 }
 
 func findFreeEntity(entities []Entity, nextEntity Entity) Entity {
@@ -31,6 +35,7 @@ func NewEntityManager() *EntityManager {
 
 	em.assemblages = make(map[Entity]map[string]Aspect)
 	em.aspects = make(map[string][]Aspect)
+	em.entityTemplates = make(map[string][]Entity)
 
 	return em
 }
@@ -120,4 +125,37 @@ func (em EntityManager) GetAspectsFromType(aspectType string) ([]Aspect, error) 
 	}
 
 	return nil, errors.New(fmt.Sprintf("Unknown aspect type %s", aspectType))
+}
+
+// TODO: Add in prebuilding templates, ids, etc
+// TODO: Dirtychecking to rebuild list
+func (em *EntityManager) GetEntitiesFromAspects(aspectTypes []string) []Entity {
+	var entities []Entity
+	var ok bool
+
+	sort.Strings(aspectTypes)
+	name := strings.Join(aspectTypes, "#")
+
+	// FIXME: Terribly slow, get all aspect lists instead, merge
+	if entities, ok = em.entityTemplates[name]; !ok {
+		entities = []Entity{}
+
+		numAspects := len(aspectTypes)
+		for _, entity := range em.entities {
+			count := 0
+			for _, aspectType := range aspectTypes {
+				if _, err := em.GetAspect(entity, aspectType); err != nil {
+					break
+				}
+				count++
+			}
+			if count == numAspects {
+				entities = append(entities, entity)
+			}
+		}
+
+		em.entityTemplates[name] = entities
+	}
+
+	return entities
 }
