@@ -3,6 +3,7 @@ package eap
 import (
 	"errors"
 	"fmt"
+	"log"
 	"sort"
 	"strings"
 )
@@ -15,17 +16,7 @@ type EntityManager struct {
 
 	aspects map[string][]Aspect
 
-	entityTemplates map[string][]Entity
-}
-
-func findFreeEntity(entities []Entity, nextEntity Entity) Entity {
-	for index, entity := range entities[nextEntity-1:] {
-		if entity == 0 {
-			return Entity(index + 1)
-		}
-	}
-
-	return Entity(len(entities) + 1)
+	entityAspectCache map[string][]Entity
 }
 
 func NewEntityManager() *EntityManager {
@@ -35,9 +26,58 @@ func NewEntityManager() *EntityManager {
 
 	em.assemblages = make(map[Entity]map[string]Aspect)
 	em.aspects = make(map[string][]Aspect)
-	em.entityTemplates = make(map[string][]Entity)
+	em.entityAspectCache = make(map[string][]Entity)
 
 	return em
+}
+
+func (em EntityManager) findFreeEntity() Entity {
+	for index, entity := range em.entities[em.nextEntity-1:] {
+		if entity == 0 {
+			return Entity(index + 1)
+		}
+	}
+
+	return Entity(len(em.entities) + 1)
+}
+
+func (em EntityManager) createCache(aspectTypes []string) []Entity {
+	entities := []Entity{}
+	allAspects := []Aspect{}
+
+	for _, aspectType := range aspectTypes {
+		if aspects, err := em.GetAspectsFromType(aspectType); err == nil {
+			allAspects = append(allAspects, aspects...)
+		}
+	}
+
+	numAspects := len(aspectTypes)
+	entityCount := make(map[Entity]int)
+	for _, aspect := range allAspects {
+		var count int
+		var ok bool
+
+		entity := aspect.GetEntity()
+		if count, ok = entityCount[entity]; !ok {
+			count = 0
+		}
+		count++
+		entityCount[entity] = count
+
+		if count == numAspects {
+			entities = append(entities, entity)
+		}
+	}
+
+	return entities
+}
+
+func (em *EntityManager) markCacheAsDirty(aspectType string) {
+	for key := range em.entityAspectCache {
+		if strings.Contains(key, aspectType) {
+			delete(em.entityAspectCache, key)
+		}
+	}
 }
 
 func (em *EntityManager) CreateEntity() Entity {
@@ -48,7 +88,7 @@ func (em *EntityManager) CreateEntity() Entity {
 	} else {
 		em.entities[ent-1] = ent
 	}
-	em.nextEntity = findFreeEntity(em.entities, em.nextEntity)
+	em.nextEntity = em.findFreeEntity()
 
 	em.assemblages[ent-1] = make(map[string]Aspect)
 
@@ -68,12 +108,13 @@ func (em *EntityManager) KillEntity(entity Entity) error {
 		for aindex, aspect := range aspects {
 			if aspect == assemblage[index] {
 				em.aspects[index] = append(em.aspects[index][:aindex], em.aspects[index][aindex+1:]...)
+				em.markCacheAsDirty(aspect.GetType())
 				break
 			}
 		}
-		assemblage[index] = nil
+		delete(assemblage, index)
 	}
-	em.assemblages[entity-1] = nil
+	delete(em.assemblages, entity-1)
 	em.entities[entity-1] = 0
 
 	em.nextEntity = entity
@@ -101,6 +142,8 @@ func (em *EntityManager) AddAspect(entity Entity, aspect Aspect) error {
 	assemblage[aspectType] = aspect
 
 	aspect.SetEntity(entity)
+
+	em.markCacheAsDirty(aspectType)
 
 	return nil
 }
@@ -130,7 +173,6 @@ func (em EntityManager) GetAspectsFromType(aspectType string) ([]Aspect, error) 
 }
 
 // TODO: Add in prebuilding templates, ids, etc
-// TODO: Dirtychecking to rebuild list, need template struct
 func (em *EntityManager) GetEntitiesFromAspects(aspectTypes []string) []Entity {
 	var entities []Entity
 	var ok bool
@@ -138,36 +180,9 @@ func (em *EntityManager) GetEntitiesFromAspects(aspectTypes []string) []Entity {
 	sort.Strings(aspectTypes)
 	name := strings.Join(aspectTypes, "#")
 
-	if entities, ok = em.entityTemplates[name]; !ok {
-		entities = []Entity{}
-
-		allAspects := []Aspect{}
-
-		for _, aspectType := range aspectTypes {
-			if aspects, err := em.GetAspectsFromType(aspectType); err == nil {
-				allAspects = append(allAspects, aspects...)
-			}
-		}
-
-		numAspects := len(aspectTypes)
-		entityCount := make(map[Entity]int)
-		for _, aspect := range allAspects {
-			var count int
-			var ok bool
-
-			entity := aspect.GetEntity()
-			if count, ok = entityCount[entity]; !ok {
-				count = 0
-			}
-			count++
-			entityCount[entity] = count
-
-			if count == numAspects {
-				entities = append(entities, entity)
-			}
-		}
-
-		em.entityTemplates[name] = entities
+	if entities, ok = em.entityAspectCache[name]; !ok {
+		entities = em.createCache(aspectTypes)
+		em.entityAspectCache[name] = entities
 	}
 
 	return entities
