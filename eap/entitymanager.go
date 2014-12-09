@@ -3,7 +3,6 @@ package eap
 import (
 	"errors"
 	"fmt"
-	"log"
 	"sort"
 	"strings"
 )

@@ -2,7 +2,7 @@ package shaders
 
 import (
 	"errors"
-	"github.com/doxxan/glitch/core/gl"
+	"github.com/doxxan/glitch/gl"
 	"io/ioutil"
 	"path/filepath"
 )
