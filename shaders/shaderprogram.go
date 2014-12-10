@@ -89,7 +89,7 @@ func (sp *ShaderProgram) GetUniformLocation(name string) (int, error) {
 	var id int
 	id, ok := sp.uniforms[name]
 	if !ok {
-		if id = gl.GetUniformLocation(sp.id, name); id <= 0 {
+		if id = gl.GetUniformLocation(sp.id, name); id < 0 {
 			return -1, errors.New("Could not find uniform location for " + name)
 		}
 		sp.uniforms[name] = id
