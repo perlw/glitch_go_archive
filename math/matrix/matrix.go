@@ -2,7 +2,7 @@ package matrix
 
 import "math"
 
-type Matrix []float32
+type Matrix []float64
 
 func identiyOrOutMatrix(out []Matrix) Matrix {
 	var mat Matrix
@@ -40,17 +40,17 @@ func NewPerspectiveMatrix(fov, ratio, nearZ, farZ float64) Matrix {
 	zDiff := farZ - nearZ
 
 	mat := NewMatrix()
-	mat[0] = float32(f / ratio)
-	mat[5] = float32(f)
-	mat[10] = float32(-(farZ + nearZ) / zDiff)
-	mat[11] = float32(-(2.0 * farZ * nearZ) / zDiff)
+	mat[0] = f / ratio
+	mat[5] = f
+	mat[10] = -(farZ + nearZ) / zDiff
+	mat[11] = -(2.0 * farZ * nearZ) / zDiff
 	mat[14] = -1.0
 	mat[15] = 0.0
 
 	return mat
 }
 
-func NewTranslationMatrix(x, y, z float32, out ...Matrix) Matrix {
+func NewTranslationMatrix(x, y, z float64, out ...Matrix) Matrix {
 	mat := identiyOrOutMatrix(out)
 
 	mat[12] = x
@@ -60,10 +60,10 @@ func NewTranslationMatrix(x, y, z float32, out ...Matrix) Matrix {
 	return mat
 }
 
-func NewRotationMatrix(x, y, z, rot float32, out ...Matrix) Matrix {
+func NewRotationMatrix(x, y, z, rot float64, out ...Matrix) Matrix {
 	mat := identiyOrOutMatrix(out)
-	c := float32(math.Cos(float64(rot)))
-	s := float32(math.Sin(float64(rot)))
+	c := math.Cos(rot)
+	s := math.Sin(rot)
 	t := 1.0 - c
 
 	mat[0] = (t * (x * x)) + c
@@ -107,14 +107,23 @@ func Multiply(m1, m2 Matrix, out ...Matrix) Matrix {
 	return mat
 }
 
-func (m *Matrix) Translate(x, y, z float32) {
+func (m *Matrix) Translate(x, y, z float64) {
 	mat := NewMatrix()
 	copy(mat, (*m))
 	Multiply(mat, NewTranslationMatrix(x, y, z), (*m))
 }
 
-func (m *Matrix) Rotate(x, y, z, rot float32) {
+func (m *Matrix) Rotate(x, y, z, rot float64) {
 	mat := NewMatrix()
 	copy(mat, (*m))
 	Multiply(mat, NewRotationMatrix(x, y, z, rot), (*m))
+}
+
+func (m Matrix) ToGL() []float32 {
+	return []float32{
+		float32(m[0]), float32(m[1]), float32(m[2]), float32(m[3]),
+		float32(m[4]), float32(m[5]), float32(m[6]), float32(m[7]),
+		float32(m[8]), float32(m[9]), float32(m[10]), float32(m[11]),
+		float32(m[12]), float32(m[13]), float32(m[14]), float32(m[15]),
+	}
 }

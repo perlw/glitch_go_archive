@@ -3,7 +3,6 @@ package shaders
 import (
 	"errors"
 	"github.com/doxxan/glitch/gl"
-	"github.com/doxxan/glitch/math/matrix"
 )
 
 var currentShaderProgram uint32
@@ -97,11 +96,11 @@ func (sp *ShaderProgram) GetUniformLocation(name string) (int, error) {
 	return id, nil
 }
 
-func (sp *ShaderProgram) SetUniformMatrix(location int, matrix matrix.Matrix) {
+func (sp *ShaderProgram) SetUniformMatrix(location int, matrix []float32) {
 	gl.UniformMatrix4f(location, 1, false, matrix)
 }
 
-func (sp *ShaderProgram) SetUniformMatrixByName(name string, matrix matrix.Matrix) error {
+func (sp *ShaderProgram) SetUniformMatrixByName(name string, matrix []float32) error {
 	id, err := sp.GetUniformLocation(name)
 	if err != nil {
 		return err
