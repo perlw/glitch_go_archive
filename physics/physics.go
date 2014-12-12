@@ -60,8 +60,11 @@ func CirclevsCircle(a, b *Circle) (bool, *Manifold) {
 }
 
 type Body struct {
-	velocity    vector.Vec2
+	Position    vector.Vec2
+	Velocity    vector.Vec2
 	restitution float64
+
+	force vector.Vec2
 
 	mass    float64
 	invMass float64
@@ -90,7 +93,7 @@ func (m *Manifold) ResolveCollision() {
 	a := m.b1
 	b := m.b2
 
-	rv := vector.Sub2(b.velocity, a.velocity)
+	rv := vector.Sub2(b.Velocity, a.Velocity)
 
 	velAlongNormal := vector.Dot2(rv, m.normal)
 	if velAlongNormal > 0.0 {
@@ -109,8 +112,8 @@ func (m *Manifold) ResolveCollision() {
 	massSum := a.mass + b.mass
 	ratioA := a.mass / massSum
 	ratioB := b.mass / massSum
-	a.velocity.Sub(vector.MulScalar2(impulse, ratioA))
-	b.velocity.Add(vector.MulScalar2(impulse, ratioB))
+	a.Velocity.Sub(vector.MulScalar2(impulse, ratioA))
+	b.Velocity.Add(vector.MulScalar2(impulse, ratioB))
 }
 
 func (m *Manifold) PositionalCorrection() {
@@ -123,4 +126,56 @@ func (m *Manifold) PositionalCorrection() {
 	correction := m.normal
 	correction.MulScalar(math.Max(m.penetration-slop, 0.0) / (a.invMass + b.invMass))
 	correction.MulScalar(percent)
+}
+
+type World struct {
+	bodies []*Body
+
+	contacts []*Manifold
+
+	gravity    vector.Vec2
+	iterations int
+	dt         float64
+}
+
+func NewWorld(gravity vector.Vec2, iterations int, dt float64) *World {
+	return &World{
+		gravity:    gravity,
+		iterations: iterations,
+		dt:         dt,
+	}
+}
+
+func (w World) Step() {
+	// Broadphase
+
+	// Integrate forces
+	for _, body := range w.bodies {
+		if body.invMass == 0.0 {
+			continue
+		}
+
+		acceleration := vector.Add2(vector.MulScalar2(body.force, body.invMass), w.gravity)
+		body.Velocity.Add(vector.MulScalar2(acceleration, w.dt/2))
+		// Angular Velocity
+	}
+
+	// Collisions
+
+	// Integrate Velocity
+	for _, body := range w.bodies {
+		if body.invMass == 0.0 {
+			continue
+		}
+
+		body.Position.Add(vector.MulScalar2(body.Velocity, w.dt))
+		// Orientation
+	}
+
+	// Correct positions
+
+}
+
+func (w *World) AddBody(body *Body) {
+	w.bodies = append(w.bodies, body)
 }
