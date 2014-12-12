@@ -2,61 +2,55 @@ package physics
 
 import (
 	"github.com/doxxan/glitch/math/vector"
+	"log"
 	"math"
 )
 
 type AABB struct {
-	min, max vector.Vec2
+	Min, Max vector.Vec2
 }
 
-func AABBvsAABB(a, b AABB) bool {
-	// Exit with no intersection if separated along axis
-	if a.max.X < b.min.X || a.min.X > b.max.X {
+func AABBvsAABB(m *Manifold) bool {
+	a := m.b1
+	b := m.b2
+
+	normal := vector.Sub2(b.Position, a.Position)
+
+	abox := a.Box
+	bbox := b.Box
+
+	aXExtent := (abox.Max.X - abox.Min.X) / 2.0
+	bXExtent := (bbox.Max.X - bbox.Min.X) / 2.0
+	aYExtent := (abox.Max.Y - abox.Min.Y) / 2.0
+	bYExtent := (bbox.Max.Y - bbox.Min.Y) / 2.0
+
+	// Calculate overlap
+	xOverlap := aXExtent + bXExtent - math.Abs(normal.X)
+	yOverlap := aYExtent + bYExtent - math.Abs(normal.Y)
+	if xOverlap <= 0.0 || yOverlap <= 0.0 {
 		return false
 	}
-	if a.max.Y < b.min.Y || a.min.Y > b.max.Y {
-		return false
-	}
 
-	// No separation found, overlapping
-	return true
-}
-
-type Circle struct {
-	radius   float64
-	position vector.Vec2
-}
-
-func CirclevsCircle(a, b *Circle) (bool, *Manifold) {
-	// Vector from a to b
-	normal := vector.Sub2(b.position, a.position)
-
-	r := a.radius + b.radius
-	r *= r
-
-	// Initial check if circles are overlapping
-	if math.Pow(a.position.X+b.position.X, 2)+math.Pow(a.position.X+b.position.Y, 2) > r {
-		return false, nil
-	}
-
-	// We have overlap, compute manifold
-	m := Manifold{}
-	/*m.a = a
-	m.b = b*/
-
-	if d := normal.Length(); d != 0.0 {
-		// Distance is difference between radius and distance
-		m.penetration = r - d
-
-		// Utilize d since we performed sqrt on it already
-		// Points from a to b and is a unit vector
-		m.normal = vector.DivScalar2(normal, d)
+	// Find axis of least penetration
+	if xOverlap > yOverlap {
+		// Point towards b knowing that normal points from a to b
+		if normal.X < 0.0 {
+			m.normal = vector.Vec2{X: -1.0, Y: 0.0}
+		} else {
+			m.normal = vector.Vec2{X: 1.0, Y: 0.0}
+		}
+		m.penetration = xOverlap
 	} else {
-		m.penetration = a.radius
-		m.normal = vector.Vec2{X: 1.0, Y: 0.0}
+		// Point towards b knowing that normal points from a to b
+		if normal.Y < 0.0 {
+			m.normal = vector.Vec2{X: 0.0, Y: -1.0}
+		} else {
+			m.normal = vector.Vec2{X: 0.0, Y: 1.0}
+		}
+		m.penetration = yOverlap
 	}
 
-	return true, &m
+	return true
 }
 
 type Body struct {
@@ -68,6 +62,8 @@ type Body struct {
 
 	mass    float64
 	invMass float64
+
+	Box AABB
 }
 
 func NewBody(mass float64) *Body {
@@ -148,6 +144,22 @@ func NewWorld(gravity vector.Vec2, iterations int, dt float64) *World {
 
 func (w World) Step() {
 	// Broadphase
+	w.contacts = nil
+	for index, b1 := range w.bodies {
+		for _, b2 := range w.bodies[index+1:] {
+			if b1.invMass == 0.0 && b2.invMass == 0 {
+				continue
+			}
+
+			m := &Manifold{
+				b1: b1,
+				b2: b2,
+			}
+			if AABBvsAABB(m) {
+				w.contacts = append(w.contacts, m)
+			}
+		}
+	}
 
 	// Integrate forces
 	for _, body := range w.bodies {
