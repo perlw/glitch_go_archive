@@ -97,6 +97,10 @@ func (v Vec2) Length() float64 {
 	return math.Sqrt(v.X*v.X + v.Y*v.Y)
 }
 
+func (v Vec2) Neg() Vec2 {
+	return Vec2{X: -v.X, Y: -v.Y}
+}
+
 func (v Vec2) ToGL() []float32 {
 	return []float32{float32(v.X), float32(v.Y)}
 }

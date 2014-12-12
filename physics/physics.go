@@ -57,7 +57,7 @@ type Body struct {
 	Velocity    vector.Vec2
 	restitution float64
 
-	force vector.Vec2
+	Force vector.Vec2
 
 	mass    float64
 	invMass float64
@@ -99,6 +99,10 @@ func (m *Manifold) ResolveCollision() {
 
 	// Restitution
 	e := math.Min(a.restitution, b.restitution)
+	gravityDt := vector.MulScalar2(vector.Vec2{X: 0.0, Y: -9.8}, 1.0/60.0)
+	if (rv.X*rv.X + rv.Y*rv.Y) < (gravityDt.X*gravityDt.X+gravityDt.Y*gravityDt.Y)+0.0001 {
+		e = 0.0
+	}
 
 	// Impulse scalar
 	j := -(1.0 + e) * velAlongNormal
@@ -109,7 +113,7 @@ func (m *Manifold) ResolveCollision() {
 	massSum := a.mass + b.mass
 	ratioA := a.mass / massSum
 	ratioB := b.mass / massSum
-	a.Velocity.Sub(vector.MulScalar2(impulse, ratioA))
+	a.Velocity.Sub(vector.MulScalar2(impulse.Neg(), ratioA))
 	b.Velocity.Add(vector.MulScalar2(impulse, ratioB))
 }
 
@@ -171,14 +175,16 @@ func (w World) Step() {
 			continue
 		}
 
-		acceleration := vector.Add2(vector.MulScalar2(body.force, body.invMass), w.gravity)
-		body.Velocity.Add(vector.MulScalar2(acceleration, w.dt/2))
+		acceleration := vector.Add2(vector.MulScalar2(body.Force, body.invMass), w.gravity)
+		body.Velocity.Add(vector.MulScalar2(acceleration, w.dt/2.0))
 		// Angular Velocity
 	}
 
 	// Collisions
-	for _, manifold := range w.contacts {
-		manifold.ResolveCollision()
+	for t := 0; t < w.iterations; t++ {
+		for _, manifold := range w.contacts {
+			manifold.ResolveCollision()
+		}
 	}
 
 	// Integrate Velocity
@@ -190,7 +196,10 @@ func (w World) Step() {
 		body.Position.Add(vector.MulScalar2(body.Velocity, w.dt))
 		// Orientation
 
-		body.force = vector.Vec2{X: 0.0, Y: 0.0}
+		acceleration := vector.Add2(vector.MulScalar2(body.Force, body.invMass), w.gravity)
+		body.Velocity.Add(vector.MulScalar2(acceleration, w.dt/2.0))
+
+		body.Force = vector.Vec2{X: 0.0, Y: 0.0}
 	}
 
 	// Correct positions
