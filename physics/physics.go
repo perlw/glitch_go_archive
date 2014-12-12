@@ -2,7 +2,6 @@ package physics
 
 import (
 	"github.com/doxxan/glitch/math/vector"
-	"log"
 	"math"
 )
 
@@ -32,7 +31,7 @@ func AABBvsAABB(m *Manifold) bool {
 	}
 
 	// Find axis of least penetration
-	if xOverlap > yOverlap {
+	if xOverlap < yOverlap {
 		// Point towards b knowing that normal points from a to b
 		if normal.X < 0.0 {
 			m.normal = vector.Vec2{X: -1.0, Y: 0.0}
@@ -75,6 +74,8 @@ func NewBody(mass float64) *Body {
 	} else {
 		b.invMass = 1.0 / mass
 	}
+
+	b.restitution = 0.2
 
 	return &b
 }
@@ -122,6 +123,9 @@ func (m *Manifold) PositionalCorrection() {
 	correction := m.normal
 	correction.MulScalar(math.Max(m.penetration-slop, 0.0) / (a.invMass + b.invMass))
 	correction.MulScalar(percent)
+
+	a.Position.Sub(vector.MulScalar2(correction, a.invMass))
+	b.Position.Add(vector.MulScalar2(correction, b.invMass))
 }
 
 type World struct {
@@ -173,6 +177,9 @@ func (w World) Step() {
 	}
 
 	// Collisions
+	for _, manifold := range w.contacts {
+		manifold.ResolveCollision()
+	}
 
 	// Integrate Velocity
 	for _, body := range w.bodies {
@@ -182,10 +189,14 @@ func (w World) Step() {
 
 		body.Position.Add(vector.MulScalar2(body.Velocity, w.dt))
 		// Orientation
+
+		body.force = vector.Vec2{X: 0.0, Y: 0.0}
 	}
 
 	// Correct positions
-
+	for _, manifold := range w.contacts {
+		manifold.PositionalCorrection()
+	}
 }
 
 func (w *World) AddBody(body *Body) {
