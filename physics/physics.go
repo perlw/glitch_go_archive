@@ -53,9 +53,12 @@ func AABBvsAABB(m *Manifold) bool {
 }
 
 type Body struct {
-	Position    vector.Vec2
-	Velocity    vector.Vec2
-	restitution float64
+	Position vector.Vec2
+	Velocity vector.Vec2
+
+	restitution     float64
+	staticFriction  float64
+	dynamicFriction float64
 
 	Force vector.Vec2
 
@@ -76,6 +79,8 @@ func NewBody(mass float64) *Body {
 	}
 
 	b.restitution = 0.2
+	b.staticFriction = 0.5
+	b.dynamicFriction = 0.3
 
 	return &b
 }
@@ -110,11 +115,36 @@ func (m *Manifold) ResolveCollision() {
 
 	// Apply impulse
 	impulse := vector.MulScalar2(m.normal, j)
-	massSum := a.mass + b.mass
-	ratioA := a.mass / massSum
-	ratioB := b.mass / massSum
-	a.Velocity.Sub(vector.MulScalar2(impulse.Neg(), ratioA))
-	b.Velocity.Add(vector.MulScalar2(impulse, ratioB))
+	a.Velocity.Sub(vector.MulScalar2(impulse.Neg(), a.invMass))
+	b.Velocity.Add(vector.MulScalar2(impulse, b.invMass))
+
+	// Friction impulse
+	rv = vector.Sub2(b.Velocity, a.Velocity)
+
+	t := vector.Sub2(rv, vector.MulScalar2(m.normal, vector.Dot2(rv, m.normal)))
+	t = vector.Normalize2(t)
+
+	// Tangent magnitude
+	jt := -vector.Dot2(rv, t)
+	jt /= a.invMass + b.invMass
+
+	// Skip tiny friction impulses
+	if math.Abs(jt) < 0.0001 {
+		return
+	}
+
+	// Coulumb's law
+	sf := math.Sqrt(a.staticFriction * b.staticFriction)
+	df := math.Sqrt(a.dynamicFriction * b.dynamicFriction)
+	var tImpulse vector.Vec2
+	if math.Abs(jt) < j*sf {
+		tImpulse = vector.MulScalar2(t, jt)
+	} else {
+		tImpulse = vector.MulScalar2(vector.MulScalar2(t, -j), df)
+	}
+
+	a.Velocity.Sub(vector.MulScalar2(tImpulse.Neg(), a.invMass))
+	b.Velocity.Add(vector.MulScalar2(tImpulse, b.invMass))
 }
 
 func (m *Manifold) PositionalCorrection() {

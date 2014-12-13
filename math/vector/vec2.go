@@ -50,7 +50,11 @@ func Cross2(v1, v2 Vec2) Vec2 {
 }
 
 func Normalize2(v Vec2) Vec2 {
-	return DivScalar2(v, v.Length())
+	if l := v.Length(); l > 0.0001 {
+		return DivScalar2(v, l)
+	}
+
+	return v
 }
 
 func (v *Vec2) Add(v1 Vec2) {
